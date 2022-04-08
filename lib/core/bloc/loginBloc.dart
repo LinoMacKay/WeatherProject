@@ -44,9 +44,9 @@ class LoginBloc with Validators {
   String get requestResult => _requestResult.value;
 
   dispose() {
-    _emailController?.close();
-    _passwordController?.close();
-    _requestResult?.close();
+    _emailController.close();
+    _passwordController.close();
+    _requestResult.close();
     flagControllersAreClosed = true;
   }
 
