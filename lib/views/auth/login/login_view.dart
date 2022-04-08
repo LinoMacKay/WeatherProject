@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_project/core/bloc/loginBloc.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
+import 'package:my_project/model/LoginDto.dart';
 import 'package:my_project/router/routes.dart';
 import 'package:my_project/utils/Utils.dart';
 
@@ -19,8 +20,15 @@ class _LoginViewState extends State<LoginView> {
   final FocusNode passwordFocusNode = FocusNode();
 
   final TextStyle style = const TextStyle();
-
+  LoginDto loginDto = LoginDto();
   LoginBloc loginBloc = LoginBloc();
+
+  void _saveForm() {
+    loginDto.password = loginBloc.password;
+    loginDto.user = loginBloc.user;
+    //agregando al data del bloc al dto
+    print(loginDto);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,15 +72,7 @@ class _LoginViewState extends State<LoginView> {
                             errorText: snapshot.hasError
                                 ? snapshot.error.toString()
                                 : null,
-                            errorBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.black),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.black),
-                            ),
-                            enabledBorder: OutlineInputBorder(
+                            border: OutlineInputBorder(
                               borderSide:
                                   BorderSide(width: 1, color: Colors.black),
                             ),
@@ -89,6 +89,7 @@ class _LoginViewState extends State<LoginView> {
                     stream: loginBloc.passwordStream,
                     builder: (context, snapshot) {
                       return TextFormField(
+                        obscureText: true,
                         //     key: Key(widget.user.lastName),
                         onChanged: (val) => loginBloc.changePassword(val),
                         style: TextStyle(
@@ -108,15 +109,7 @@ class _LoginViewState extends State<LoginView> {
                             errorText: snapshot.hasError
                                 ? snapshot.error.toString()
                                 : null,
-                            errorBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.black),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.black),
-                            ),
-                            enabledBorder: OutlineInputBorder(
+                            border: OutlineInputBorder(
                               borderSide:
                                   BorderSide(width: 1, color: Colors.black),
                             ),
@@ -138,9 +131,11 @@ class _LoginViewState extends State<LoginView> {
                       }
                       return ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              primary: validator ? Colors.red : Colors.grey),
+                              primary:
+                                  validator ? Colors.blueAccent : Colors.grey),
                           onPressed: () {
                             if (validator) {
+                              _saveForm();
                               Utils.mainNavigator.currentState!
                                   .pushNamed(routeHome);
                             }

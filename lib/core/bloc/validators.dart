@@ -5,7 +5,7 @@ class Validators {
       StreamTransformer<String, String>.fromHandlers(handleData: (name, sink) {
     Pattern pattern = r'[^\d]+';
     RegExp regExp = new RegExp(pattern.toString());
-    if (regExp.hasMatch(name)) {
+    if (regExp.hasMatch(name) && name.length > 0) {
       sink.add(name);
     } else {
       sink.addError('El nombre no es válido');
@@ -37,10 +37,10 @@ class Validators {
 
   final validatePassword = StreamTransformer<String, String>.fromHandlers(
       handleData: (password, sink) {
-    if (password.length >= 6) {
+    if (password.length >= 1) {
       sink.add(password);
     } else {
-      sink.addError('Más de 6 caracteres por favor');
+      sink.addError('El campo no puede estar vacío');
     }
   });
 
