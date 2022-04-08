@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_project/core/bloc/provider.dart';
 import 'package:my_project/router/app_router.gr.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_project/router/routes.dart';
@@ -16,50 +17,52 @@ class MainCommon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      //routerDelegate: _appRouter.delegate(),
-      //routeInformationParser: _appRouter.defaultRouteParser(),
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en', ''), // English, no country code
-        Locale('es', ''), // Spanish, no country code
-      ],
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      navigatorKey: Utils.mainNavigator,
-      onGenerateRoute: (settings) {
-        Widget page;
-        if (settings.name == routeLoginView) {
-          page = const LoginView();
-        } else if (settings.name == routeCreateAccountView) {
-          page = const CreateAccountView();
-        } else if (settings.name!.startsWith(routeChildrenCreateView)) {
-          page = const ChildrenCreateView();
-        } else if (settings.name!.startsWith(routeChildrenUpdateView)) {
-          page = const ChildrenUpdateView();
-        } else if (settings.name!.startsWith(routeHome)) {
-          page = const UserLocationView();
-        } else if (settings.name!.startsWith(routeRecoverPasswordView)) {
-          page = const RecoverPasswordView();
-        } else {
-          throw Exception('Unknown route: ${settings.name}');
-        }
+    return Provider(
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        //routerDelegate: _appRouter.delegate(),
+        //routeInformationParser: _appRouter.defaultRouteParser(),
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en', ''), // English, no country code
+          Locale('es', ''), // Spanish, no country code
+        ],
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        navigatorKey: Utils.mainNavigator,
+        onGenerateRoute: (settings) {
+          Widget page;
+          if (settings.name == routeLoginView) {
+            page = const LoginView();
+          } else if (settings.name == routeCreateAccountView) {
+            page = const CreateAccountView();
+          } else if (settings.name!.startsWith(routeChildrenCreateView)) {
+            page = const ChildrenCreateView();
+          } else if (settings.name!.startsWith(routeChildrenUpdateView)) {
+            page = const ChildrenUpdateView();
+          } else if (settings.name!.startsWith(routeHome)) {
+            page = const UserLocationView();
+          } else if (settings.name!.startsWith(routeRecoverPasswordView)) {
+            page = const RecoverPasswordView();
+          } else {
+            throw Exception('Unknown route: ${settings.name}');
+          }
 
-        return MaterialPageRoute<dynamic>(
-          builder: (context) {
-            return page;
-          },
-          settings: settings,
-        );
-      },
-      home: const LoginView(),
+          return MaterialPageRoute<dynamic>(
+            builder: (context) {
+              return page;
+            },
+            settings: settings,
+          );
+        },
+        home: const LoginView(),
+      ),
     );
   }
 }
