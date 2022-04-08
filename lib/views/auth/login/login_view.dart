@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_project/core/bloc/loginBloc.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
 import 'package:my_project/router/routes.dart';
 import 'package:my_project/utils/Utils.dart';
@@ -19,6 +20,8 @@ class _LoginViewState extends State<LoginView> {
 
   final TextStyle style = const TextStyle();
 
+  LoginBloc loginBloc = LoginBloc();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -32,31 +35,118 @@ class _LoginViewState extends State<LoginView> {
                 const SizedBox(height: 90),
                 const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('LOGIN'),
+                  child: Text(
+                    'Inicio de Sesion',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  ),
                 ),
                 const SizedBox(height: 20),
-                AppTextForm(
-                  width: 300,
-                  controller: usernameController,
-                  focusNode: userNameFocusNode,
-                  style: style,
-                  preffix: Icons.person,
-                ),
+                StreamBuilder(
+                    stream: loginBloc.userStream,
+                    builder: (context, snapshot) {
+                      return TextFormField(
+                        //     key: Key(widget.user.lastName),
+                        onChanged: (val) => loginBloc.changeUser(val),
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyText1!.color),
+                        //readOnly: !isEditable,
+                        textInputAction: TextInputAction.next,
+                        onSaved: (value) {
+                          // _updateDto.lastName = value;
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Por favor ingrese su usuario";
+                          }
+                        },
+                        decoration: InputDecoration(
+                            errorText: snapshot.hasError
+                                ? snapshot.error.toString()
+                                : null,
+                            errorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.black),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.black),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.black),
+                            ),
+                            labelText: 'Usuario',
+                            labelStyle: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color)),
+                      );
+                    }),
                 const SizedBox(height: 20),
-                AppTextForm(
-                  width: 300,
-                  controller: passwordController,
-                  focusNode: passwordFocusNode,
-                  style: style,
-                  preffix: Icons.vpn_key,
-                ),
+                StreamBuilder(
+                    stream: loginBloc.passwordStream,
+                    builder: (context, snapshot) {
+                      return TextFormField(
+                        //     key: Key(widget.user.lastName),
+                        onChanged: (val) => loginBloc.changePassword(val),
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyText1!.color),
+                        //readOnly: !isEditable,
+                        textInputAction: TextInputAction.next,
+                        onSaved: (value) {
+                          // _updateDto.lastName = value;
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Por favor ingrese su contraseña";
+                          }
+                        },
+                        decoration: InputDecoration(
+                            errorText: snapshot.hasError
+                                ? snapshot.error.toString()
+                                : null,
+                            errorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.black),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.black),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.black),
+                            ),
+                            labelText: 'Contraseña',
+                            labelStyle: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color)),
+                      );
+                    }),
                 const SizedBox(height: 80),
-                AppButton(
-                  text: 'Login',
-                  onPressed: () {
-                    Utils.mainNavigator.currentState!.pushNamed(routeHome);
-                  },
-                ),
+                StreamBuilder<Object>(
+                    stream: loginBloc.formValidStream,
+                    builder: (context, snapshot) {
+                      bool validator = false;
+                      if (snapshot.hasData) {
+                        validator = snapshot.data as bool;
+                      }
+                      return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: validator ? Colors.red : Colors.grey),
+                          onPressed: () {
+                            if (validator) {
+                              Utils.mainNavigator.currentState!
+                                  .pushNamed(routeHome);
+                            }
+                          },
+                          child: Text("Iniciar Sesión"));
+                    }),
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
