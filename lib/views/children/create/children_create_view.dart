@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_project/core/bloc/createChildBloc.dart';
 import 'package:my_project/data/viewmodels/create_children_quote.dart';
 import 'package:my_project/data/viewmodels/fototipo_option.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
@@ -17,6 +18,7 @@ class ChildrenCreateView extends StatefulWidget {
 
 class _ChildrenCreateViewState extends State<ChildrenCreateView> {
   final pageOneForm = ChildrenCreatePageOneForm();
+  CreateChildBloc createChildBloc = CreateChildBloc();
   var _currentPageIndex = 0;
   final quotesSelected = <QuoteOption?>[null, null, null, null];
   final fototipoOptionViewmodel = FototipoOptionViewmodel();
@@ -26,6 +28,7 @@ class _ChildrenCreateViewState extends State<ChildrenCreateView> {
       case 0:
         return ChildrenCreatePageOne(
           form: pageOneForm,
+          bloc: createChildBloc,
           onContinue: () => setState(() {
             _currentPageIndex++;
           }),
@@ -69,10 +72,14 @@ class _ChildrenCreateViewState extends State<ChildrenCreateView> {
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: SingleChildScrollView(
+      body: Container(
+        width: screenWidth,
+        height: screenHeight,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.all(10),
           child: _currentPage(_currentPageIndex),
         ),
       ),
