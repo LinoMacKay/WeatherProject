@@ -11,3 +11,6 @@ const routeHome = '/home';
 const routeSettings = '/settings';
 const routeProfile = '/profile';
 const routeUserLocation = '/user-location';
+
+/// CHILDREN
+const routeChildrenDetail = '/children-detail';

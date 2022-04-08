@@ -11,115 +11,140 @@ class ChildrenSummaryView extends StatefulWidget {
 }
 
 class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
+  Widget recomendaciones() {
+    return Column(
+      children: <Widget>[
+        Table(
+            border: TableBorder.symmetric(
+              inside: BorderSide(width: 1),
+            ),
+            children: [
+              TableRow(
+                  decoration: BoxDecoration(
+                      color: Colors.blueAccent,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(8),
+                          topRight: Radius.circular(8))),
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(8.0),
+                      child: Text('Tiempo Máximo de Exposición al Sol'),
+                    ),
+                  ]),
+              TableRow(children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                      'Según el fototipo de su hijo, se recomienda que esté entre 10 a 15 minutos como máximo expuesto al sol'),
+                ),
+              ]),
+              TableRow(children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('¿Qué zonas de mi hijo debo proteger del sol?'),
+                ),
+              ]),
+              TableRow(children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                      '¿Cómo saber si la piel de mi hijo ha sido afectada por el sol?'),
+                ),
+              ]),
+            ]),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisSize: MainAxisSize.max,
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.grey.withOpacity(0),
+          elevation: 0,
+          iconTheme: IconThemeData(color: Colors.black),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
               children: <Widget>[
-                const ProfileComponent(),
-                Column(
+                Row(
+                  mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //const ProfileComponent(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Column(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text('Datos del menor'),
-                            SizedBox(height: 10),
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  'Datos del menor',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(height: 10),
+                              ],
+                            ),
+                            /*Icon(
+                              Icons.edit,
+                              size: 40,
+                              color: Colors.black,
+                            ),*/
                           ],
                         ),
-                        Icon(
-                          Icons.edit,
-                          size: 40,
-                          color: Colors.black,
-                        ),
+                        Text('Nombre Completo: Karla Silvia Lopez'),
+                        Text('Fecha de Nacimiento: 15 de Octubre del 2014'),
+                        Text('Edad: 7 años'),
+                        SizedBox(
+                          height: 15,
+                        )
+                        /*
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.black,
+                            size: 30,
+                          ),
+                        ),*/
                       ],
-                    ),
-                    Text('Nombre Completo: Karla Silvia Lopez'),
-                    Text('Fecha de Nacimiento: 15 de Octubre del 2014'),
-                    Text('Edad: 7 años'),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.black,
-                        size: 30,
-                      ),
                     ),
                   ],
                 ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 2,
+                  color: Colors.black,
+                ),
+                SizedBox(height: 15),
+                const UserFototipoComponent(),
+                SizedBox(height: 30),
+                Text(
+                    'Más información: https://www.dermcollective.com/flitzpatrick.skin-types/'),
+                SizedBox(height: 15),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 2,
+                  color: Colors.black,
+                ),
+                SizedBox(height: 15),
+                Text('Recomendaciones e indicaciones para su hijo'),
+                SizedBox(height: 15),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.black, width: 2),
+                  ),
+                  child: recomendaciones(),
+                ),
               ],
             ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 1.5,
-              color: Colors.black,
-            ),
-            const UserFototipoComponent(),
-            SizedBox(height: 30),
-            Text('Más información: https://www.dermcollective.com/flitzpatrick.skin-types/'),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 1.5,
-              color: Colors.black,
-            ),
-            Text('Recomendaciones e indicaciones para su hijo'),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black, width: 1),
-              ),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blueAccent,
-                      border: Border(bottom: BorderSide(color: Colors.black, width: 1)),
-                    ),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Tiempo Máximo de Exposición al Sol'),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.black, width: 1)),
-                    ),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Según el fototipo de su hijo, se recomienda que esté entre 10 a 15 minutos como máximo expuesto al sol'),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.black, width: 1)),
-                    ),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('¿Qué zonas de mi hijo debo proteger del sol?'),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.black, width: 1)),
-                    ),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('¿Cómo saber si la piel de mi hijo ha sido afectada por el sol?'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        ),
-      )
-    );
+          ),
+        ));
   }
 }
