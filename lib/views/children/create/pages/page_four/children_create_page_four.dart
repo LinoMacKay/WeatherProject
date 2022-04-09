@@ -92,7 +92,7 @@ class ChildrenCreatePageFour extends StatelessWidget {
               FototipoOptionComponent(model: fototipoOptionViewmodel),
             ],
           ),
-          const SizedBox(height: 140),
+          Expanded(child: SizedBox()),
           const Align(
             alignment: Alignment.center,
             child: Text('¿Es correcta la información?'),
