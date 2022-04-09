@@ -1,3 +1,4 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:my_project/core/bloc/createChildBloc.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
@@ -7,7 +8,7 @@ import 'package:my_project/views/children/create/pages/page_one/children_create_
 
 class ChildrenCreatePageOne extends StatefulWidget {
   final ChildrenCreatePageOneForm form;
-  final VoidCallback? onContinue;
+  final Function? onContinue;
   final CreateChildBloc? bloc;
   ChildrenCreatePageOne(
       {Key? key, required this.form, this.onContinue, this.bloc})
@@ -26,7 +27,20 @@ class _ChildrenCreatePageOneState extends State<ChildrenCreatePageOne> {
         "${DateTime.now().year.toString()}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')}";
     widget.bloc!.changeBirthday(dateFormat);
     createChildDto.birthday = dateFormat;
+    BackButtonInterceptor.add(myInterceptor);
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    Utils.homeNavigator.currentState!.pop();
+    return true;
   }
 
   @override
@@ -94,7 +108,7 @@ class _ChildrenCreatePageOneState extends State<ChildrenCreatePageOne> {
                   );
                 }),
             SizedBox(
-              height: 10,
+              height: 30,
             ),
             StreamBuilder(
                 stream: widget.bloc!.birthdayStream,
@@ -146,7 +160,7 @@ class _ChildrenCreatePageOneState extends State<ChildrenCreatePageOne> {
                   );
                 }),
             SizedBox(
-              height: screenHeight * 0.3,
+              height: screenHeight * 0.2,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -159,32 +173,19 @@ class _ChildrenCreatePageOneState extends State<ChildrenCreatePageOne> {
                       if (snapshot.hasData) validator = snapshot.data as bool;
                       print(validator);
                       return validator
-                          ? Ink(
-                              height: 50,
-                              width: 50,
-                              decoration: ShapeDecoration(
-                                color: Colors.red,
-                                shape: CircleBorder(),
-                              ),
-                              child: IconButton(
-                                  icon: Icon(Icons.arrow_forward),
-                                  color: Colors.white,
-                                  onPressed: widget.onContinue),
-                            )
-                          : Ink(
-                              height: 50,
-                              width: 50,
-                              decoration: ShapeDecoration(
-                                color: Colors.red,
-                                shape: CircleBorder(),
-                              ),
-                              child: IconButton(
-                                icon: Icon(Icons.cancel_rounded),
-                                color: Colors.white,
-                                onPressed: () {
-                                  Utils.homeNavigator.currentState!.pop();
-                                },
-                              ),
+                          ? FloatingActionButton(
+                              backgroundColor: Colors.red,
+                              child: Icon(Icons.arrow_forward),
+                              onPressed: () {
+                                widget.onContinue!();
+                                widget.bloc!.changeName('');
+                              })
+                          : FloatingActionButton(
+                              backgroundColor: Colors.red,
+                              child: Icon(Icons.cancel_rounded),
+                              onPressed: () {
+                                Utils.homeNavigator.currentState!.pop();
+                              },
                             );
                     }),
               ],

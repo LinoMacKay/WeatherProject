@@ -47,20 +47,22 @@ class _ChildrenCreateViewState extends State<ChildrenCreateView> {
       case 1:
         return ChildrenCreatePageTwo(
           quotesSelected: quotesSelected,
-          onContinue: () => setState(
-            () {
+          onContinue: () {
+            setState(() {
               _currentPageIndex++;
-            },
-          ),
+            });
+          },
           onBack: () => setState(() {
             _currentPageIndex--;
           }),
         );
       case 2:
         return ChildrenCreatePageThree(
-          onContinue: () => setState(() {
-            _currentPageIndex++;
-          }),
+          onContinue: () {
+            setState(() {
+              _currentPageIndex++;
+            });
+          },
           onBack: () => setState(() {
             _currentPageIndex--;
           }),
@@ -70,9 +72,11 @@ class _ChildrenCreateViewState extends State<ChildrenCreateView> {
           fototipoOptionViewmodel: fototipoOptionViewmodel,
           selectedOptions: quotesSelected,
           form: pageOneForm,
-          onContinue: () => setState(() {
-            _currentPageIndex++;
-          }),
+          onContinue: () {
+            setState(() {
+              _currentPageIndex++;
+            });
+          },
           onBack: () => setState(() {
             _currentPageIndex--;
           }),
