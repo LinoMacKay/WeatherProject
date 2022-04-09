@@ -112,6 +112,175 @@ class ConstantObjects {
         ),
       ],
     ),
+    // a partir de aca agregé preguntas
+    CreateChildrenQuoteViewmodel(
+          quoteNumber: 4,
+          quote:
+          '¿Cual es el color de los ojos de sus hijos?',
+          quoteOptions: <QuoteOption>[
+            QuoteOption(
+              id: '0',
+              description:
+              'Azul claro-verde',
+            ),
+            QuoteOption(
+              id: '1',
+              description: 'Azul, verde, gris',
+            ),
+            QuoteOption(
+              id: '2',
+              description: 'Azul oscuro-verde, marrón claro (avellana)',
+            ),
+            QuoteOption(
+              id: '3',
+              description: 'Marrón oscuro',
+            ),
+            QuoteOption(
+              id: '4',
+              description: 'Negro parduzco',
+            ),
+          ],
+        ),
+    CreateChildrenQuoteViewmodel(
+          quoteNumber: 5,
+          quote:
+          '¿Con qué frecuencia la piel su hijo se broncea después exponerse al sol?',
+          quoteOptions: <QuoteOption>[
+            QuoteOption(
+              id: '0',
+              description:
+              'Nunca',
+            ),
+            QuoteOption(
+              id: '1',
+              description: 'Casi nunca',
+            ),
+            QuoteOption(
+              id: '2',
+              description: 'A veces',
+            ),
+            QuoteOption(
+              id: '3',
+              description: 'Muy seguido',
+            ),
+            QuoteOption(
+              id: '4',
+              description: 'Siempre',
+            ),
+          ],
+        ),
+    CreateChildrenQuoteViewmodel(
+          quoteNumber: 6,
+          quote:
+          '¿En qué intensidad la piel de su hijo se broncea después de la exposición al sol?',
+          quoteOptions: <QuoteOption>[
+            QuoteOption(
+              id: '0',
+              description:
+              'Poco o nada',
+            ),
+            QuoteOption(
+              id: '1',
+              description: 'Bronceado suave',
+            ),
+            QuoteOption(
+              id: '2',
+              description: 'Bronceado medio',
+            ),
+            QuoteOption(
+              id: '3',
+              description: 'Bronceado oscuro',
+            ),
+            QuoteOption(
+              id: '4',
+              description: 'Bronceado muy oscuro',
+            ),
+          ],
+        ),
+    CreateChildrenQuoteViewmodel(
+          quoteNumber: 7,
+          quote:
+          '¿Qué categoría describe mejor la sensibilidd de la cara de su hijo al sol?',
+          quoteOptions: <QuoteOption>[
+            QuoteOption(
+              id: '0',
+              description:
+              'Muy sensible',
+            ),
+            QuoteOption(
+              id: '1',
+              description: 'Sensible',
+            ),
+            QuoteOption(
+              id: '2',
+              description: 'Levemente Sensible',
+            ),
+            QuoteOption(
+              id: '3',
+              description: 'Resistente',
+            ),
+            QuoteOption(
+              id: '4',
+              description: 'Muy resistente',
+            ),
+          ],
+        ),
+    CreateChildrenQuoteViewmodel(
+          quoteNumber: 8,
+          quote:
+          '¿Con qué frecuencia su hijo se broncea voluntariamente(bronceadores, sprays, etc)?',
+          quoteOptions: <QuoteOption>[
+            QuoteOption(
+              id: '0',
+              description:
+              'Nunca',
+            ),
+            QuoteOption(
+              id: '1',
+              description: 'Casi nunca',
+            ),
+            QuoteOption(
+              id: '2',
+              description: 'A veces',
+            ),
+            QuoteOption(
+              id: '3',
+              description: 'Muy seguido',
+            ),
+            QuoteOption(
+              id: '4',
+              description: 'Siempre',
+            ),
+          ],
+        ),
+    CreateChildrenQuoteViewmodel(
+          quoteNumber: 9,
+          quote:
+          '¿Cuándo fue la última vez que la piel de su hijo se expuso al sol o a fuentes de bronceado tradicional(camas de bronceado, etc)?',
+          quoteOptions: <QuoteOption>[
+            QuoteOption(
+              id: '0',
+              description:
+              'Hace más de 3 meses',
+            ),
+            QuoteOption(
+              id: '1',
+              description: 'En los últimos 2-3 meses',
+            ),
+            QuoteOption(
+              id: '2',
+              description: 'En los últimos 1-2 meses',
+            ),
+            QuoteOption(
+              id: '3',
+              description: 'La semana pasada',
+            ),
+            QuoteOption(
+              id: '4',
+              description: 'Ayer',
+            ),
+          ],
+        ),
   ];
 
   static final fototipos = <FototipoOptionViewmodel>[

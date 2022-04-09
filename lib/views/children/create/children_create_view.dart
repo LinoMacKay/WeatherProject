@@ -20,7 +20,7 @@ class _ChildrenCreateViewState extends State<ChildrenCreateView> {
   final pageOneForm = ChildrenCreatePageOneForm();
   CreateChildBloc createChildBloc = CreateChildBloc();
   var _currentPageIndex = 0;
-  final quotesSelected = <QuoteOption?>[null, null, null, null];
+  final quotesSelected = <QuoteOption?>[null, null, null, null, null, null, null, null, null, null]; // añadi mas nulls porque aumenté la lista de preguntas
   final fototipoOptionViewmodel = FototipoOptionViewmodel();
 
   Widget _currentPage(int index) {
