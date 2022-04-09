@@ -57,17 +57,6 @@ class _ChildrenCreateViewState extends State<ChildrenCreateView> {
           }),
         );
       case 2:
-        return ChildrenCreatePageThree(
-          onContinue: () {
-            setState(() {
-              _currentPageIndex++;
-            });
-          },
-          onBack: () => setState(() {
-            _currentPageIndex--;
-          }),
-        );
-      case 3:
         return ChildrenCreatePageFour(
           fototipoOptionViewmodel: fototipoOptionViewmodel,
           selectedOptions: quotesSelected,
