@@ -122,7 +122,7 @@ class _LoginViewState extends State<LoginView> {
                       );
                     }),
                 const SizedBox(height: 80),
-                StreamBuilder<Object>(
+                StreamBuilder(
                     stream: loginBloc.formValidStream,
                     builder: (context, snapshot) {
                       bool validator = false;

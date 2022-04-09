@@ -1,24 +1,46 @@
+import 'dart:async';
+
 import 'package:my_project/core/bloc/validators.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CreateChildBloc with Validators {
   BehaviorSubject<String> _nameController = BehaviorSubject<String>();
-  BehaviorSubject<String> _dateController = BehaviorSubject<String>();
-
   Stream<String> get nameStream =>
       _nameController.stream.transform(validateName);
-
-  Stream<String> get dateStream =>
-      _dateController.stream.transform(validateBirthDate);
-
   Function(String) get changeName => _nameController.sink.add;
-  Function(String) get changeDate => _dateController.sink.add;
-
   String get name => _nameController.value;
-  String get date => _dateController.value;
+
+  final _birthdayController = BehaviorSubject<String>();
+  Stream<String> get birthdayStream =>
+      _birthdayController.stream.transform(validateBirthday);
+  Function(String) get changeBirthday => _birthdayController.sink.add;
+  Sink<String> get sinkBirthday => _birthdayController.sink;
+  String get getBirthday => _birthdayController.value;
+
+  final validateBirthday =
+      StreamTransformer<String, String>.fromHandlers(handleData: (value, sink) {
+    if (true) {
+      hasEnoughAge(value)
+          ? sink.add(value)
+          : sink.addError('Debe ser mayor de 14 años');
+    }
+  });
+  static bool hasEnoughAge(String date) {
+    DateTime birthDay = DateTime.parse(date);
+    DateTime today = DateTime.now();
+
+    int totalDays = today.difference(birthDay).inDays;
+
+    int years = totalDays ~/ 365;
+
+    return years >= 0;
+  }
+
+  Stream<bool> get formValidStream =>
+      Rx.combineLatest2(nameStream, birthdayStream, (e, p) => true);
 
   dispose() {
-    _dateController.close();
     _nameController.close();
+    _birthdayController.close();
   }
 }

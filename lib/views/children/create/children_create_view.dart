@@ -20,7 +20,18 @@ class _ChildrenCreateViewState extends State<ChildrenCreateView> {
   final pageOneForm = ChildrenCreatePageOneForm();
   CreateChildBloc createChildBloc = CreateChildBloc();
   var _currentPageIndex = 0;
-  final quotesSelected = <QuoteOption?>[null, null, null, null, null, null, null, null, null, null]; // añadi mas nulls porque aumenté la lista de preguntas
+  final quotesSelected = <QuoteOption?>[
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ]; // añadi mas nulls porque aumenté la lista de preguntas
   final fototipoOptionViewmodel = FototipoOptionViewmodel();
 
   Widget _currentPage(int index) {
@@ -75,6 +86,7 @@ class _ChildrenCreateViewState extends State<ChildrenCreateView> {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         width: screenWidth,
         height: screenHeight,
