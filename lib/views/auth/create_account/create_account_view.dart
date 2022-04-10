@@ -211,15 +211,16 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                                 height: 50,
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        primary: !validator
-                                            ? Color.fromRGBO(38, 95, 90, 1)
-                                            : Colors.grey),
-                                    onPressed: () {
-                                      if (!validator) {
-                                        //_saveForm();
-                                        Utils.mainNavigator.currentState!.pop();
-                                      }
-                                    },
+                                        primary: Color.fromRGBO(38, 95, 90, 1)),
+                                    onPressed: !validator
+                                        ? () {
+                                            if (!validator) {
+                                              //_saveForm();
+                                              Utils.mainNavigator.currentState!
+                                                  .pop();
+                                            }
+                                          }
+                                        : null,
                                     child: Text(
                                       "Register",
                                       style: TextStyle(
