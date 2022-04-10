@@ -9,6 +9,7 @@ class AppTextForm extends StatelessWidget {
   final double minWidth;
   final double? width;
   final String label;
+  final bool isLeftLabel;
   const AppTextForm({
     Key? key,
     required this.controller,
@@ -20,6 +21,7 @@ class AppTextForm extends StatelessWidget {
     this.preffix,
     this.minWidth = 200,
     this.width,
+    this.isLeftLabel = false,
   }) : super(key: key);
 
   @override
@@ -33,6 +35,11 @@ class AppTextForm extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              if (isLeftLabel)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Text(label),
+                ),
               if (preffix != null)
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
@@ -44,9 +51,10 @@ class AppTextForm extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      if (label.isNotEmpty) Text(label),
+                      if (label.isNotEmpty && !isLeftLabel) Text(label),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 3, vertical: 5),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                         ),
@@ -54,7 +62,8 @@ class AppTextForm extends StatelessWidget {
                           controller: controller,
                           focusNode: focusNode,
                           style: style,
-                          decoration: const InputDecoration.collapsed(hintText: 'hintText'),
+                          decoration: const InputDecoration.collapsed(
+                              hintText: 'hintText'),
                         ),
                       ),
                     ],
