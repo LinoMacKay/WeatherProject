@@ -178,7 +178,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                                             .color)),
                               );
                             }),
-                        const SizedBox(height: 80),
+                        const SizedBox(height: 25),
                         StreamBuilder(
                             stream: StreamGroup.merge([
                               registerBloc.passwordStream,
