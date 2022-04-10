@@ -1,7 +1,9 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:my_project/data/viewmodels/create_children_quote.dart';
 import 'package:my_project/helper/constants/objects.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
+import 'package:my_project/utils/Utils.dart';
 import 'package:my_project/views/children/create/pages/page_one/children_create_page_one_form.dart';
 import 'package:my_project/views/children/create/pages/page_two/children_create_page_two_quote.dart';
 
@@ -20,6 +22,22 @@ class ChildrenCreatePageTwo extends StatefulWidget {
 }
 
 class _ChildrenCreatePageTwoState extends State<ChildrenCreatePageTwo> {
+  @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor);
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    return true;
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
   late QuoteOption quoteOptionOne,
       quoteOptionTwo,
       quoteOptionThree,

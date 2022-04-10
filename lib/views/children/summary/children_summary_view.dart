@@ -1,7 +1,9 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:my_project/core/ui/profile_component.dart';
 import 'package:my_project/core/ui/user_fototipo_component.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
+import 'package:my_project/utils/Utils.dart';
 
 class ChildrenSummaryView extends StatefulWidget {
   const ChildrenSummaryView({Key? key}) : super(key: key);
@@ -11,6 +13,23 @@ class ChildrenSummaryView extends StatefulWidget {
 }
 
 class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
+  @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor);
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    Utils.homeNavigator.currentState!.pop();
+    return true;
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
   Widget recomendaciones() {
     return Column(
       children: <Widget>[
