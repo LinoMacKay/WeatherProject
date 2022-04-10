@@ -15,7 +15,8 @@ class DecoratedTextComponent extends StatelessWidget {
           width: 1,
         ),
       ),
-      child: Text(text, style: TextStyle(fontWeight: FontWeight.bold)),
+      child: Text(text,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
     );
   }
 }

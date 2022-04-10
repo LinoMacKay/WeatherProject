@@ -34,6 +34,7 @@ class MainCommon extends StatelessWidget {
         ],
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          fontFamily: 'Montserrat',
         ),
         navigatorKey: Utils.mainNavigator,
         onGenerateRoute: (settings) {
