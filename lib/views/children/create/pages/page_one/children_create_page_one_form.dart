@@ -5,9 +5,10 @@ class ChildrenCreatePageOneForm {
   final TextEditingController nameController = TextEditingController();
   final FocusNode nameFocusNode = FocusNode();
 
-  final DateTime dateTimeController = DateTime.now();
+  DateTime dateTimeController = DateTime.now();
 
-  String get dateFormatted => DateFormat('dd de MMMM de yyyy', 'es_ES').format(dateTimeController);
+  String get dateFormatted =>
+      DateFormat('dd/MM/yyyy', 'es_ES').format(dateTimeController);
 
   int get age {
     final now = DateTime.now();
@@ -22,7 +23,8 @@ class ChildrenCreatePageOneForm {
     }
 
     if (days < 0) {
-      final monthAgo = DateTime(now.year, now.month - 1, dateTimeController.day);
+      final monthAgo =
+          DateTime(now.year, now.month - 1, dateTimeController.day);
       days = now.difference(monthAgo).inDays + 1;
     }
 

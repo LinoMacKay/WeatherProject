@@ -49,7 +49,7 @@ class _ChildrenCreatePageTwoState extends State<ChildrenCreatePageTwo> {
               });
             },
             onBack: () {
-              if (currentIndex > 1) {
+              if (currentIndex >= 1) {
                 setState(() {
                   currentIndex--;
                 });

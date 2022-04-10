@@ -45,14 +45,14 @@ class ChildrenCreatePageTwoQuote extends StatelessWidget {
                     child: DropdownButton<QuoteOption>(
                       items: model.quoteOptions
                           .map((QuoteOption option) =>
-                          DropdownMenuItem<QuoteOption>(
-                            child: Center(
-                              child: Text(
-                                option.description,
-                              ),
-                            ),
-                            value: option,
-                          ))
+                              DropdownMenuItem<QuoteOption>(
+                                child: Center(
+                                  child: Text(
+                                    option.description,
+                                  ),
+                                ),
+                                value: option,
+                              ))
                           .toList(),
                       isExpanded: true,
                       iconSize: 20,
@@ -76,11 +76,13 @@ class ChildrenCreatePageTwoQuote extends StatelessWidget {
                       text: 'Regresar',
                       width: 100,
                     ),
-                    AppButton(
-                      onPressed: onContinue,
-                      text: 'Continuar',
-                      width: 100,
-                    ),
+                    if (currentOption != null &&
+                        currentOption!.description.length > 0)
+                      AppButton(
+                        onPressed: onContinue,
+                        text: 'Continuar',
+                        width: 100,
+                      ),
                   ],
                 ),
               ],

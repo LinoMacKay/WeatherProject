@@ -178,6 +178,11 @@ class _ChildrenCreatePageOneState extends State<ChildrenCreatePageOne> {
                               child: Icon(Icons.arrow_forward),
                               onPressed: () {
                                 widget.onContinue!();
+                                widget.form.nameController.text =
+                                    widget.bloc!.name;
+                                widget.form.dateTimeController =
+                                    DateTime.parse(widget.bloc!.getBirthday);
+
                                 widget.bloc!.changeName('');
                               })
                           : FloatingActionButton(
