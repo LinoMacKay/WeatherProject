@@ -1,5 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:my_project/core/bloc/locationBloc.dart';
+import 'package:my_project/core/provider/locationProvider.dart';
 import 'package:my_project/core/ui/labeled_text_component.dart';
+import 'package:my_project/model/UviDto.dart';
 import 'package:my_project/router/routes.dart';
 import 'package:my_project/utils/Utils.dart';
 import 'package:my_project/views/user/location/components/no_children_component.dart';
@@ -13,18 +19,107 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Widget UviInfo() {
-    return Column(
-      children: [
-        LabeledTextComponent(
-            label: 'Highest uv of the day:', text: '11:00 PM - 12:18 PM'),
-        LabeledTextComponent(
-            label: 'Range of hours with UVI considered high:',
-            text: '3:00 - 5:00'),
-        LabeledTextComponent(label: 'Temperature:', text: '25°'),
-        LabeledTextComponent(label: 'UV:', text: '9'),
-        LabeledTextComponent(label: 'Hour:', text: '3:00 PM')
-      ],
+  late LocationBloc locationBloc;
+  HomeInfoDto homeInfoDto = HomeInfoDto(
+      horario: HourlyDto(0, 0, 0, 0), considerUv: "", highestUv: "");
+  @override
+  void initState() {
+    locationBloc = LocationBloc();
+    super.initState();
+  }
+
+  HomeInfoDto getData(UviDto info) {
+    Map<String, HourlyDto> horarios = {};
+    List<num> diffdeHoras = [];
+    //Convertir las fechas de timestamp a datetime
+    //guardarlos en el mapa de horarios con la fecha como key
+    info.hourly.forEach((element) {
+      final timestamp1 = element.dt; // timestamp in seconds
+      final DateTime date1 =
+          DateTime.fromMillisecondsSinceEpoch(timestamp1 * 1000);
+      horarios[date1.toString()] = element;
+    });
+    //hallar la diferencia con la hora actual y pushear al arreglo de
+    //diferencias de horas
+    var ahora = DateTime.now();
+    horarios.forEach((key, value) {
+      var fecha = DateTime.tryParse(key);
+      var diff = fecha!.difference(ahora).inMinutes;
+      diffdeHoras.add(diff);
+    });
+    //hallar el menor y su indice
+    var menordiff = diffdeHoras.reduce(min);
+    var indx = diffdeHoras.indexWhere((element) => element == menordiff);
+    var fechamasCercana = horarios[horarios.keys.toList()[indx]];
+    //agregando la info de la fecha mas cercana
+    homeInfoDto.horario = fechamasCercana!;
+    homeInfoDto.considerUv = "ga";
+    homeInfoDto.highestUv = "aea";
+    //UV MAS ALTO
+    var menorUv = 0;
+    List<dynamic> uvEnDia = [];
+
+    horarios.forEach((key, value) {
+      if (calculateDifference(DateTime.tryParse(key)!) == 0) {
+        uvEnDia.add([key, value.uvi]);
+      }
+    });
+    var mayor = 0.0;
+
+    uvEnDia.forEach((element) {
+      if (element[1] > mayor) mayor = element[1];
+    });
+    var mayorUvEnDia = uvEnDia.firstWhere((element) => element[1] == mayor);
+    homeInfoDto.highestUv = DateFormat('hh:mm a', 'es_ES')
+            .format(DateTime.tryParse(mayorUvEnDia[0])!) +
+        " - " +
+        DateFormat('hh:mm a', 'es_ES').format(
+            DateTime.tryParse(mayorUvEnDia[0])!.add(Duration(hours: 1))!);
+    return homeInfoDto;
+  }
+
+  int calculateDifference(DateTime date) {
+    DateTime now = DateTime.now();
+    return DateTime(date.year, date.month, date.day)
+        .difference(DateTime(now.year, now.month, now.day))
+        .inDays;
+  }
+
+  Widget UviInfo(screenWidth) {
+    return Container(
+      child: FutureBuilder(
+          future: locationBloc.getLocation(),
+          builder: (ctx, snapshot) {
+            if (snapshot.hasData) {
+              var info = snapshot.data as UviDto;
+              var nowInfo = getData(info) as HomeInfoDto;
+              return Column(
+                children: [
+                  Text("Data"),
+                  LabeledTextComponent(
+                      label: 'Highest uv of the day:', text: nowInfo.highestUv),
+                  LabeledTextComponent(
+                      label: 'Range of hours with UVI considered high:',
+                      text: nowInfo.considerUv),
+                  LabeledTextComponent(
+                      label: 'Temperature:',
+                      text: nowInfo.horario.temp.toString() + "°"),
+                  LabeledTextComponent(
+                      label: 'UV:', text: nowInfo.horario.uvi.toString()),
+                  LabeledTextComponent(
+                      label: 'Hour:',
+                      text:
+                          DateFormat('hh:mm a', 'es_ES').format(DateTime.now()))
+                ],
+              );
+            } else {
+              return Container(
+                width: 50,
+                height: 50,
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
     );
   }
 
@@ -122,9 +217,8 @@ class _HomeState extends State<Home> {
                     width: 15,
                   ),
                   Container(
-                      width: screenWidth,
                       padding: EdgeInsets.only(top: 10),
-                      child: UviInfo())
+                      child: UviInfo(screenWidth))
                 ],
               ),
               Positioned(

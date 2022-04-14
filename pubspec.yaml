@@ -39,6 +39,9 @@ dependencies:
   intl: 0.17.0
   rxdart: ^0.27.3
   back_button_interceptor: ^5.0.2
+  geolocator: ^8.2.0
+  http: ^0.13.4
+  shared_preferences: ^2.0.13
 
 dev_dependencies:
   flutter_test:
