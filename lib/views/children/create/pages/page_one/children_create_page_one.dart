@@ -171,7 +171,6 @@ class _ChildrenCreatePageOneState extends State<ChildrenCreatePageOne> {
                       bool validator = false;
 
                       if (snapshot.hasData) validator = snapshot.data as bool;
-                      print(validator);
                       return validator
                           ? FloatingActionButton(
                               backgroundColor: Colors.red,

@@ -53,8 +53,8 @@ class _HomeState extends State<Home> {
     var fechamasCercana = horarios[horarios.keys.toList()[indx]];
     //agregando la info de la fecha mas cercana
     homeInfoDto.horario = fechamasCercana!;
-    homeInfoDto.considerUv = "ga";
-    homeInfoDto.highestUv = "aea";
+    homeInfoDto.considerUv = " ";
+    homeInfoDto.highestUv = " ";
     //UV MAS ALTO
     var menorUv = 0;
     List<dynamic> uvEnDia = [];
@@ -74,7 +74,7 @@ class _HomeState extends State<Home> {
             .format(DateTime.tryParse(mayorUvEnDia[0])!) +
         " - " +
         DateFormat('hh:mm a', 'es_ES').format(
-            DateTime.tryParse(mayorUvEnDia[0])!.add(Duration(hours: 1))!);
+            DateTime.tryParse(mayorUvEnDia[0])!.add(Duration(hours: 1)));
     return homeInfoDto;
   }
 
@@ -95,7 +95,6 @@ class _HomeState extends State<Home> {
               var nowInfo = getData(info) as HomeInfoDto;
               return Column(
                 children: [
-                  Text("Data"),
                   LabeledTextComponent(
                       label: 'Highest uv of the day:', text: nowInfo.highestUv),
                   LabeledTextComponent(

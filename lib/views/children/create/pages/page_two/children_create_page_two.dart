@@ -1,5 +1,6 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
+import 'package:my_project/core/bloc/questionBloc.dart';
 import 'package:my_project/data/viewmodels/create_children_quote.dart';
 import 'package:my_project/helper/constants/objects.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
@@ -22,9 +23,12 @@ class ChildrenCreatePageTwo extends StatefulWidget {
 }
 
 class _ChildrenCreatePageTwoState extends State<ChildrenCreatePageTwo> {
+  List<CreateChildrenQuoteViewmodel> quotes = [];
+  QuestionBloc questionBloc = QuestionBloc();
   @override
   void initState() {
     super.initState();
+
     BackButtonInterceptor.add(myInterceptor);
   }
 
@@ -43,7 +47,31 @@ class _ChildrenCreatePageTwoState extends State<ChildrenCreatePageTwo> {
       quoteOptionThree,
       quoteOptionFour;
   var currentIndex = 0;
-  final quotes = ConstantObjects.childrenCreateQuotes;
+  int totalPoints = 0;
+
+  Function onContinue(List<CreateChildrenQuoteViewmodel> responseQuotes) {
+    return () {
+      if (currentIndex < responseQuotes.length - 1) {
+        setState(() {
+          currentIndex++;
+        });
+      } else {
+        widget.onContinue!();
+      }
+    };
+  }
+
+  Function onBack() {
+    return () {
+      if (currentIndex >= 1) {
+        setState(() {
+          currentIndex--;
+        });
+      } else {
+        widget.onBack!();
+      }
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,34 +85,28 @@ class _ChildrenCreatePageTwoState extends State<ChildrenCreatePageTwo> {
             child: Text('Registro de hijo (paso 2 de 4) - Cuestionario'),
           ),
           const SizedBox(height: 50),
-          ChildrenCreatePageTwoQuote(
-            totalQuotes: quotes.length,
-            model: quotes[currentIndex],
-            currentOption: widget.quotesSelected[currentIndex],
-            onChange: (QuoteOption? option) {
-              setState(() {
-                widget.quotesSelected[currentIndex] = option;
-              });
-            },
-            onBack: () {
-              if (currentIndex >= 1) {
-                setState(() {
-                  currentIndex--;
-                });
-              } else {
-                widget.onBack!();
-              }
-            },
-            onContinue: () {
-              if (currentIndex < quotes.length - 1) {
-                setState(() {
-                  currentIndex++;
-                });
-              } else {
-                widget.onContinue!();
-              }
-            },
-          ),
+          FutureBuilder<Object>(
+              future: questionBloc.getQuestions(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  var responseQuotes =
+                      snapshot.data as List<CreateChildrenQuoteViewmodel>;
+                  return ChildrenCreatePageTwoQuote(
+                    totalQuotes: responseQuotes.length,
+                    model: responseQuotes[currentIndex],
+                    currentOption: widget.quotesSelected[currentIndex],
+                    onChange: (QuoteOption? option) {
+                      setState(() {
+                        widget.quotesSelected[currentIndex] = option;
+                      });
+                    },
+                    onBack: onBack(),
+                    onContinue: onContinue(responseQuotes),
+                  );
+                } else {
+                  return CircularProgressIndicator();
+                }
+              }),
         ],
       ),
     );

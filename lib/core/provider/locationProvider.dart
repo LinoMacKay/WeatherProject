@@ -32,7 +32,7 @@ class LocationProvider {
         'https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&appid=2a038b818679ee75210451bb74775bbb&units=metric';
     Uri uri = Uri.parse(url);
 
-    var response = await http.post(uri);
+    var response = await http.get(uri);
 
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonresponse = json.decode(response.body);

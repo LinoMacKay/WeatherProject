@@ -16,7 +16,7 @@ class LabeledTextComponent extends StatelessWidget {
           DecoratedTextComponent(text: label),
           SizedBox(width: 5),
           Text(text,
-              style: TextStyle(fontWeight: FontWeight.w200, fontSize: 13)),
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 13)),
         ],
       ),
     );

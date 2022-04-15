@@ -21,10 +21,19 @@ class LocationBloc {
       var info = prefs.getString('uviInfo');
       Map<String, dynamic> jsonresponse = json.decode(info!);
       uviInfo = UviDto.fromJson(jsonresponse);
-      if (location.longitude == uviInfo.long &&
-          location.latitude == uviInfo.lat) {
-        return uviInfo;
-      } else {
+      //verificar si tienen la misma ubicacion
+      if (location.longitude != uviInfo.long &&
+          location.latitude != uviInfo.lat) {
+        uviInfo = await writeSharedPreference(location, prefs);
+      }
+      //verificar fechas
+      final timestamp1 =
+          uviInfo.hourly[uviInfo.hourly.length - 1].dt; // timestamp in seconds
+      final DateTime date1 =
+          DateTime.fromMillisecondsSinceEpoch(timestamp1 * 1000);
+      var ahora = DateTime.now();
+      var diff = ahora.difference(date1).inMinutes;
+      if (diff >= 0) {
         uviInfo = await writeSharedPreference(location, prefs);
       }
     }

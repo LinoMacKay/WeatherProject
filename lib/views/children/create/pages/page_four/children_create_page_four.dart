@@ -44,6 +44,14 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
     super.dispose();
   }
 
+  String getTotalPoints() {
+    var puntosTotales = 0;
+    widget.selectedOptions.forEach((element) {
+      puntosTotales = element!.point + puntosTotales;
+    });
+    return puntosTotales.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     var index = 0;
@@ -109,6 +117,7 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
               child: Text('Escala Fitzpatrick'),
             ),
             const SizedBox(height: 20),
+            Text('Puntos: ' + getTotalPoints()),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,15 +134,17 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                AppButton(
-                    onPressed: widget.onBack, text: 'Regresar', width: 100),
-                AppButton(
+                FloatingActionButton(
+                    backgroundColor: Colors.red,
+                    child: Icon(Icons.close),
+                    onPressed: widget.onBack),
+                FloatingActionButton(
+                    backgroundColor: Colors.red,
+                    child: Icon(Icons.done),
                     onPressed: () {
                       Utils.homeNavigator.currentState!
                           .pushReplacementNamed(routeHome);
-                    },
-                    text: 'Continuar',
-                    width: 100),
+                    }),
               ],
             ),
           ],
