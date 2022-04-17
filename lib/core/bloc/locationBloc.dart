@@ -22,8 +22,10 @@ class LocationBloc {
       Map<String, dynamic> jsonresponse = json.decode(info!);
       uviInfo = UviDto.fromJson(jsonresponse);
       //verificar si tienen la misma ubicacion
-      if (location.longitude != uviInfo.long &&
-          location.latitude != uviInfo.lat) {
+      if (num.parse(location.longitude.toStringAsFixed(2)) !=
+              num.parse(uviInfo.long.toStringAsFixed(2)) &&
+          num.parse(location.latitude.toStringAsFixed(2)) !=
+              num.parse(uviInfo.lat.toStringAsFixed(2))) {
         uviInfo = await writeSharedPreference(location, prefs);
       }
       //verificar fechas

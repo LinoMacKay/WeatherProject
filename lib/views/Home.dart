@@ -20,11 +20,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late LocationBloc locationBloc;
+  var futureLocation;
   HomeInfoDto homeInfoDto = HomeInfoDto(
       horario: HourlyDto(0, 0, 0, 0), considerUv: "", highestUv: "");
   @override
   void initState() {
     locationBloc = LocationBloc();
+    futureLocation = locationBloc.getLocation();
     super.initState();
   }
 
@@ -75,6 +77,16 @@ class _HomeState extends State<Home> {
         " - " +
         DateFormat('hh:mm a', 'es_ES').format(
             DateTime.tryParse(mayorUvEnDia[0])!.add(Duration(hours: 1)));
+
+    var uvAlto = uvEnDia.where((element) => element[1] >= 8).toList();
+    if (uvAlto.length > 0) {
+      homeInfoDto.considerUv = DateFormat('hh:mm a', 'es_ES')
+              .format(DateTime.tryParse(uvAlto[0][0])!) +
+          " - " +
+          DateFormat('hh:mm a', 'es_ES').format(
+              DateTime.tryParse(uvAlto[uvAlto.length - 1][0])!
+                  .add(Duration(hours: 1)));
+    }
     return homeInfoDto;
   }
 
@@ -88,7 +100,7 @@ class _HomeState extends State<Home> {
   Widget UviInfo(screenWidth) {
     return Container(
       child: FutureBuilder(
-          future: locationBloc.getLocation(),
+          future: futureLocation,
           builder: (ctx, snapshot) {
             if (snapshot.hasData) {
               var info = snapshot.data as UviDto;
@@ -97,9 +109,10 @@ class _HomeState extends State<Home> {
                 children: [
                   LabeledTextComponent(
                       label: 'Highest uv of the day:', text: nowInfo.highestUv),
-                  LabeledTextComponent(
-                      label: 'Range of hours with UVI considered high:',
-                      text: nowInfo.considerUv),
+                  if (homeInfoDto.considerUv.length > 1)
+                    LabeledTextComponent(
+                        label: 'Range of hours with UVI considered high:',
+                        text: nowInfo.considerUv),
                   LabeledTextComponent(
                       label: 'Temperature:',
                       text: nowInfo.horario.temp.toString() + "°"),
