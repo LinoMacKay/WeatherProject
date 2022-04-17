@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_project/core/bloc/childBloc.dart';
 import 'package:my_project/core/bloc/createChildBloc.dart';
 import 'package:my_project/core/bloc/locationBloc.dart';
 import 'package:my_project/core/bloc/loginBloc.dart';
@@ -20,6 +21,7 @@ class Provider extends InheritedWidget {
   final loginBloc = LoginBloc();
   final createChildBloc = CreateChildBloc();
   final locationBloc = LocationBloc();
+  final childBloc = ChildBloc();
 
   static LoginBloc loginBlocOf(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Provider>()!.loginBloc;
@@ -33,5 +35,9 @@ class Provider extends InheritedWidget {
 
   static LocationBloc createLocationBlocOf(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Provider>()!.locationBloc;
+  }
+
+  static ChildBloc childBlocOf(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Provider>()!.childBloc;
   }
 }

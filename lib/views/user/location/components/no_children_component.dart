@@ -10,6 +10,7 @@ class NoChildrenComponent extends StatelessWidget {
       elevation: 5,
       borderRadius: BorderRadius.circular(10),
       child: Container(
+        padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(width: 1)),
@@ -18,7 +19,11 @@ class NoChildrenComponent extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Bienvenido a $appName\nal parecer aún no tienes registrado a un hijo en la aplicación',
+              'Bienvenido a $appName\n',
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              'Parece que usted no tiene ningun hijo registrado',
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),

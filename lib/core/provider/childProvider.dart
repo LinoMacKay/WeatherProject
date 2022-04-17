@@ -29,8 +29,9 @@ class ChildProvider {
 
   Future<List<ChildDto>> getAllChildsFromFather() async {
     final prefs = await SharedPreferences.getInstance();
+    var test = 'f55c3d38-06e4-4b91-8c69-1c78f37e5cf8';
     String url =
-        'https://uvbackend.azurewebsites.net/Profile/GetProfilesByUSer?userId=${prefs.getString("token")}';
+        'https://uvbackend.azurewebsites.net/Profile/GetProfilesByUSer?userId=${test}';
     Uri uri = Uri.parse(url);
 
     var response = await http.get(uri);

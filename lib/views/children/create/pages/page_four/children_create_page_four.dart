@@ -54,6 +54,8 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
     var index = 0;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -63,6 +65,44 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
           children: <Widget>[
             const SizedBox(height: 10),
             const Text('Registro de hijo (paso 4 de 4) - Confirmación'),
+            const SizedBox(height: 20),
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (ctx) {
+                      return Dialog(
+                        insetPadding: EdgeInsets.all(10),
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          width: screenWidth,
+                          height: screenHeight * 0.6,
+                          child: Column(
+                            children: [
+                              Text(
+                                "¿Qué es el Fototipo?",
+                                style: TextStyle(
+                                    fontSize: 30, fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Text(
+                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+              },
+              child: Text(
+                '¿Qué es fototipo?',
+                style: TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
             const SizedBox(height: 20),
             const Text('Se procederá a registrar la información:'),
             const SizedBox(height: 10),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:my_project/model/ChildDto.dart';
 import 'package:my_project/router/routes.dart';
 import 'package:my_project/utils/Utils.dart';
 
 class SingleChildCard extends StatelessWidget {
-  const SingleChildCard({Key? key}) : super(key: key);
+  ChildDto childDto;
+  SingleChildCard(this.childDto);
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +34,10 @@ class SingleChildCard extends StatelessWidget {
                     flex: 1,
                     child: Container(
                       child: CircleAvatar(
+                        child: Icon(
+                          Icons.person,
+                          size: 40,
+                        ),
                         radius: screenHeight * 0.05,
                       ),
                     ),
@@ -43,11 +50,12 @@ class SingleChildCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "NombreHijo",
+                            childDto.name,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "Agregado hace 4 dias",
+                            DateFormat('dd-MM-yyyy', 'es_ES')
+                                .format(DateTime.tryParse(childDto.birthday)!),
                             style: TextStyle(
                                 color: Color.fromRGBO(161, 164, 182, 1),
                                 fontWeight: FontWeight.w500),

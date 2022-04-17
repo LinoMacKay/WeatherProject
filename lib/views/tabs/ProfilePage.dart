@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_project/core/bloc/childBloc.dart';
 import 'package:my_project/views/children/SingleChildCard.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -9,6 +10,14 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  ChildBloc childBloc = ChildBloc();
+
+  @override
+  void initState() {
+    childBloc.getChildren();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -24,16 +33,30 @@ class _ProfilePageState extends State<ProfilePage> {
               "Hijos",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
-            Expanded(
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  SingleChildCard(),
-                  SingleChildCard(),
-                  SingleChildCard(),
-                ],
-              ),
-            )
+            SizedBox(
+              height: 10,
+            ),
+            StreamBuilder(
+                stream: childBloc.childrenStream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    var children = snapshot.data as List;
+                    return Expanded(
+                      child: ListView.builder(
+                          itemCount: children.length,
+                          shrinkWrap: true,
+                          itemBuilder: (ctx, indx) {
+                            return SingleChildCard(children[indx]);
+                          }),
+                    );
+                  } else {
+                    return Container(
+                      width: 50,
+                      height: 50,
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                }),
           ],
         ),
       ),
