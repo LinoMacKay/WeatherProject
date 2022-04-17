@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:my_project/core/bloc/registerBloc.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
 import 'package:async/async.dart' show StreamGroup;
+import 'package:my_project/model/RegisterDto.dart';
 import 'package:my_project/utils/Utils.dart';
+
+import '../../../router/routes.dart';
 
 class CreateAccountView extends StatefulWidget {
   const CreateAccountView({Key? key}) : super(key: key);
@@ -23,10 +26,20 @@ class _CreateAccountViewState extends State<CreateAccountView> {
 
   final TextStyle style = const TextStyle();
 
+  RegisterDto registerDto = RegisterDto(); // SSS
   RegisterBloc registerBloc = RegisterBloc();
   bool errorEmail = false;
   bool errorPassword = false;
   bool errorUser = false;
+
+  Future<bool> _saveForm() async {
+    registerDto.user = registerBloc.user;
+    registerDto.email = registerBloc.email;
+    registerDto.password = registerBloc.password;
+
+    var result = await registerBloc.register(registerDto);
+    return result;
+  }
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -180,47 +193,27 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                             }),
                         const SizedBox(height: 25),
                         StreamBuilder(
-                            stream: StreamGroup.merge([
-                              registerBloc.passwordStream,
-                              registerBloc.emailStream,
-                              registerBloc.userStream
-                            ]),
-                            builder: (context, snapshot) {
-                              registerBloc.emailStream.listen((event) {
-                                errorEmail = false;
-                              }).onError((a) {
-                                errorEmail = true;
-                              });
-
-                              registerBloc.userStream.listen((event) {
-                                errorUser = false;
-                              }).onError((a) {
-                                errorUser = true;
-                              });
-
-                              registerBloc.passwordStream.listen((event) {
-                                errorPassword = false;
-                              }).onError((a) {
-                                errorPassword = true;
-                              });
-                              var validator =
-                                  errorEmail || errorPassword || errorUser;
-                              print(validator);
+                              stream: registerBloc.formValidStream,
+                              builder: (context, snapshot) {
+                                bool validator = false;
+                                if (snapshot.hasData) {
+                                  validator = snapshot.data as bool;
+                                }
                               return SizedBox(
                                 width: double.infinity,
                                 height: 50,
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                         primary: Color.fromRGBO(38, 95, 90, 1)),
-                                    onPressed: !validator
-                                        ? () {
-                                            if (!validator) {
-                                              //_saveForm();
-                                              Utils.mainNavigator.currentState!
-                                                  .pop();
-                                            }
-                                          }
-                                        : null,
+                                    onPressed:() async {
+                                        if (validator) {
+                                          var result = await _saveForm();
+                                            Utils.mainNavigator.currentState!
+                                                .pushNamed(routeLoginView)
+                                                .then((value) {
+                                            });
+                                        }
+                                      },
                                     child: Text(
                                       "Register",
                                       style: TextStyle(
