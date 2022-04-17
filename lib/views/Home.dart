@@ -85,7 +85,8 @@ class _HomeState extends State<Home> {
             .format(DateTime.tryParse(mayorUvEnDia[0])!) +
         " - " +
         DateFormat('hh:mm a', 'es_ES').format(
-            DateTime.tryParse(mayorUvEnDia[0])!.add(Duration(hours: 1)));
+            DateTime.tryParse(mayorUvEnDia[0])!.add(Duration(hours: 1))) +
+        " (${mayorUvEnDia[1].toString()})";
 
     var uvAlto = uvEnDia.where((element) => element[1] >= 8).toList();
     if (uvAlto.length > 0) {
@@ -126,7 +127,7 @@ class _HomeState extends State<Home> {
                       label: 'Temperature:',
                       text: nowInfo.horario.temp.toString() + "°"),
                   LabeledTextComponent(
-                      label: 'UV:', text: nowInfo.horario.uvi.toString()),
+                      label: 'UVI:', text: nowInfo.horario.uvi.toString()),
                   LabeledTextComponent(
                       label: 'Hour:',
                       text:
@@ -144,44 +145,60 @@ class _HomeState extends State<Home> {
     );
   }
 
-
-  Widget PopUpUviInfoBoard(){
+  Widget PopUpUviInfoBoard() {
     return Column(
       children: [
         Table(
           border: TableBorder.all(),
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          columnWidths: {
-            2: FixedColumnWidth(120.0)
-          },
+          columnWidths: {2: FixedColumnWidth(120.0)},
           children: [
-            _tableRow(["Categoría","Rango de UVI","Descripción"], isHeader: true),
-            _tableRow(["Baja","0-2","No hay peligro para la persona promedio."]),
-            _tableRow(["Moderada","3-5","Poco riesgo de daño por la exposición al sol sin protección"]),
-            _tableRow(["Alta","6-7","Alto riesgo de daño por la exposición al sol sin protección"]),
-            _tableRow(["Muy Alta","8-10","Muy alto riesgo de daño por la exposición al sol sin protección"]),
-            _tableRow(["Extremadamente Alta","11+","Riesgo extremo de daño por la exposición al sol sin protección"]),
+            _tableRow(["Categoría", "Rango de UVI", "Descripción"],
+                isHeader: true),
+            _tableRow(
+                ["Baja", "0-2", "No hay peligro para la persona promedio."]),
+            _tableRow([
+              "Moderada",
+              "3-5",
+              "Poco riesgo de daño por la exposición al sol sin protección"
+            ]),
+            _tableRow([
+              "Alta",
+              "6-7",
+              "Alto riesgo de daño por la exposición al sol sin protección"
+            ]),
+            _tableRow([
+              "Muy Alta",
+              "8-10",
+              "Muy alto riesgo de daño por la exposición al sol sin protección"
+            ]),
+            _tableRow([
+              "Extremadamente Alta",
+              "11+",
+              "Riesgo extremo de daño por la exposición al sol sin protección"
+            ]),
           ],
         )
       ],
     );
   }
 
-  TableRow _tableRow(List<String> cells, {bool isHeader = false}){
+  TableRow _tableRow(List<String> cells, {bool isHeader = false}) {
     return TableRow(
-      children: cells.map((cell) {
-        final style = TextStyle(
+        children: cells.map((cell) {
+      final style = TextStyle(
           fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
-          fontSize: isHeader ? 14 : 11
-        );
-        return Padding(
-            padding: const EdgeInsets.all(12),
-            child: Text(cell, style: style,),);
-      } ).toList()
-    );
+          fontSize: isHeader ? 14 : 11);
+      return Padding(
+        padding: const EdgeInsets.all(12),
+        child: Text(
+          cell,
+          style: style,
+        ),
+      );
+    }).toList());
   }
-  
-  
+
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -238,8 +255,9 @@ class _HomeState extends State<Home> {
                                         Text(
                                           "¿Qué es el UVI?",
                                           style: TextStyle(
-                                              fontSize: 30,
-                                              fontWeight: FontWeight.bold,),
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                         SizedBox(
                                           height: 15,
@@ -247,15 +265,18 @@ class _HomeState extends State<Home> {
                                         Text(
                                             "Proviene del término en inglés UV Index o Índice de radiación Ultravioleta en español, es la métrica de radiación UV en la superficie terrestre, así como un indicador de las posibles lesiones en la piel como consecuencia a la exposición a dicha radiación. Asimismo, depende de diversos factores como la altura del sol, la latitud, la altitud, la nubosidad, el nivel de ozono y la reflexión por el suelo (OMS, 2002). En la siguiente tabla se muestra la escala de este:"),
                                         SizedBox(
-                                          height: 30,),
+                                          height: 30,
+                                        ),
                                         PopUpUviInfoBoard(),
                                         SizedBox(
-                                          height: 50,),
+                                          height: 50,
+                                        ),
                                         Text(
                                           "Fototipo de Piel",
                                           style: TextStyle(
                                             fontSize: 30,
-                                            fontWeight: FontWeight.bold,),
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                         SizedBox(
                                           height: 15,
@@ -263,7 +284,8 @@ class _HomeState extends State<Home> {
                                         Text(
                                             "El fototipo es la capacidad de adaptación al sol que tiene cada persona desde que nace, es decir, el conjunto de características que determinan si una piel se broncea o no, y cómo y en qué grado lo hace. Cuanto más baja sea esta capacidad, menos se contrarrestarán los efectos de las radiaciones solares en la piel (Marín & Del Pozo, 2005). La clasificación más famosa de los fototipos cutáneos es la del Dr. Thomas Fitzpatrick, mostrada en la siguiente tabla:"),
                                         SizedBox(
-                                          height: 30,),
+                                          height: 30,
+                                        ),
                                       ],
                                     ),
                                   ),
