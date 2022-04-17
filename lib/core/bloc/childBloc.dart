@@ -11,8 +11,8 @@ class ChildBloc {
   Function(List<ChildDto>) get changechildren => _childrenController.sink.add;
   List<ChildDto> get children => _childrenController.value;
 
-  void getChildren() async {
-    var response = await childProvider.getAllChildsFromFather();
+  void getChildren(userId) async {
+    var response = await childProvider.getAllChildsFromFather(userId);
     changechildren(response);
   }
 }

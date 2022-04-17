@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_project/core/bloc/childBloc.dart';
+import 'package:my_project/core/bloc/locationBloc.dart';
 import 'package:my_project/views/children/SingleChildCard.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -11,10 +12,15 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   ChildBloc childBloc = ChildBloc();
+  LocationBloc locationBloc = LocationBloc();
 
   @override
   void initState() {
-    childBloc.getChildren();
+    locationBloc.getHomeData().then((value) {
+      setState(() {
+        childBloc.getChildren(value[1]);
+      });
+    });
     super.initState();
   }
 

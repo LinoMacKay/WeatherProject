@@ -1,8 +1,10 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_project/core/ui/profile_component.dart';
 import 'package:my_project/core/ui/user_fototipo_component.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
+import 'package:my_project/model/ChildDto.dart';
 import 'package:my_project/utils/Utils.dart';
 
 class ChildrenSummaryView extends StatefulWidget {
@@ -75,8 +77,40 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
     );
   }
 
+  String formatNacimiento(birthday) {
+    var fecha = DateTime.tryParse(birthday);
+    return fecha!.day.toString() +
+        " de " +
+        DateFormat('MMMM', 'es_ES').format(DateTime.tryParse(birthday)!) +
+        " del " +
+        fecha.year.toString();
+  }
+
+  int getEdad(birthday) {
+    var fecha = DateTime.tryParse(birthday);
+    final now = DateTime.now();
+
+    int years = now.year - fecha!.year;
+    int months = now.month - fecha.month;
+    int days = now.day - fecha.day;
+
+    if (months < 0 || (months == 0 && days < 0)) {
+      years--;
+      months += (days < 0 ? 11 : 12);
+    }
+
+    if (days < 0) {
+      final monthAgo = DateTime(now.year, now.month - 1, fecha.day);
+      days = now.difference(monthAgo).inDays + 1;
+    }
+
+    return years;
+  }
+
   @override
   Widget build(BuildContext context) {
+    ChildDto arguments = ModalRoute.of(context)!.settings.arguments as ChildDto;
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.grey.withOpacity(0),
@@ -116,9 +150,10 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                             ),*/
                           ],
                         ),
-                        Text('Nombre Completo: Karla Silvia Lopez'),
-                        Text('Fecha de Nacimiento: 15 de Octubre del 2014'),
-                        Text('Edad: 7 años'),
+                        Text('Nombre Completo: ${arguments.name}'),
+                        Text('Fecha de Nacimiento: ' +
+                            formatNacimiento(arguments.birthday)),
+                        Text('Edad: ${getEdad(arguments.birthday)} años'),
                         SizedBox(
                           height: 15,
                         )

@@ -1,9 +1,11 @@
 import 'package:my_project/core/bloc/validators.dart';
+import 'package:my_project/core/provider/userProvider.dart';
+import 'package:my_project/model/LoginDto.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 
 class LoginBloc with Validators {
-//  final userProvider = UserProvider();
+  final userProvider = UserProvider();
 
   BehaviorSubject<String> _userController = BehaviorSubject<String>();
 
@@ -61,11 +63,11 @@ class LoginBloc with Validators {
     _requestResult = BehaviorSubject<String>();
   }
 
-  /*Future<String> login(String email) async {
+  Future<bool> login(LoginDto loginDto) async {
     try {
-      return await userProvider.loginUser(email);
+      return await userProvider.login(loginDto);
     } catch (e) {
       return Future.error(e);
     }
-  }*/
+  }
 }

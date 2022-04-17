@@ -27,11 +27,11 @@ class ChildProvider {
     }
   }
 
-  Future<List<ChildDto>> getAllChildsFromFather() async {
+  Future<List<ChildDto>> getAllChildsFromFather(userId) async {
     final prefs = await SharedPreferences.getInstance();
-    var test = 'f55c3d38-06e4-4b91-8c69-1c78f37e5cf8';
+
     String url =
-        'https://uvbackend.azurewebsites.net/Profile/GetProfilesByUSer?userId=${test}';
+        'https://uvbackend.azurewebsites.net/Profile/GetProfilesByUSer?userId=${userId}';
     Uri uri = Uri.parse(url);
 
     var response = await http.get(uri);

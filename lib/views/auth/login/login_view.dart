@@ -22,12 +22,16 @@ class _LoginViewState extends State<LoginView> {
   final TextStyle style = const TextStyle();
   LoginDto loginDto = LoginDto();
   LoginBloc loginBloc = LoginBloc();
-
-  void _saveForm() {
+  bool isLoading = false;
+  Future<bool> _saveForm() async {
+    setState(() {
+      isLoading = true;
+    });
     loginDto.password = loginBloc.password;
     loginDto.user = loginBloc.user;
     //agregando al data del bloc al dto
-    print(loginDto);
+    var result = await loginBloc.login(loginDto);
+    return result;
   }
 
   @override
@@ -162,19 +166,31 @@ class _LoginViewState extends State<LoginView> {
                                           primary: validator
                                               ? Color.fromRGBO(38, 95, 90, 1)
                                               : Colors.grey),
-                                      onPressed: () {
+                                      onPressed: () async {
                                         if (validator) {
-                                          _saveForm();
-                                          Utils.mainNavigator.currentState!
-                                              .pushNamed(routeHome);
+                                          setState(() {
+                                            isLoading = false;
+                                          });
+                                          var result = await _saveForm();
+                                          if (result) {
+                                            Utils.mainNavigator.currentState!
+                                                .pushNamed(routeHome)
+                                                .then((value) {
+                                              setState(() {
+                                                isLoading = false;
+                                              });
+                                            });
+                                          }
                                         }
                                       },
-                                      child: Text(
-                                        "Log In",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w300),
-                                      )),
+                                      child: isLoading
+                                          ? CircularProgressIndicator()
+                                          : Text(
+                                              "Log In",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w300),
+                                            )),
                                 );
                               }),
                           const SizedBox(height: 10),

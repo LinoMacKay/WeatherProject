@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_project/core/bloc/childBloc.dart';
 import 'package:my_project/core/bloc/locationBloc.dart';
 import 'package:my_project/core/provider/locationProvider.dart';
 import 'package:my_project/core/ui/labeled_text_component.dart';
@@ -20,13 +21,21 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late LocationBloc locationBloc;
+  ChildBloc childBloc = ChildBloc();
   var futureLocation;
   HomeInfoDto homeInfoDto = HomeInfoDto(
       horario: HourlyDto(0, 0, 0, 0), considerUv: "", highestUv: "");
+
+  String userName = " ";
   @override
   void initState() {
     locationBloc = LocationBloc();
     futureLocation = locationBloc.getLocation();
+    locationBloc.getHomeData().then((value) {
+      setState(() {
+        userName = value[0];
+      });
+    });
     super.initState();
   }
 
@@ -153,7 +162,7 @@ class _HomeState extends State<Home> {
                   Flexible(
                     flex: 1,
                     child: Text(
-                      "Bienvenido User01, Tenga un buen día",
+                      "Bienvenido ${userName}",
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       style:

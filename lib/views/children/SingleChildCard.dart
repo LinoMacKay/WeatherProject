@@ -14,7 +14,8 @@ class SingleChildCard extends StatelessWidget {
     var screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () {
-        Utils.homeNavigator.currentState!.pushNamed(routeChildrenDetail);
+        Utils.homeNavigator.currentState!
+            .pushNamed(routeChildrenDetail, arguments: childDto);
       },
       child: Container(
         padding: const EdgeInsets.all(8.0),

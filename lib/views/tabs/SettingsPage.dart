@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_project/core/provider/userProvider.dart';
 import 'package:my_project/utils/Utils.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -28,7 +29,10 @@ class _SettingsPageState extends State<SettingsPage> {
             ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(primary: Colors.red),
                 onPressed: () {
-                  Utils.mainNavigator.currentState!.pop();
+                  UserProvider userProvider = UserProvider();
+                  userProvider.logout().then((value) {
+                    Utils.mainNavigator.currentState!.pop();
+                  });
                 },
                 icon: Icon(
                   Icons.logout,

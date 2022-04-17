@@ -51,4 +51,9 @@ class LocationBloc {
     await prefs.setString('uviInfo', json.encode(uviInfo));
     return uviInfo;
   }
+
+  Future<List<String>> getHomeData() async {
+    final prefs = await SharedPreferences.getInstance();
+    return [prefs.getString("userName")!, prefs.getString("userId")!];
+  }
 }
