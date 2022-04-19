@@ -66,13 +66,14 @@ class _ChildrenUpdateViewState extends State<ChildrenUpdateView> {
                     style: const TextStyle(),
                   ),
                   const SizedBox(height: 20),
-                  UserFototipoComponent(model: model),
+                  //UserFototipoComponent(model: model),
                   const SizedBox(height: 60),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       AppButton(onPressed: () {}, text: 'Cancelar', width: 100),
-                      AppButton(onPressed: () {}, text: 'Continuar', width: 100),
+                      AppButton(
+                          onPressed: () {}, text: 'Continuar', width: 100),
                     ],
                   ),
                 ],

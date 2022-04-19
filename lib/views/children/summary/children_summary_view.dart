@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_project/core/ui/profile_component.dart';
 import 'package:my_project/core/ui/user_fototipo_component.dart';
+import 'package:my_project/data/viewmodels/fototipo_option.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
 import 'package:my_project/model/ChildDto.dart';
 import 'package:my_project/utils/Utils.dart';
@@ -107,10 +108,14 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
     return years;
   }
 
+  FototipoOptionViewmodel userFotoModel(ChildDto childDto) {
+    return FototipoOptionViewmodel(name: childDto.scoreDescription);
+  }
+
   @override
   Widget build(BuildContext context) {
     ChildDto arguments = ModalRoute.of(context)!.settings.arguments as ChildDto;
-
+    print(arguments);
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.grey.withOpacity(0),
@@ -176,7 +181,10 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                   color: Colors.black,
                 ),
                 SizedBox(height: 15),
-                const UserFototipoComponent(),
+                UserFototipoComponent(
+                  nombreHijo: arguments.name,
+                  model: userFotoModel(arguments),
+                ),
                 SizedBox(height: 30),
                 Text(
                     'Más información: https://www.dermcollective.com/flitzpatrick.skin-types/'),

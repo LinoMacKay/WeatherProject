@@ -6,6 +6,7 @@ import 'package:my_project/data/viewmodels/fototipo_option.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
 import 'package:my_project/model/CreateChildDto.dart';
 import 'package:my_project/router/routes.dart';
+import 'package:my_project/utils/NotificationHelper.dart';
 import 'package:my_project/utils/Utils.dart';
 import 'package:my_project/views/children/create/pages/page_one/children_create_page_one_form.dart';
 import 'package:my_project/views/children/create/pages/page_three/components/fototipo_option_component.dart';
@@ -213,12 +214,22 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
                     onPressed: () {
                       CreateChildBloc()
                           .createChild(createChild())
-                          .then((value) {
-                        if (value)
+                          .then((value) async {
+                        if (value) {
+                          await Future.delayed(Duration(milliseconds: 200));
+                          NotificationUtil().showSnackbar(
+                              context,
+                              "Se ha creado el hijo correctamente",
+                              "success",
+                              null);
                           Utils.homeNavigator.currentState!
                               .pushReplacementNamed(routeHome);
-                        else {
-                          print("error");
+                        } else {
+                          NotificationUtil().showSnackbar(
+                              context,
+                              "Ha ocurrido un error en la creación",
+                              "error",
+                              null);
                         }
                       });
                     }),

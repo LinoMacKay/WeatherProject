@@ -20,7 +20,9 @@ class FototipoOptionComponent extends StatelessWidget {
           width: 80,
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/${model!.name}.png"),
+                image: model != null
+                    ? AssetImage("assets/${model!.name}.png")
+                    : AssetImage("assets/II.png"),
                 fit: BoxFit.cover),
             // color: model.color,
             shape: BoxShape.circle,
