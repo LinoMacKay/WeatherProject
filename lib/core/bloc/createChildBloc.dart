@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:my_project/core/bloc/validators.dart';
+import 'package:my_project/core/provider/childProvider.dart';
+import 'package:my_project/model/CreateChildDto.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CreateChildBloc with Validators {
@@ -38,6 +41,11 @@ class CreateChildBloc with Validators {
 
   Stream<bool> get formValidStream =>
       Rx.combineLatest2(nameStream, birthdayStream, (e, p) => true);
+
+  Future<bool> createChild(CreateChildDto createChildDto) async {
+    var response = await ChildProvider().createChild(createChildDto);
+    return response;
+  }
 
   dispose() {
     _nameController.close();

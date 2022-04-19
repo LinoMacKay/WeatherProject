@@ -13,14 +13,15 @@ class ChildProvider {
     Uri uri = Uri.parse(url);
 
     var body = {
-      // 'UserId': prefs.getString("token"),
+      'UserId': prefs.getString("userId"),
       'Profile': createChildDto.toJson()
     };
 
-    var response = await http.post(uri, body: json.encode(body));
+    var response = await http.post(uri,
+        body: json.encode(body), headers: {"Content-Type": "application/json"});
 
     if (response.statusCode == 200) {
-      List<dynamic> jsonresponse = json.decode(response.body);
+      dynamic jsonresponse = json.decode(response.body);
       return true;
     } else {
       return Future.error("Internal Server Error");
