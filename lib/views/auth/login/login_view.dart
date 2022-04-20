@@ -194,6 +194,12 @@ class _LoginViewState extends State<LoginView> {
                                           setState(() {
                                             isLoading = false;
                                           });
+                                        } else {
+                                          NotificationUtil().showSnackbar(
+                                              context,
+                                              "Por favor rellene los campos de incio de sesión",
+                                              "error",
+                                              null);
                                         }
                                       },
                                       child: isLoading

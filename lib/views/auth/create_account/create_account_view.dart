@@ -3,6 +3,7 @@ import 'package:my_project/core/bloc/registerBloc.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
 import 'package:async/async.dart' show StreamGroup;
 import 'package:my_project/model/RegisterDto.dart';
+import 'package:my_project/utils/NotificationHelper.dart';
 import 'package:my_project/utils/Utils.dart';
 
 import '../../../router/routes.dart';
@@ -31,6 +32,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
   bool errorEmail = false;
   bool errorPassword = false;
   bool errorUser = false;
+  bool isLoading = false;
 
   Future<bool> _saveForm() async {
     registerDto.user = registerBloc.user;
@@ -40,6 +42,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
     var result = await registerBloc.register(registerDto);
     return result;
   }
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -193,33 +196,58 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                             }),
                         const SizedBox(height: 25),
                         StreamBuilder(
-                              stream: registerBloc.formValidStream,
-                              builder: (context, snapshot) {
-                                bool validator = false;
-                                if (snapshot.hasData) {
-                                  validator = snapshot.data as bool;
-                                }
+                            stream: registerBloc.formValidStream,
+                            builder: (context, snapshot) {
+                              bool validator = false;
+                              if (snapshot.hasData) {
+                                validator = snapshot.data as bool;
+                              }
                               return SizedBox(
                                 width: double.infinity,
                                 height: 50,
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                         primary: Color.fromRGBO(38, 95, 90, 1)),
-                                    onPressed:() async {
-                                        if (validator) {
-                                          var result = await _saveForm();
-                                            Utils.mainNavigator.currentState!
-                                                .pushNamed(routeLoginView)
-                                                .then((value) {
-                                            });
+                                    onPressed: () async {
+                                      if (validator) {
+                                        var result = await _saveForm();
+                                        if (result) {
+                                          NotificationUtil().showSnackbar(
+                                              context,
+                                              "Su cuenta se ha registrado correctamente",
+                                              "success",
+                                              null);
+                                          await Future.delayed(
+                                              Duration(milliseconds: 400));
+                                          Utils.mainNavigator.currentState!
+                                              .pushNamed(routeLoginView)
+                                              .then((value) {});
+                                        } else {
+                                          NotificationUtil().showSnackbar(
+                                              context,
+                                              "Ha ocurrido un error en el registro, reintente nuevamente",
+                                              "error",
+                                              null);
                                         }
-                                      },
-                                    child: Text(
-                                      "Register",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w300),
-                                    )),
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+                                      } else {
+                                        NotificationUtil().showSnackbar(
+                                            context,
+                                            "Por favor rellene los campos de registro",
+                                            "error",
+                                            null);
+                                      }
+                                    },
+                                    child: isLoading
+                                        ? CircularProgressIndicator()
+                                        : Text(
+                                            "Register",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w300),
+                                          )),
                               );
                             })
                       ],
