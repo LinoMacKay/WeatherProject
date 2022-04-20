@@ -23,7 +23,7 @@ class NotificationUtil {
         style: TextStyle(color: Colors.white),
       ),
       action: action,
-      duration: Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 700),
     ));
   }
 }

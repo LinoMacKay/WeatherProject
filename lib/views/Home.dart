@@ -183,6 +183,154 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget Pregunta2(screenWidth, screenHeight) {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (ctx) {
+              return Dialog(
+                insetPadding: EdgeInsets.all(10),
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  width: screenWidth,
+                  height: screenHeight * 0.5,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Text(
+                          "¿Qué es el UVI?",
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                            "Proviene del término en inglés UV Index o Índice de radiación Ultravioleta en español, es la métrica de radiación UV en la superficie terrestre, así como un indicador de las posibles lesiones en la piel como consecuencia a la exposición a dicha radiación. Asimismo, depende de diversos factores como la altura del sol, la latitud, la altitud, la nubosidad, el nivel de ozono y la reflexión por el suelo (OMS, 2002). En la siguiente tabla se muestra la escala de este:"),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        PopUpUviInfoBoard(),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Text(
+                          "Fototipo de Piel",
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                            "El fototipo es la capacidad de adaptación al sol que tiene cada persona desde que nace, es decir, el conjunto de características que determinan si una piel se broncea o no, y cómo y en qué grado lo hace. Cuanto más baja sea esta capacidad, menos se contrarrestarán los efectos de las radiaciones solares en la piel (Marín & Del Pozo, 2005). La clasificación más famosa de los fototipos cutáneos es la del Dr. Thomas Fitzpatrick, mostrada en la siguiente tabla:"),
+                        SizedBox(
+                          height: 30,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            });
+      },
+      child: Row(
+        children: [
+          Text(
+            "¿PREGUNTA 2?",
+            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            width: 15,
+          ),
+          Icon(
+            Icons.help,
+            color: Colors.blue,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget Pregunta3(screenWidth, screenHeight) {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (ctx) {
+              return Dialog(
+                insetPadding: EdgeInsets.all(10),
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  width: screenWidth,
+                  height: screenHeight * 0.5,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Text(
+                          "¿Qué es el UVI?",
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                            "Proviene del término en inglés UV Index o Índice de radiación Ultravioleta en español, es la métrica de radiación UV en la superficie terrestre, así como un indicador de las posibles lesiones en la piel como consecuencia a la exposición a dicha radiación. Asimismo, depende de diversos factores como la altura del sol, la latitud, la altitud, la nubosidad, el nivel de ozono y la reflexión por el suelo (OMS, 2002). En la siguiente tabla se muestra la escala de este:"),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        PopUpUviInfoBoard(),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Text(
+                          "Fototipo de Piel",
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                            "El fototipo es la capacidad de adaptación al sol que tiene cada persona desde que nace, es decir, el conjunto de características que determinan si una piel se broncea o no, y cómo y en qué grado lo hace. Cuanto más baja sea esta capacidad, menos se contrarrestarán los efectos de las radiaciones solares en la piel (Marín & Del Pozo, 2005). La clasificación más famosa de los fototipos cutáneos es la del Dr. Thomas Fitzpatrick, mostrada en la siguiente tabla:"),
+                        SizedBox(
+                          height: 30,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            });
+      },
+      child: Row(
+        children: [
+          Text(
+            "¿PREGUNTA 3?",
+            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            width: 15,
+          ),
+          Icon(
+            Icons.help,
+            color: Colors.blue,
+          )
+        ],
+      ),
+    );
+  }
+
   TableRow _tableRow(List<String> cells, {bool isHeader = false}) {
     return TableRow(
         children: cells.map((cell) {
@@ -317,7 +465,17 @@ class _HomeState extends State<Home> {
                   ),
                   Container(
                       padding: EdgeInsets.only(top: 10),
-                      child: UviInfo(screenWidth))
+                      child: UviInfo(screenWidth)),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Pregunta2(screenWidth, screenHeight),
+                      Pregunta3(screenWidth, screenHeight)
+                    ],
+                  ),
                 ],
               ),
               Positioned(
