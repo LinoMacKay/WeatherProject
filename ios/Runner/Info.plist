@@ -45,6 +45,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>https</string>
+  <string>http</string>
+</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 </dict>
@@ -53,4 +58,6 @@
   <key>YourPurposeKey</key>
   <string>The example App requires temporary access to the device&apos;s precise location.</string>
 </dict>
+
+
 </plist>

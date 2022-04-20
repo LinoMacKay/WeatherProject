@@ -1,12 +1,19 @@
+import 'dart:convert';
+
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_project/core/bloc/locationBloc.dart';
+import 'package:my_project/core/provider/childProvider.dart';
 import 'package:my_project/core/ui/profile_component.dart';
 import 'package:my_project/core/ui/user_fototipo_component.dart';
 import 'package:my_project/data/viewmodels/fototipo_option.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
 import 'package:my_project/model/ChildDto.dart';
+import 'package:my_project/model/UviDto.dart';
 import 'package:my_project/utils/Utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChildrenSummaryView extends StatefulWidget {
   const ChildrenSummaryView({Key? key}) : super(key: key);
@@ -33,49 +40,67 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
     super.dispose();
   }
 
-  Widget recomendaciones() {
-    return Column(
-      children: <Widget>[
-        Table(
-            border: TableBorder.symmetric(
-              inside: BorderSide(width: 1),
-            ),
-            children: [
-              TableRow(
-                  decoration: BoxDecoration(
-                      color: Colors.blueAccent,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(8),
-                          topRight: Radius.circular(8))),
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.all(8.0),
-                      child: Text('Tiempo Máximo de Exposición al Sol'),
-                    ),
-                  ]),
-              TableRow(children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                      'Según el fototipo de su hijo, se recomienda que esté entre 10 a 15 minutos como máximo expuesto al sol'),
-                ),
-              ]),
-              TableRow(children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('¿Qué zonas de mi hijo debo proteger del sol?'),
-                ),
-              ]),
-              TableRow(children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                      '¿Cómo saber si la piel de mi hijo ha sido afectada por el sol?'),
-                ),
-              ]),
-            ]),
-      ],
-    );
+  Widget recomendaciones(childId) {
+    return FutureBuilder(
+        future: ChildProvider().getSingleChild(childId),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data as ChildExtraInfoDto;
+
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.black, width: 2),
+              ),
+              child: Column(
+                children: <Widget>[
+                  Table(
+                      border: TableBorder.symmetric(
+                        inside: BorderSide(width: 1),
+                      ),
+                      children: [
+                        TableRow(
+                            decoration: BoxDecoration(
+                                color: Colors.blueAccent,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(8),
+                                    topRight: Radius.circular(8))),
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.all(8.0),
+                                child:
+                                    Text('Tiempo Máximo de Exposición al Sol'),
+                              ),
+                            ]),
+                        TableRow(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                                'Según el fototipo de su hijo, se recomienda que esté entre 10 a 15 minutos como máximo expuesto al sol'),
+                          ),
+                        ]),
+                        TableRow(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                                '¿Qué zonas de mi hijo debo proteger del sol?'),
+                          ),
+                        ]),
+                        TableRow(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                                '¿Cómo saber si la piel de mi hijo ha sido afectada por el sol?'),
+                          ),
+                        ]),
+                      ]),
+                ],
+              ),
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        });
   }
 
   String formatNacimiento(birthday) {
@@ -110,6 +135,14 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
 
   FototipoOptionViewmodel userFotoModel(ChildDto childDto) {
     return FototipoOptionViewmodel(name: childDto.scoreDescription);
+  }
+
+  launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -186,8 +219,21 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                   model: userFotoModel(arguments),
                 ),
                 SizedBox(height: 30),
-                Text(
-                    'Más información: https://www.dermcollective.com/flitzpatrick.skin-types/'),
+                Wrap(
+                  children: [
+                    Text("Más información: "),
+                    GestureDetector(
+                      onTap: () {
+                        launchURL(
+                            "https://www.dermcollective.com/flitzpatrick.skin-types/");
+                      },
+                      child: Text(
+                        'https://www.dermcollective.com/flitzpatrick.skin-types/',
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBox(height: 15),
                 Container(
                   width: MediaQuery.of(context).size.width,
@@ -197,13 +243,7 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                 SizedBox(height: 15),
                 Text('Recomendaciones e indicaciones para su hijo'),
                 SizedBox(height: 15),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.black, width: 2),
-                  ),
-                  child: recomendaciones(),
-                ),
+                recomendaciones(arguments.id),
               ],
             ),
           ),

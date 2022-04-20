@@ -49,4 +49,23 @@ class ChildProvider {
       return Future.error("Internal Server Error");
     }
   }
+
+  Future<ChildExtraInfoDto> getSingleChild(childId) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String url =
+        'https://uvbackend.azurewebsites.net/Profile/GetExtraInfoByProfile?profileId=${childId}';
+    Uri uri = Uri.parse(url);
+
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+      dynamic jsonresponse = json.decode(response.body);
+
+      var test = ChildExtraInfoDto.fromJson(jsonresponse);
+
+      return test;
+    } else {
+      return Future.error("Internal Server Error");
+    }
+  }
 }

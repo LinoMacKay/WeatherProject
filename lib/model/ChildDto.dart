@@ -20,3 +20,20 @@ class ChildDto {
         scoreDescription: childJson['scoreDescription']);
   }
 }
+
+class ChildExtraInfoDto {
+  int? exposureTime;
+  int? uvi;
+  String? fps;
+  ChildExtraInfoDto({
+    required this.exposureTime,
+    required this.uvi,
+    required this.fps,
+  });
+  factory ChildExtraInfoDto.fromJson(Map<String, dynamic> childJson) {
+    return ChildExtraInfoDto(
+        exposureTime: childJson['exposureTime'],
+        fps: childJson['fps'],
+        uvi: childJson['uvi']);
+  }
+}
