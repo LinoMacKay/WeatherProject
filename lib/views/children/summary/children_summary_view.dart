@@ -40,13 +40,54 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
     super.dispose();
   }
 
+  List<TableRow> getRecommendation(uvi, fps) {
+    var recommendation1 = "";
+    var recommendation2 = "";
+
+    if (fps == "50") {
+      fps = "50+";
+    }
+
+    if (uvi <= 2) {
+      recommendation1 = "Puedes quedarte afuera con seguridad";
+      recommendation2 = "¡No necesitas protector solar de ${fps} fps!";
+    } else if (uvi <= 7) {
+      recommendation1 = "¡Busca la sombra durante las horas del mediodia!";
+      recommendation2 =
+          "¡Ponte una camisa, protector solar de ${fps} fps y un sombrero!";
+    } else {
+      recommendation1 = "¡Evita estar afuera durante las horas del mediodia!";
+      recommendation2 = "¡Asegurate de buscar sombra!\n" +
+          "¡Camisa, protector solar de ${fps} fps y sombrero son imprescendibles!";
+    }
+
+    return [
+      TableRow(children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(recommendation1),
+        ),
+      ]),
+      TableRow(children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(recommendation2),
+        ),
+      ])
+    ];
+  }
+
   Widget recomendaciones(childId) {
     return FutureBuilder(
-        future: ChildProvider().getSingleChild(childId),
+        future: Future.wait([
+          ChildProvider().getSingleChild(childId),
+          LocationBloc().getUviInfoFromSP()
+        ]),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            var data = snapshot.data as ChildExtraInfoDto;
-
+            var data = snapshot.data as List;
+            var childInfo = data[0] as ChildExtraInfoDto;
+            var uvInfo = LocationBloc().getFechaMasCercana(data[1], {}, []);
             return Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -72,28 +113,13 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                                     Text('Tiempo Máximo de Exposición al Sol'),
                               ),
                             ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                                'Según el fototipo de su hijo, se recomienda que esté entre 10 a 15 minutos como máximo expuesto al sol'),
-                          ),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                                '¿Qué zonas de mi hijo debo proteger del sol?'),
-                          ),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                                '¿Cómo saber si la piel de mi hijo ha sido afectada por el sol?'),
-                          ),
-                        ]),
                       ]),
+                  Table(
+                    border: TableBorder(
+                        top: BorderSide(width: 1),
+                        horizontalInside: BorderSide(width: 1)),
+                    children: getRecommendation(uvInfo.uvi, childInfo.fps),
+                  )
                 ],
               ),
             );
