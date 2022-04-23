@@ -51,11 +51,11 @@ class ChildProvider {
     }
   }
 
-  Future<ChildExtraInfoDto> getSingleChild(childId) async {
+  Future<ChildExtraInfoDto> getSingleChild(childId, uvi) async {
     final prefs = await SharedPreferences.getInstance();
 
     String url =
-        'https://uvbackend.azurewebsites.net/Profile/GetExtraInfoByProfile?profileId=${childId}';
+        'https://uvbackend.azurewebsites.net/Profile/GetExtraInfoByProfile?profileId=${childId}&input_uvi=${uvi}';
     Uri uri = Uri.parse(url);
 
     var response = await http.get(uri);
@@ -73,11 +73,12 @@ class ChildProvider {
   Future<bool> deleteChild(childId) async {
     final prefs = await SharedPreferences.getInstance();
 
-    String url = 'https://uvbackend.azurewebsites.net/Profile/DeleteProfile?profileId=${childId}';
+    String url =
+        'https://uvbackend.azurewebsites.net/Profile/DeleteProfile?profileId=${childId}';
     Uri uri = Uri.parse(url);
 
-    var response = await http.delete(uri,
-         headers: {"Content-Type": "application/json"});
+    var response =
+        await http.delete(uri, headers: {"Content-Type": "application/json"});
 
     if (response.statusCode == 200) {
       //dynamic jsonresponse = json.decode(response.body);
@@ -86,5 +87,4 @@ class ChildProvider {
       return Future.error("Internal Server Error");
     }
   }
-
 }

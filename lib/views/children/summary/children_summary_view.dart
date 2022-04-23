@@ -39,27 +39,38 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
     return true;
   }
 
+  Future<List<dynamic>> getData(childId) async {
+    var uviInfo = await LocationBloc().getUviInfoFromSP();
+    var uvMainInfo = LocationBloc().getFechaMasCercana(uviInfo, {}, []);
+    print(uvMainInfo);
+    var childExtraInfo =
+        await ChildProvider().getSingleChild(childId, uvMainInfo.uvi);
+
+    return [childExtraInfo, uvMainInfo];
+  }
+
   @override
   void dispose() {
     BackButtonInterceptor.remove(myInterceptor);
     super.dispose();
   }
 
-  List<TableRow> getRecommendation(uvi, fps) {
+  List<TableRow> getRecommendation(uvi, ChildExtraInfoDto childInfo) {
     var recommendation1 = "";
     var recommendation2 = "";
 
+    var fps = childInfo.fps;
     if (fps == "50") {
       fps = "50+";
     }
 
     if (uvi <= 2) {
       recommendation1 = "Puedes quedarte afuera con seguridad";
-      recommendation2 = "¡No necesitas protector solar de ${fps} fps!";
+      recommendation2 = "¡No necesitas protector solar!";
     } else if (uvi <= 7) {
       recommendation1 = "¡Busca la sombra durante las horas del mediodia!";
       recommendation2 =
-      "¡Ponte una camisa, protector solar de ${fps} fps y un sombrero!";
+          "¡Ponte una camisa, protector solar de ${fps} fps y un sombrero!";
     } else {
       recommendation1 = "¡Evita estar afuera durante las horas del mediodia!";
       recommendation2 = "¡Asegurate de buscar sombra!\n" +
@@ -67,6 +78,13 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
     }
 
     return [
+      TableRow(children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+              "Es recomendable que solo este afuera por ${childInfo.exposureTime?.round()} minutos"),
+        ),
+      ]),
       TableRow(children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -81,17 +99,15 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
       ])
     ];
   }
+
   Widget recomendaciones(childId) {
     return FutureBuilder(
-        future: Future.wait([
-          ChildProvider().getSingleChild(childId),
-          LocationBloc().getUviInfoFromSP()
-        ]),
+        future: getData(childId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data as List;
-            var childInfo = data[0] as ChildExtraInfoDto;
-            var uvInfo = LocationBloc().getFechaMasCercana(data[1], {}, []);
+            var childExtraInfo = data[0] as ChildExtraInfoDto;
+            var uviInfo = data[1] as HourlyDto;
             return Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -122,7 +138,7 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                     border: TableBorder(
                         top: BorderSide(width: 1),
                         horizontalInside: BorderSide(width: 1)),
-                    children: getRecommendation(uvInfo.uvi, childInfo.fps),
+                    children: getRecommendation(uviInfo.uvi, childExtraInfo),
                   )
                 ],
               ),
@@ -175,50 +191,49 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
     }
   }
 
-  deleteChildDialog(childId){
-    return showDialog(context: context, builder: (context) {
-      return AlertDialog(
-        title: Text("Eliminar Perfil del Hijo"),
-        content: Text("¿Estas seguro de eliminar el perfil de este hijo?"),
-        actions: [
-          TextButton(
-                  onPressed: (){
+  deleteChildDialog(childId) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Eliminar Perfil del Hijo"),
+            content: Text("¿Estas seguro de eliminar el perfil de este hijo?"),
+            actions: [
+              TextButton(
+                  onPressed: () {
                     Navigator.of(context).pop();
-                    Utils.homeNavigator.currentState!
-                        .pushReplacementNamed(routeProfile,);
-                CreateChildBloc().deleteChild(childId).then((response) async {
-                  if(response){
-                    //await Future.delayed(Duration(milliseconds: 200));
-                    NotificationUtil().showSnackbar(
-                        context,
-                        "Se ha creado el hijo correctamente",
-                        "success",
-                        null);
-
-
-                  } else {
-                    NotificationUtil().showSnackbar(
-                        context,
-                        "Ha ocurrido un error en la creación",
-                        "error",
-                        null);
-
-                   }
-                  }
-                );
-              },
-              child: Text("Si")),
-          TextButton(
-              onPressed: (){
-                Navigator.of(context).pop();
-              },
-              child: Text("No")),
-
-        ],
-      );
-    });
+                    Utils.homeNavigator.currentState!.pushReplacementNamed(
+                      routeProfile,
+                    );
+                    CreateChildBloc()
+                        .deleteChild(childId)
+                        .then((response) async {
+                      if (response) {
+                        //await Future.delayed(Duration(milliseconds: 200));
+                        NotificationUtil().showSnackbar(
+                            context,
+                            "Se ha creado el hijo correctamente",
+                            "success",
+                            null);
+                      } else {
+                        NotificationUtil().showSnackbar(
+                            context,
+                            "Ha ocurrido un error en la creación",
+                            "error",
+                            null);
+                      }
+                    });
+                  },
+                  child: Text("Si")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("No")),
+            ],
+          );
+        });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -284,14 +299,14 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                   ],
                 ),
                 Align(
-                    alignment: Alignment.topRight,
-                    child:
-                    IconButton(
-                      color: Colors.red,
-                      icon: Icon(Icons.delete),
-                      onPressed: () {
-                        deleteChildDialog(arguments.id);
-                        },),
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    color: Colors.red,
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      deleteChildDialog(arguments.id);
+                    },
+                  ),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,

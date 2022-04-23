@@ -22,8 +22,8 @@ class ChildBloc {
     changechildren(response);
   }
 
-  void getSingleChild(childId) async {
-    var response = await childProvider.getSingleChild(childId);
+  void getSingleChild(childId, uvi) async {
+    var response = await childProvider.getSingleChild(childId, uvi);
     changechild(response);
   }
 }

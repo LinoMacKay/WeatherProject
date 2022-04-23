@@ -22,8 +22,8 @@ class ChildDto {
 }
 
 class ChildExtraInfoDto {
-  int? exposureTime;
-  int? uvi;
+  double? exposureTime;
+  double? uvi;
   String? fps;
   ChildExtraInfoDto({
     required this.exposureTime,
