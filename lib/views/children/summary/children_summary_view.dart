@@ -12,8 +12,13 @@ import 'package:my_project/helper/ui/ui_library.dart';
 import 'package:my_project/model/ChildDto.dart';
 import 'package:my_project/model/UviDto.dart';
 import 'package:my_project/utils/Utils.dart';
+import 'package:my_project/views/tabs/ProfilePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../core/bloc/createChildBloc.dart';
+import '../../../router/routes.dart';
+import '../../../utils/NotificationHelper.dart';
 
 class ChildrenSummaryView extends StatefulWidget {
   const ChildrenSummaryView({Key? key}) : super(key: key);
@@ -38,6 +43,12 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
   void dispose() {
     BackButtonInterceptor.remove(myInterceptor);
     super.dispose();
+  }
+
+
+  @override
+  void didChangeDependencies() {
+
   }
 
   Widget recomendaciones(childId) {
@@ -145,6 +156,52 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
     }
   }
 
+  deleteChildDialog(childId){
+    return showDialog(context: context, builder: (context) {
+      return AlertDialog(
+        title: Text("Eliminar Perfil del Hijo"),
+        content: Text("¿Estas seguro de eliminar el perfil de este hijo?"),
+        actions: [
+          TextButton(
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                    Utils.homeNavigator.currentState!
+                        .pushNamedAndRemoveUntil(routeProfile, (route) =>false
+                    );
+                CreateChildBloc().deleteChild(childId).then((response) async {
+                  if(response){
+                    //await Future.delayed(Duration(milliseconds: 200));
+                    NotificationUtil().showSnackbar(
+                        context,
+                        "Se ha creado el hijo correctamente",
+                        "success",
+                        null);
+
+
+                  } else {
+                    NotificationUtil().showSnackbar(
+                        context,
+                        "Ha ocurrido un error en la creación",
+                        "error",
+                        null);
+
+                   }
+                  }
+                );
+              },
+              child: Text("Si")),
+          TextButton(
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+              child: Text("No")),
+
+        ],
+      );
+    }, barrierDismissible: false);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     ChildDto arguments = ModalRoute.of(context)!.settings.arguments as ChildDto;
@@ -192,9 +249,9 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                         Text('Fecha de Nacimiento: ' +
                             formatNacimiento(arguments.birthday)),
                         Text('Edad: ${getEdad(arguments.birthday)} años'),
-                        SizedBox(
+                        /*SizedBox(
                           height: 15,
-                        )
+                        )*/
                         /*
                         Align(
                           alignment: Alignment.centerRight,
@@ -207,6 +264,16 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                       ],
                     ),
                   ],
+                ),
+                Align(
+                    alignment: Alignment.topRight,
+                    child:
+                    IconButton(
+                      color: Colors.red,
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        deleteChildDialog(arguments.id);
+                        },),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
