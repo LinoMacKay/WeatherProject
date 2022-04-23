@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
@@ -77,12 +78,23 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
           "¡Camisa, protector solar de ${fps} fps y sombrero son imprescendibles!";
     }
 
+    var exposureTime = childInfo.exposureTime;
+    var horas = exposureTime!.toInt();
+    var minutos =
+        (double.tryParse((exposureTime - horas).toStringAsFixed(2))! * 60)
+            .toInt();
+
+    var timeToShow = "";
+    if (horas == 0) {
+      timeToShow = "${minutos} minutos";
+    } else {
+      timeToShow = "${horas} horas y ${minutos} minutos";
+    }
     return [
       TableRow(children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(
-              "Es recomendable que solo este afuera por ${childInfo.exposureTime?.round()} minutos"),
+          child: Text("Es recomendable que solo este afuera por ${timeToShow}"),
         ),
       ]),
       TableRow(children: [
