@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget PopUpUviInfoBoard() {
+  Widget UviRangeBoard() {
     return Column(
       children: [
         Table(
@@ -100,27 +100,92 @@ class _HomeState extends State<Home> {
             _tableRow(["Categoría", "Rango de UVI", "Descripción"],
                 isHeader: true),
             _tableRow(
-                ["Baja", "0-2", "No hay peligro para la persona promedio."]),
+                ["Baja", "0-2", "No hay peligro para la persona promedio."], colorRow: Colors.green,),
             _tableRow([
               "Moderada",
               "3-5",
-              "Poco riesgo de daño por la exposición al sol sin protección"
-            ]),
+              "Poco riesgo de daño por la exposición al sol sin protección"], colorRow: Colors.yellowAccent,),
             _tableRow([
               "Alta",
               "6-7",
-              "Alto riesgo de daño por la exposición al sol sin protección"
-            ]),
+              "Alto riesgo de daño por la exposición al sol sin protección"], colorRow: Colors.orangeAccent,),
             _tableRow([
               "Muy Alta",
               "8-10",
-              "Muy alto riesgo de daño por la exposición al sol sin protección"
-            ]),
+              "Muy alto riesgo de daño por la exposición al sol sin protección"], colorRow: Colors.red,),
             _tableRow([
               "Extremadamente Alta",
               "11+",
-              "Riesgo extremo de daño por la exposición al sol sin protección"
-            ]),
+              "Riesgo extremo de daño por la exposición al sol sin protección"], colorRow: Colors.deepPurpleAccent,),
+          ],
+        )
+      ],
+    );
+  }
+
+
+  Widget FototipoBoardPart1() {
+    return Column(
+      children: [
+        Table(
+          border: TableBorder.all(),
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+          //columnWidths: {2: FixedColumnWidth(120.0)},
+          children: [
+            _tableRow(
+              [Color(0xffbca48c),Color(0xffac8c73), Color(0xff9c7e62),], colorRow: Colors.green, heighContainer: 50),
+            _tableRow([
+              "Skin Type |",
+              "Skin Type ||",
+              "Skin Type |||"], colorRow: Colors.black, colorText: Colors.white, heighContainer: 40),
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget FototipoBoardPart2() {
+    return Column(
+      children: [
+        Table(
+          border: TableBorder.all(),
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+          //columnWidths: {2: FixedColumnWidth(120.0)},
+          children: [
+            _tableRow(
+              [Color(0xff846444),Color(0xff744c24), Color(0xff341c1c),], colorRow: Colors.green, heighContainer: 50),
+            _tableRow([
+              "Skin Type |V",
+              "Skin Type V",
+              "Skin Type V|"], colorRow: Colors.black, colorText: Colors.white, heighContainer: 40),
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget MitoUVBoard() {
+    var heigtCell = 100.0;
+    return Column(
+      children: [
+        Table(
+          border: TableBorder.all(),
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+          columnWidths: {2: FixedColumnWidth(120.0)},
+          children: [
+            _tableRow(["Mito", "Verdad"],
+                isHeader: true, colorRow: Colors.red,colorRowOptional: Colors.green, ),
+            _tableRow(
+              ["No puedes quemarte con el sol en un día nublado", "Hasta el 80% de la radiación UV solar puede penetrar la capa de nubes ligeras. La neblina en la atmósfera puede incluso aumentar la exposición a la radiación UV."], colorRow: Colors.red.shade300,colorRowOptional: Colors.green.shade300, heighContainer: heigtCell),
+            _tableRow([
+              "No puedes quemarte con el sol mientras estás en el agua",
+              "El agua ofrece solo una protección mínima contra la radiación ultravioleta, y los reflejos del agua pueden aumentar la exposición a la radiación ultravioleta."], colorRow: Colors.red.shade300,colorRowOptional: Colors.green.shade300,heighContainer: heigtCell),
+            _tableRow([
+              "La Radiación UV durante el invierno, no es peligrosa",
+              "La radiación ultravioleta es generalmente más baja durante los meses de invierno, pero el reflejo de la nieve puede duplicar su exposición general, especialmente a gran altura. Preste especial atención a principios de la primavera cuando las temperaturas son bajas pero los rayos del sol son inesperadamente fuertes."], colorRow: Colors.red.shade300, colorRowOptional: Colors.green.shade300, heighContainer: heigtCell),
+            _tableRow([
+              "Si no sientes los rayos calientes del sol, no te quemarás.",
+              "Las quemaduras solares son causadas por la radiación UV, la cual que no se puede sentir. El efecto de calor es causado por la radiación infrarroja del sol y no por la radiación UV."], colorRow:Colors.red.shade300, colorRowOptional: Colors.green.shade300,heighContainer: heigtCell),
           ],
         )
       ],
@@ -143,39 +208,25 @@ class _HomeState extends State<Home> {
                     child: Column(
                       children: [
                         Text(
-                          "¿Qué es el UVI?",
+                          "¿Qué significa el FPS en las cremas solares?",
                           style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
+                            color: Colors.blue,
                           ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Container(
+                          color: Colors.blue,
+                          height: 3,
                         ),
                         SizedBox(
                           height: 15,
                         ),
                         Text(
-                            "Proviene del término en inglés UV Index o Índice de radiación Ultravioleta en español, es la métrica de radiación UV en la superficie terrestre, así como un indicador de las posibles lesiones en la piel como consecuencia a la exposición a dicha radiación. Asimismo, depende de diversos factores como la altura del sol, la latitud, la altitud, la nubosidad, el nivel de ozono y la reflexión por el suelo (OMS, 2002). En la siguiente tabla se muestra la escala de este:"),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        PopUpUviInfoBoard(),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Text(
-                          "Fototipo de Piel",
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                            "El fototipo es la capacidad de adaptación al sol que tiene cada persona desde que nace, es decir, el conjunto de características que determinan si una piel se broncea o no, y cómo y en qué grado lo hace. Cuanto más baja sea esta capacidad, menos se contrarrestarán los efectos de las radiaciones solares en la piel (Marín & Del Pozo, 2005). La clasificación más famosa de los fototipos cutáneos es la del Dr. Thomas Fitzpatrick, mostrada en la siguiente tabla:"),
-                        SizedBox(
-                          height: 30,
-                        ),
+                            "Abreviado de Factor de Protección Solar, es un factor que multiplica el tiempo que puede permanecer una persona, con un tipo de piel determinado, expuesta al sol. Por ejemplo, una persona con piel de Tipo I, de acuerdo con la escala de Fitzpatrick, puede exponerse 10 minutos sin quemarse. Al aplicar una crema de protección solar con un FPS de 30, multiplica ese valor por 30, es decir podrá permanecer 300 minutos sin presentar consecuencias por el sol (National Geographic, 2019)."),
                       ],
                     ),
                   ),
@@ -186,7 +237,7 @@ class _HomeState extends State<Home> {
       child: Row(
         children: [
           Text(
-            "¿PREGUNTA 2?",
+            "FPS en cremas solares",
             style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -217,39 +268,24 @@ class _HomeState extends State<Home> {
                     child: Column(
                       children: [
                         Text(
-                          "¿Qué es el UVI?",
+                          "Mitos de la radiación UV",
                           style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
+                            color: Colors.blue
                           ),
                         ),
                         SizedBox(
-                          height: 15,
+                          height: 5,
                         ),
-                        Text(
-                            "Proviene del término en inglés UV Index o Índice de radiación Ultravioleta en español, es la métrica de radiación UV en la superficie terrestre, así como un indicador de las posibles lesiones en la piel como consecuencia a la exposición a dicha radiación. Asimismo, depende de diversos factores como la altura del sol, la latitud, la altitud, la nubosidad, el nivel de ozono y la reflexión por el suelo (OMS, 2002). En la siguiente tabla se muestra la escala de este:"),
+                        Container(
+                          color: Colors.blue,
+                          height: 3,
+                        ),
                         SizedBox(
                           height: 30,
                         ),
-                        PopUpUviInfoBoard(),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Text(
-                          "Fototipo de Piel",
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                            "El fototipo es la capacidad de adaptación al sol que tiene cada persona desde que nace, es decir, el conjunto de características que determinan si una piel se broncea o no, y cómo y en qué grado lo hace. Cuanto más baja sea esta capacidad, menos se contrarrestarán los efectos de las radiaciones solares en la piel (Marín & Del Pozo, 2005). La clasificación más famosa de los fototipos cutáneos es la del Dr. Thomas Fitzpatrick, mostrada en la siguiente tabla:"),
-                        SizedBox(
-                          height: 30,
-                        ),
+                        MitoUVBoard(),
                       ],
                     ),
                   ),
@@ -260,7 +296,7 @@ class _HomeState extends State<Home> {
       child: Row(
         children: [
           Text(
-            "¿PREGUNTA 3?",
+            "Radiación",
             style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -275,21 +311,57 @@ class _HomeState extends State<Home> {
     );
   }
 
-  TableRow _tableRow(List<String> cells, {bool isHeader = false}) {
+  TableRow _tableRow(List<dynamic> cells, {bool isHeader = false, Color colorRow = Colors.white,Color colorRowOptional =  Colors.white, Color colorText = Colors.black, double heighContainer = 80}) {
     return TableRow(
         children: cells.map((cell) {
       final style = TextStyle(
           fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
-          fontSize: isHeader ? 14 : 11);
-      return Padding(
-        padding: const EdgeInsets.all(12),
-        child: Text(
-          cell,
-          style: style,
+          fontSize: isHeader ? 14 : 11,
+          color: colorText);
+      if(cell == cells[1] && cell == cell.toString() && colorRowOptional != Colors.white){
+        return Container(
+        height: heighContainer,
+        color: colorRowOptional,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Align(
+            alignment: isHeader ? Alignment.center: Alignment.centerLeft,
+            child: Text(
+              cell,
+              style: style,
+            ),
+          ),
         ),
       );
+      }
+      else if(cell == cell.toString()){
+        return Container(
+          height: heighContainer,
+          color: colorRow,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Align(
+              alignment: isHeader ? Alignment.center: Alignment.centerLeft,
+              child: Text(
+                cell,
+                style: style,
+              ),
+            ),
+          ),
+          );
+      }
+      else {
+        return Container(
+          height: heighContainer,
+          color: cell,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+          ),
+        );
+      }
     }).toList());
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -349,7 +421,15 @@ class _HomeState extends State<Home> {
                                           style: TextStyle(
                                             fontSize: 30,
                                             fontWeight: FontWeight.bold,
+                                            color: Colors.blue
                                           ),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Container(
+                                          color: Colors.blue,
+                                          height: 3,
                                         ),
                                         SizedBox(
                                           height: 15,
@@ -359,7 +439,7 @@ class _HomeState extends State<Home> {
                                         SizedBox(
                                           height: 30,
                                         ),
-                                        PopUpUviInfoBoard(),
+                                        UviRangeBoard(),
                                         SizedBox(
                                           height: 50,
                                         ),
@@ -378,6 +458,22 @@ class _HomeState extends State<Home> {
                                         SizedBox(
                                           height: 30,
                                         ),
+                                        FototipoBoardPart1(),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        FototipoBoardPart2(),
+                                        SizedBox(
+                                          height: 12,
+                                        ),
+                                        Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Text("Tonos de piel referenciales",
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.grey
+                                                ),),
+                                        )
                                       ],
                                     ),
                                   ),

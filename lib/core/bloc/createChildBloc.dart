@@ -47,6 +47,11 @@ class CreateChildBloc with Validators {
     return response;
   }
 
+  Future<bool> deleteChild(childId) async {
+    var response = await ChildProvider().deleteChild(childId);
+    return response;
+  }
+
   dispose() {
     _nameController.close();
     _birthdayController.close();

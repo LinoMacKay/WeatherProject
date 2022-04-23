@@ -4,6 +4,9 @@ import 'package:my_project/model/ChildDto.dart';
 import 'package:my_project/router/routes.dart';
 import 'package:my_project/utils/Utils.dart';
 
+import '../../core/bloc/createChildBloc.dart';
+import '../../utils/NotificationHelper.dart';
+
 class SingleChildCard extends StatelessWidget {
   ChildDto childDto;
   SingleChildCard(this.childDto);
@@ -30,41 +33,97 @@ class SingleChildCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Container(
-                      child: CircleAvatar(
-                        child: Icon(
-                          Icons.person,
-                          size: 40,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 2.5),
+                      child: Container(
+                        child: CircleAvatar(
+                          child: Icon(
+                            Icons.person,
+                            size: 40,
+                          ),
+                          radius: screenHeight * 0.05,
                         ),
-                        radius: screenHeight * 0.05,
                       ),
                     ),
                   ),
                   Expanded(
                     flex: 3,
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            childDto.name,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            DateFormat('dd-MM-yyyy', 'es_ES')
-                                .format(DateTime.tryParse(childDto.birthday)!),
-                            style: TextStyle(
-                                color: Color.fromRGBO(161, 164, 182, 1),
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 3.0),
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              childDto.name,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              DateFormat('dd-MM-yyyy', 'es_ES')
+                                  .format(DateTime.tryParse(childDto.birthday)!),
+                              style: TextStyle(
+                                  color: Color.fromRGBO(161, 164, 182, 1),
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  )
+                  ),
+                  IconButton(
+                    color: Colors.red,
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                       showDialog(context: context, builder: (context) {
+                        return AlertDialog(
+                          title: Text("Eliminar Perfil del Hijo"),
+                          content: Text("¿Estas seguro de eliminar el perfil de este hijo?"),
+                          actions: [
+                            TextButton(
+                                onPressed: (){
+                                  Navigator.of(context).pop();
+                                  //Utils.homeNavigator.currentState!.pushNamedAndRemoveUntil(routeProfile, (route) =>false);
+                                  CreateChildBloc().deleteChild(childDto.id).then((response)  {
+                                    if(response){
+                                      Utils.homeNavigator.currentState!
+                                          .pushReplacementNamed(routeProfile);
+                                      //await Future.delayed(Duration(milliseconds: 200));
+                                      NotificationUtil().showSnackbar(
+                                          context,
+                                          "Se ha creado el hijo correctamente",
+                                          "success",
+                                          null);
+
+
+                                    } else {
+                                      NotificationUtil().showSnackbar(
+                                          context,
+                                          "Ha ocurrido un error en la creación",
+                                          "error",
+                                          null);
+
+                                    }
+                                  }
+                                  );
+                                },
+                                child: Text("Si")),
+                            TextButton(
+                                onPressed: (){
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("No")),
+
+                              ],
+                            );
+                          },
+                       );
+                      //deleteChildDialog(arguments.id);
+                    },)
                 ],
               ),
             )),

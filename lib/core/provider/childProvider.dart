@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:http/http.dart' as http;
 import 'package:my_project/model/ChildDto.dart';
@@ -68,4 +69,22 @@ class ChildProvider {
       return Future.error("Internal Server Error");
     }
   }
+
+  Future<bool> deleteChild(childId) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String url = 'https://uvbackend.azurewebsites.net/Profile/DeleteProfile?profileId=${childId}';
+    Uri uri = Uri.parse(url);
+
+    var response = await http.delete(uri,
+         headers: {"Content-Type": "application/json"});
+
+    if (response.statusCode == 200) {
+      //dynamic jsonresponse = json.decode(response.body);
+      return true;
+    } else {
+      return Future.error("Internal Server Error");
+    }
+  }
+
 }
