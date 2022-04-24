@@ -123,47 +123,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-
-  Widget FototipoBoardPart1() {
-    return Column(
-      children: [
-        Table(
-          border: TableBorder.all(),
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          //columnWidths: {2: FixedColumnWidth(120.0)},
-          children: [
-            _tableRow(
-              [Color(0xffbca48c),Color(0xffac8c73), Color(0xff9c7e62),], colorRow: Colors.green, heighContainer: 50),
-            _tableRow([
-              "Skin Type |",
-              "Skin Type ||",
-              "Skin Type |||"], colorRow: Colors.black, colorText: Colors.white, heighContainer: 40),
-          ],
-        )
-      ],
-    );
-  }
-
-  Widget FototipoBoardPart2() {
-    return Column(
-      children: [
-        Table(
-          border: TableBorder.all(),
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          //columnWidths: {2: FixedColumnWidth(120.0)},
-          children: [
-            _tableRow(
-              [Color(0xff846444),Color(0xff744c24), Color(0xff341c1c),], colorRow: Colors.green, heighContainer: 50),
-            _tableRow([
-              "Skin Type |V",
-              "Skin Type V",
-              "Skin Type V|"], colorRow: Colors.black, colorText: Colors.white, heighContainer: 40),
-          ],
-        )
-      ],
-    );
-  }
-
   Widget MitoUVBoard() {
     var heigtCell = 100.0;
     return Column(
@@ -440,40 +399,6 @@ class _HomeState extends State<Home> {
                                           height: 30,
                                         ),
                                         UviRangeBoard(),
-                                        SizedBox(
-                                          height: 50,
-                                        ),
-                                        Text(
-                                          "Fototipo de Piel",
-                                          style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text(
-                                            "El fototipo es la capacidad de adaptación al sol que tiene cada persona desde que nace, es decir, el conjunto de características que determinan si una piel se broncea o no, y cómo y en qué grado lo hace. Cuanto más baja sea esta capacidad, menos se contrarrestarán los efectos de las radiaciones solares en la piel (Marín & Del Pozo, 2005). La clasificación más famosa de los fototipos cutáneos es la del Dr. Thomas Fitzpatrick, mostrada en la siguiente tabla:"),
-                                        SizedBox(
-                                          height: 30,
-                                        ),
-                                        FototipoBoardPart1(),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        FototipoBoardPart2(),
-                                        SizedBox(
-                                          height: 12,
-                                        ),
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Text("Tonos de piel referenciales",
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.grey
-                                                ),),
-                                        )
                                       ],
                                     ),
                                   ),
