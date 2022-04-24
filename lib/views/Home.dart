@@ -12,6 +12,8 @@ import 'package:my_project/utils/Utils.dart';
 import 'package:my_project/views/user/location/components/no_children_component.dart';
 import 'package:my_project/views/user/uv/user_uv_summary.dart';
 
+import '../helper/constants/recomendaciones.dart';
+
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
 
@@ -25,6 +27,8 @@ class _HomeState extends State<Home> {
   var futureLocation;
   HomeInfoDto homeInfoDto = HomeInfoDto(
       horario: HourlyDto(0, 0, 0, 0), considerUv: "", highestUv: "");
+
+  RecomendacionesDiarias listRecomendaciones = RecomendacionesDiarias();
 
   String userName = " ";
   @override
@@ -276,17 +280,18 @@ class _HomeState extends State<Home> {
         showDialog(
             context: context,
             builder: (ctx) {
+              var recomRandom = Random().nextInt(listRecomendaciones.recomendaciones.length);
               return Dialog(
                 insetPadding: EdgeInsets.all(10),
                 child: Container(
                   padding: EdgeInsets.all(10),
                   width: screenWidth,
-                  height: screenHeight * 0.6,
+                  //height: screenHeight * 0.6,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
                         Text(
-                          "¿Qué es el Fototipo?",
+                          "Recomendación de Protección Solar Generales",
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         ),
@@ -294,7 +299,7 @@ class _HomeState extends State<Home> {
                           height: 15,
                         ),
                         Text(
-                            "El fototipo es la capacidad de adaptación al sol que tiene cada persona desde que nace, es decir, el conjunto de características que determinan si una piel se broncea o no, y cómo y en qué grado lo hace. Cuanto más baja sea esta capacidad, menos se contrarrestarán los efectos de las radiaciones solares en la piel (Marín & Del Pozo, 2005). La clasificación más famosa de los fototipos cutáneos es la del Dr. Thomas Fitzpatrick, mostrada en la siguiente tabla:"
+                            listRecomendaciones.recomendaciones[recomRandom]
                         ),
                         SizedBox(
                           height: 30,
@@ -305,14 +310,6 @@ class _HomeState extends State<Home> {
                         SizedBox(
                           height: 12,
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Text("Tonos de piel referenciales",
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey
-                            ),),
-                        )
                       ],
                     ),
                   ),
