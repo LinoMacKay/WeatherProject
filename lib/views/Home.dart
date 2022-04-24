@@ -270,6 +270,66 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget Recomendacion(screenWidth, screenHeight) {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (ctx) {
+              return Dialog(
+                insetPadding: EdgeInsets.all(10),
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  width: screenWidth,
+                  height: screenHeight * 0.6,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Text(
+                          "¿Qué es el Fototipo?",
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                            "El fototipo es la capacidad de adaptación al sol que tiene cada persona desde que nace, es decir, el conjunto de características que determinan si una piel se broncea o no, y cómo y en qué grado lo hace. Cuanto más baja sea esta capacidad, menos se contrarrestarán los efectos de las radiaciones solares en la piel (Marín & Del Pozo, 2005). La clasificación más famosa de los fototipos cutáneos es la del Dr. Thomas Fitzpatrick, mostrada en la siguiente tabla:"
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text("Tonos de piel referenciales",
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey
+                            ),),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            });
+      },
+      child: Text(
+        'Recomendación del día',
+        style: TextStyle(
+          color: Colors.blue,
+          decoration: TextDecoration.underline,
+        ),
+      ),
+    );
+  }
+
   TableRow _tableRow(List<dynamic> cells, {bool isHeader = false, Color colorRow = Colors.white,Color colorRowOptional =  Colors.white, Color colorText = Colors.black, double heighContainer = 80}) {
     return TableRow(
         children: cells.map((cell) {
@@ -356,6 +416,12 @@ class _HomeState extends State<Home> {
                       appName: "Appname",
                     ),
                   ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: Recomendacion(screenWidth, screenHeight)),
                   SizedBox(
                     height: 15,
                   ),
