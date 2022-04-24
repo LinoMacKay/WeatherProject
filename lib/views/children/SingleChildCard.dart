@@ -7,9 +7,20 @@ import 'package:my_project/utils/Utils.dart';
 import '../../core/bloc/createChildBloc.dart';
 import '../../utils/NotificationHelper.dart';
 
-class SingleChildCard extends StatelessWidget {
+class SingleChildCard extends StatefulWidget {
   ChildDto childDto;
   SingleChildCard(this.childDto);
+
+  @override
+  State<SingleChildCard> createState() => _SingleChildCardState();
+}
+
+class _SingleChildCardState extends State<SingleChildCard> {
+  @override
+  void dispose() {
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +29,7 @@ class SingleChildCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Utils.homeNavigator.currentState!
-            .pushNamed(routeChildrenDetail, arguments: childDto);
+            .pushNamed(routeChildrenDetail, arguments: widget.childDto);
       },
       child: Container(
         padding: const EdgeInsets.all(8.0),
@@ -60,12 +71,12 @@ class SingleChildCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              childDto.name,
+                              widget.childDto.name,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              DateFormat('dd-MM-yyyy', 'es_ES')
-                                  .format(DateTime.tryParse(childDto.birthday)!),
+                              DateFormat('dd-MM-yyyy', 'es_ES').format(
+                                  DateTime.tryParse(widget.childDto.birthday)!),
                               style: TextStyle(
                                   color: Color.fromRGBO(161, 164, 182, 1),
                                   fontWeight: FontWeight.w500),
@@ -79,51 +90,53 @@ class SingleChildCard extends StatelessWidget {
                     color: Colors.red,
                     icon: Icon(Icons.delete),
                     onPressed: () {
-                       showDialog(context: context, builder: (context) {
-                        return AlertDialog(
-                          title: Text("Eliminar Perfil del Hijo"),
-                          content: Text("¿Estas seguro de eliminar el perfil de este hijo?"),
-                          actions: [
-                            TextButton(
-                                onPressed: (){
-                                  Navigator.of(context).pop();
-                                  //Utils.homeNavigator.currentState!.pushNamedAndRemoveUntil(routeProfile, (route) =>false);
-                                  CreateChildBloc().deleteChild(childDto.id).then((response)  {
-                                    if(response){
-                                      Utils.homeNavigator.currentState!
-                                          .pushReplacementNamed(routeProfile);
-                                      //await Future.delayed(Duration(milliseconds: 200));
-                                      NotificationUtil().showSnackbar(
-                                          context,
-                                          "Se ha creado el hijo correctamente",
-                                          "success",
-                                          null);
-
-
-                                    } else {
-                                      NotificationUtil().showSnackbar(
-                                          context,
-                                          "Ha ocurrido un error en la creación",
-                                          "error",
-                                          null);
-
-                                    }
-                                  }
-                                  );
-                                },
-                                child: Text("Si")),
-                            TextButton(
-                                onPressed: (){
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("No")),
-
-                              ],
-                            );
-                          },
-                       );
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Eliminar Perfil del Hijo"),
+                            content: Text(
+                                "¿Estas seguro de eliminar el perfil de este hijo?"),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    //Utils.homeNavigator.currentState!.pushNamedAndRemoveUntil(routeProfile, (route) =>false);
+                                    CreateChildBloc()
+                                        .deleteChild(widget.childDto.id)
+                                        .then((response) async {
+                                      if (response) {
+                                        Utils.homeNavigator.currentState!
+                                            .pushReplacementNamed(routeProfile);
+                                        await Future.delayed(
+                                            Duration(milliseconds: 200));
+                                        NotificationUtil().showSnackbar(
+                                            context,
+                                            "Se ha eliminado el hijo correctamente",
+                                            "success",
+                                            null);
+                                      } else {
+                                        NotificationUtil().showSnackbar(
+                                            context,
+                                            "Ha ocurrido un error en la eliminación",
+                                            "error",
+                                            null);
+                                      }
+                                    });
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("Si")),
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("No")),
+                            ],
+                          );
+                        },
+                      );
                       //deleteChildDialog(arguments.id);
-                    },)
+                    },
+                  )
                 ],
               ),
             )),

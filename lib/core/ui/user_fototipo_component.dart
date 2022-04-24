@@ -18,8 +18,8 @@ class UserFototipoComponent extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             FototipoOptionComponent(model: model),
-            const SizedBox(width: 40),
-            Row(
+            // const SizedBox(width: 40),
+            /* Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: const <Widget>[
                 Icon(
@@ -29,7 +29,7 @@ class UserFototipoComponent extends StatelessWidget {
                 SizedBox(width: 50),
                 Text('Cambiar fototipo'),
               ],
-            ),
+            ),*/
             const SizedBox(width: 60),
             Text(' *El tono de piel mostrado es referencial'),
           ],

@@ -237,27 +237,27 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
             actions: [
               TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    Utils.homeNavigator.currentState!.pushReplacementNamed(
-                      routeProfile,
-                    );
                     CreateChildBloc()
                         .deleteChild(childId)
                         .then((response) async {
                       if (response) {
-                        //await Future.delayed(Duration(milliseconds: 200));
+                        await Future.delayed(Duration(milliseconds: 200));
                         NotificationUtil().showSnackbar(
                             context,
-                            "Se ha creado el hijo correctamente",
+                            "Se ha eliminado el hijo correctamente",
                             "success",
                             null);
                       } else {
                         NotificationUtil().showSnackbar(
                             context,
-                            "Ha ocurrido un error en la creación",
+                            "Ha ocurrido un error en la eliminación",
                             "error",
                             null);
                       }
+                      Navigator.of(context).pop();
+                      Utils.homeNavigator.currentState!.pushReplacementNamed(
+                        routeProfile,
+                      );
                     });
                   },
                   child: Text("Si")),
@@ -276,7 +276,6 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
     ChildDto arguments = ModalRoute.of(context)!.settings.arguments as ChildDto;
-    print(arguments);
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.grey.withOpacity(0),
@@ -312,10 +311,9 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                                   iconSize: 30,
                                   onPressed: () {
                                     //Navigator.push(context,MaterialPageRoute(builder: (context) => ChildrenUpdateView(arguments)));
-                                    Utils.homeNavigator.currentState!
-                                        .pushNamed(
-                                      routeChildrenUpdateUpdate,arguments: arguments
-                                    );
+                                    Utils.homeNavigator.currentState!.pushNamed(
+                                        routeChildrenUpdateUpdate,
+                                        arguments: arguments);
                                   },
                                 ),
                               ],
@@ -331,7 +329,6 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                         Text('Fecha de Nacimiento: ' +
                             formatNacimiento(arguments.birthday)),
                         Text('Edad: ${getEdad(arguments.birthday)} años'),
-                        
                       ],
                     ),
                   ],
