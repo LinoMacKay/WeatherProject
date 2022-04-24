@@ -21,8 +21,12 @@ class UserProvider {
 
     if (response.statusCode == 200) {
       dynamic jsonresponse = json.decode(response.body);
-      await saveLogin(jsonresponse);
-      return true;
+      if (jsonresponse['message'] == null) {
+        await saveLogin(jsonresponse);
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return Future.error("Internal Server Error");
     }
@@ -45,11 +49,14 @@ class UserProvider {
     String url = 'https://uvbackend.azurewebsites.net/Auth/Register';
     Uri uri = Uri.parse(url);
 
-    var body = {"UserName": registerDto.user, "Password": registerDto.password,"Email": registerDto.email};
+    var body = {
+      "UserName": registerDto.user,
+      "Password": registerDto.password,
+      "Email": registerDto.email
+    };
 
-    var response = await http.post(uri, body: json.encode(body), headers: {
-      "Content-Type": "application/json"
-    });
+    var response = await http.post(uri,
+        body: json.encode(body), headers: {"Content-Type": "application/json"});
 
     if (response.statusCode == 200) {
       return true;

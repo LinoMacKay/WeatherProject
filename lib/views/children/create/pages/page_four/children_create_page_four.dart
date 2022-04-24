@@ -1,9 +1,12 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
+import 'package:my_project/core/bloc/createChildBloc.dart';
 import 'package:my_project/data/viewmodels/create_children_quote.dart';
 import 'package:my_project/data/viewmodels/fototipo_option.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
+import 'package:my_project/model/CreateChildDto.dart';
 import 'package:my_project/router/routes.dart';
+import 'package:my_project/utils/NotificationHelper.dart';
 import 'package:my_project/utils/Utils.dart';
 import 'package:my_project/views/children/create/pages/page_one/children_create_page_one_form.dart';
 import 'package:my_project/views/children/create/pages/page_three/components/fototipo_option_component.dart';
@@ -49,7 +52,31 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
     widget.selectedOptions.forEach((element) {
       puntosTotales = element!.point + puntosTotales;
     });
+    var fototipo = "";
+    if (puntosTotales <= 6) {
+      fototipo = "I";
+    } else if (puntosTotales <= 13) {
+      fototipo = "II";
+    } else if (puntosTotales <= 20) {
+      fototipo = "III";
+    } else if (puntosTotales <= 27) {
+      fototipo = "IV";
+    } else if (puntosTotales <= 34) {
+      fototipo = "V";
+    } else {
+      fototipo = "VI";
+    }
+    widget.fototipoOptionViewmodel.name = fototipo;
     return puntosTotales.toString();
+  }
+
+  CreateChildDto createChild() {
+    CreateChildDto createChildDto = CreateChildDto();
+    createChildDto.birthday = widget.form.dateFormattedForBackend;
+    createChildDto.name = widget.form.nameController.text;
+    createChildDto.score = getTotalPoints();
+
+    return createChildDto;
   }
 
   @override
@@ -159,10 +186,13 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
             const SizedBox(height: 20),
             Text('Puntos: ' + getTotalPoints()),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const Text('Fototipo'),
+                const Text(
+                  'Fototipo',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 FototipoOptionComponent(model: widget.fototipoOptionViewmodel),
               ],
             ),
@@ -182,8 +212,26 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
                     backgroundColor: Colors.red,
                     child: Icon(Icons.done),
                     onPressed: () {
-                      Utils.homeNavigator.currentState!
-                          .pushReplacementNamed(routeHome);
+                      CreateChildBloc()
+                          .createChild(createChild())
+                          .then((value) async {
+                        if (value) {
+                          await Future.delayed(Duration(milliseconds: 200));
+                          NotificationUtil().showSnackbar(
+                              context,
+                              "Se ha creado el hijo correctamente",
+                              "success",
+                              null);
+                          Utils.homeNavigator.currentState!
+                              .pushReplacementNamed(routeHome);
+                        } else {
+                          NotificationUtil().showSnackbar(
+                              context,
+                              "Ha ocurrido un error en la creación",
+                              "error",
+                              null);
+                        }
+                      });
                     }),
               ],
             ),

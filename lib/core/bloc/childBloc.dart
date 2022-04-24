@@ -11,8 +11,19 @@ class ChildBloc {
   Function(List<ChildDto>) get changechildren => _childrenController.sink.add;
   List<ChildDto> get children => _childrenController.value;
 
+  BehaviorSubject<ChildExtraInfoDto> _childController =
+      BehaviorSubject<ChildExtraInfoDto>();
+  Stream<ChildExtraInfoDto> get childStream => _childController.stream;
+  Function(ChildExtraInfoDto) get changechild => _childController.sink.add;
+  ChildExtraInfoDto get child => _childController.value;
+
   void getChildren(userId) async {
     var response = await childProvider.getAllChildsFromFather(userId);
     changechildren(response);
+  }
+
+  void getSingleChild(childId, uvi) async {
+    var response = await childProvider.getSingleChild(childId, uvi);
+    changechild(response);
   }
 }

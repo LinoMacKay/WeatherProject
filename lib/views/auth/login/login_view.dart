@@ -3,6 +3,7 @@ import 'package:my_project/core/bloc/loginBloc.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
 import 'package:my_project/model/LoginDto.dart';
 import 'package:my_project/router/routes.dart';
+import 'package:my_project/utils/NotificationHelper.dart';
 import 'package:my_project/utils/Utils.dart';
 
 class LoginView extends StatefulWidget {
@@ -173,14 +174,32 @@ class _LoginViewState extends State<LoginView> {
                                           });
                                           var result = await _saveForm();
                                           if (result) {
+                                            NotificationUtil().showSnackbar(
+                                                context,
+                                                "Ha ingresado correctamente. Bienvenido",
+                                                "success",
+                                                null);
+                                            await Future.delayed(
+                                                Duration(milliseconds: 200));
                                             Utils.mainNavigator.currentState!
                                                 .pushNamed(routeHome)
-                                                .then((value) {
-                                              setState(() {
-                                                isLoading = false;
-                                              });
-                                            });
+                                                .then((value) {});
+                                          } else {
+                                            NotificationUtil().showSnackbar(
+                                                context,
+                                                "Ha ocurrido un error, reintente nuevamente",
+                                                "error",
+                                                null);
                                           }
+                                          setState(() {
+                                            isLoading = false;
+                                          });
+                                        } else {
+                                          NotificationUtil().showSnackbar(
+                                              context,
+                                              "Por favor rellene los campos de incio de sesión",
+                                              "error",
+                                              null);
                                         }
                                       },
                                       child: isLoading

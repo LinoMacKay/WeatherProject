@@ -10,14 +10,12 @@ import '../../../model/ChildDto.dart';
 import '../../../model/UpdateChildDto.dart';
 import '../../../utils/Utils.dart';
 
-
 class ChildrenUpdateView extends StatelessWidget {
-  
   ChildrenUpdateView({Key? key}) : super(key: key);
   final formkey = GlobalKey<FormState>();
 
-   UpdateChildDto updateChildDto = UpdateChildDto();
-   ChildProvider childProvider = ChildProvider();
+  UpdateChildDto updateChildDto = UpdateChildDto();
+  ChildProvider childProvider = ChildProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -54,25 +52,25 @@ class ChildrenUpdateView extends StatelessWidget {
                       controller: birthdayController,
                     ),*/
                     TextFormField(
-                    initialValue: child.name,
-                    decoration: InputDecoration(
-                        icon: Icon(Icons.person),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.black),
-                        ),
-                        labelText: 'Usuario'),
-                        onSaved:(value) => updateChildDto.name = value.toString(),
-                        
+                        initialValue: child.name,
+                        decoration: InputDecoration(
+                            icon: Icon(Icons.person),
+                            border: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.black),
+                            ),
+                            labelText: 'Usuario'),
+                        onSaved: (value) =>
+                            updateChildDto.name = value.toString(),
                         validator: (value) {
                           print(value);
-                          if(value!.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'El nombre es requerido';
-                          }else{
+                          } else {
                             return null;
                           }
-                        }
-                  ),
-                  /*TextFormField(
+                        }),
+                    /*TextFormField(
                     initialValue: formatNacimiento(child.birthday),
                     decoration: InputDecoration(
                         icon: Icon(Icons.person),
@@ -99,8 +97,9 @@ class ChildrenUpdateView extends StatelessWidget {
                               Navigator.of(context).pop();
                               updateChildDto.id = child.id;
                               CreateChildBloc().updateChild(updateChildDto);
-                              
-                            }, text: 'Continuar', width: 120),
+                            },
+                            text: 'Continuar',
+                            width: 120),
                       ],
                     ),
                   ],
@@ -113,7 +112,6 @@ class ChildrenUpdateView extends StatelessWidget {
     );
   }
 }
-
 
 String formatNacimiento(birthday) {
   var fecha = DateTime.tryParse(birthday);

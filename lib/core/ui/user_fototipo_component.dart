@@ -4,15 +4,18 @@ import 'package:my_project/views/children/create/pages/page_three/components/fot
 
 class UserFototipoComponent extends StatelessWidget {
   final FototipoOptionViewmodel? model;
-  const UserFototipoComponent({Key? key, this.model}) : super(key: key);
+  String nombreHijo;
+  UserFototipoComponent({required this.model, required this.nombreHijo});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        const Text('El fototipo de Karla según la escala de Fitzpatrick es logotipo II'),
+        Text(
+            'El fototipo de ${nombreHijo} según la escala de Fitzpatrick es ${model!.name}'),
         const SizedBox(height: 10),
-        Row(
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             FototipoOptionComponent(model: model),
             const SizedBox(width: 40),
@@ -27,6 +30,8 @@ class UserFototipoComponent extends StatelessWidget {
                 Text('Cambiar fototipo'),
               ],
             ),
+            const SizedBox(width: 60),
+            Text(' *El tono de piel mostrado es referencial'),
           ],
         ),
       ],

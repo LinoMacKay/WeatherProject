@@ -48,13 +48,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   if (snapshot.hasData) {
                     var children = snapshot.data as List;
                     return Expanded(
-                      child: ListView.builder(
-                          itemCount: children.length,
-                          shrinkWrap: true,
-                          itemBuilder: (ctx, indx) {
-                            return SingleChildCard(children[indx]);
-                          }),
-                    );
+                        child: children.length > 0
+                            ? ListView.builder(
+                                itemCount: children.length,
+                                shrinkWrap: true,
+                                itemBuilder: (ctx, indx) {
+                                  return SingleChildCard(children[indx]);
+                                })
+                            : Center(
+                                child: Text(
+                                    "Usted no cuenta con ningun hijo registrado"),
+                              ));
                   } else {
                     return Container(
                       width: 50,

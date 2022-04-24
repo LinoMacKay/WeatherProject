@@ -10,6 +10,31 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  Widget _section(String title, Function? onPressed) {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      Expanded(
+        child: Material(
+          shape: Border(bottom: BorderSide(width: 2, color: Colors.black)),
+          child: TextButton(
+            style: TextButton.styleFrom(primary: Colors.black),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                title,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black),
+              ),
+            ),
+            onPressed: onPressed!(),
+          ),
+        ),
+      ),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -25,6 +50,7 @@ class _SettingsPageState extends State<SettingsPage> {
               "Configuración",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
+            _section("Configuración de cuenta", () {}),
             Expanded(child: SizedBox()),
             ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(primary: Colors.red),
