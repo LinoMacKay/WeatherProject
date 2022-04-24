@@ -56,7 +56,8 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
     super.dispose();
   }
 
-  List<TableRow> getRecommendation(uvi, ChildExtraInfoDto childInfo) {
+  List<TableRow> getRecommendation(
+      uvi, ChildExtraInfoDto childInfo, screenWidth, screenHeight) {
     var recommendation1 = "";
     var recommendation2 = "";
 
@@ -91,12 +92,43 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
       timeToShow = "${horas} horas y ${minutos} minutos";
     }
     return [
-      TableRow(children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text("Es recomendable que solo este afuera por ${timeToShow}"),
-        ),
-      ]),
+      if (exposureTime > 0)
+        TableRow(children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Text("Posible quemadura solar en ${timeToShow}"),
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (builder) {
+                          return Dialog(
+                            insetPadding: EdgeInsets.all(10),
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              width: screenWidth,
+                              height: screenHeight * 0.15,
+                              child: Center(
+                                  child: Text(
+                                "*La quemadura solar es una clara señal de sobredosis de rayos UV. No es recomendable tomar ese tiempo como un período exposición segura.",
+                                style: TextStyle(fontStyle: FontStyle.italic),
+                              )),
+                            ),
+                          );
+                        });
+                  },
+                  child: Icon(
+                    Icons.info,
+                    color: Colors.blue,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ]),
       TableRow(children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -112,7 +144,7 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
     ];
   }
 
-  Widget recomendaciones(childId) {
+  Widget recomendaciones(childId, screenWidth, screenHeight) {
     return FutureBuilder(
         future: getData(childId),
         builder: (context, snapshot) {
@@ -131,26 +163,13 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                       border: TableBorder.symmetric(
                         inside: BorderSide(width: 1),
                       ),
-                      children: [
-                        TableRow(
-                            decoration: BoxDecoration(
-                                color: Colors.blueAccent,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(8),
-                                    topRight: Radius.circular(8))),
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.all(8.0),
-                                child:
-                                    Text('Tiempo Máximo de Exposición al Sol'),
-                              ),
-                            ]),
-                      ]),
+                      children: []),
                   Table(
                     border: TableBorder(
                         top: BorderSide(width: 1),
                         horizontalInside: BorderSide(width: 1)),
-                    children: getRecommendation(uviInfo.uvi, childExtraInfo),
+                    children: getRecommendation(
+                        uviInfo.uvi, childExtraInfo, screenWidth, screenHeight),
                   )
                 ],
               ),
@@ -249,6 +268,8 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
     ChildDto arguments = ModalRoute.of(context)!.settings.arguments as ChildDto;
     print(arguments);
     return Scaffold(
@@ -337,10 +358,10 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                     GestureDetector(
                       onTap: () {
                         launchURL(
-                            "https://www.dermcollective.com/flitzpatrick.skin-types/");
+                            "https://portal.inen.sld.pe/wp-content/uploads/2019/10/Cancer-de-piel-2018-op2_final.pdf");
                       },
                       child: Text(
-                        'https://www.dermcollective.com/flitzpatrick.skin-types/',
+                        'https://portal.inen.sld.pe/wp-content/uploads/2019/10/Cancer-de-piel-2018-op2_final.pdf',
                         style: TextStyle(color: Colors.blue),
                       ),
                     ),
@@ -355,7 +376,7 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                 SizedBox(height: 15),
                 Text('Recomendaciones e indicaciones para su hijo'),
                 SizedBox(height: 15),
-                recomendaciones(arguments.id),
+                recomendaciones(arguments.id, screenWidth, screenHeight),
               ],
             ),
           ),

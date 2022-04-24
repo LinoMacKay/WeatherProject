@@ -32,8 +32,8 @@ class ChildExtraInfoDto {
   });
   factory ChildExtraInfoDto.fromJson(Map<String, dynamic> childJson) {
     return ChildExtraInfoDto(
-        exposureTime: childJson['exposureTime'],
+        exposureTime: childJson['exposureTime'] * 1.0,
         fps: childJson['fps'],
-        uvi: childJson['uvi']);
+        uvi: childJson['uvi'] * 1.0);
   }
 }
