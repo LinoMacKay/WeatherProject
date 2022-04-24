@@ -67,6 +67,8 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
     var fps = childInfo.fps;
     if (fps == "50") {
       fps = "50+";
+    } else if (fps == "15") {
+      fps = "al menos 15";
     }
 
     if (uvi <= 2) {

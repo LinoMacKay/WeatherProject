@@ -12,6 +12,8 @@ import 'package:my_project/utils/Utils.dart';
 import 'package:my_project/views/user/location/components/no_children_component.dart';
 import 'package:my_project/views/user/uv/user_uv_summary.dart';
 
+import '../helper/constants/recomendaciones.dart';
+
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
 
@@ -25,6 +27,8 @@ class _HomeState extends State<Home> {
   var futureLocation;
   HomeInfoDto homeInfoDto = HomeInfoDto(
       horario: HourlyDto(0, 0, 0, 0), considerUv: "", highestUv: "");
+
+  RecomendacionesDiarias listRecomendaciones = RecomendacionesDiarias();
 
   String userName = " ";
   @override
@@ -100,64 +104,41 @@ class _HomeState extends State<Home> {
             _tableRow(["Categoría", "Rango de UVI", "Descripción"],
                 isHeader: true),
             _tableRow(
-                ["Baja", "0-2", "No hay peligro para la persona promedio."], colorRow: Colors.green,),
-            _tableRow([
-              "Moderada",
-              "3-5",
-              "Poco riesgo de daño por la exposición al sol sin protección"], colorRow: Colors.yellowAccent,),
-            _tableRow([
-              "Alta",
-              "6-7",
-              "Alto riesgo de daño por la exposición al sol sin protección"], colorRow: Colors.orangeAccent,),
-            _tableRow([
-              "Muy Alta",
-              "8-10",
-              "Muy alto riesgo de daño por la exposición al sol sin protección"], colorRow: Colors.red,),
-            _tableRow([
-              "Extremadamente Alta",
-              "11+",
-              "Riesgo extremo de daño por la exposición al sol sin protección"], colorRow: Colors.deepPurpleAccent,),
-          ],
-        )
-      ],
-    );
-  }
-
-
-  Widget FototipoBoardPart1() {
-    return Column(
-      children: [
-        Table(
-          border: TableBorder.all(),
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          //columnWidths: {2: FixedColumnWidth(120.0)},
-          children: [
+              ["Baja", "0-2", "No hay peligro para la persona promedio."],
+              colorRow: Colors.green,
+            ),
             _tableRow(
-              [Color(0xffbca48c),Color(0xffac8c73), Color(0xff9c7e62),], colorRow: Colors.green, heighContainer: 50),
-            _tableRow([
-              "Skin Type |",
-              "Skin Type ||",
-              "Skin Type |||"], colorRow: Colors.black, colorText: Colors.white, heighContainer: 40),
-          ],
-        )
-      ],
-    );
-  }
-
-  Widget FototipoBoardPart2() {
-    return Column(
-      children: [
-        Table(
-          border: TableBorder.all(),
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          //columnWidths: {2: FixedColumnWidth(120.0)},
-          children: [
+              [
+                "Moderada",
+                "3-5",
+                "Poco riesgo de daño por la exposición al sol sin protección"
+              ],
+              colorRow: Colors.yellowAccent,
+            ),
             _tableRow(
-              [Color(0xff846444),Color(0xff744c24), Color(0xff341c1c),], colorRow: Colors.green, heighContainer: 50),
-            _tableRow([
-              "Skin Type |V",
-              "Skin Type V",
-              "Skin Type V|"], colorRow: Colors.black, colorText: Colors.white, heighContainer: 40),
+              [
+                "Alta",
+                "6-7",
+                "Alto riesgo de daño por la exposición al sol sin protección"
+              ],
+              colorRow: Colors.orangeAccent,
+            ),
+            _tableRow(
+              [
+                "Muy Alta",
+                "8-10",
+                "Muy alto riesgo de daño por la exposición al sol sin protección"
+              ],
+              colorRow: Colors.red,
+            ),
+            _tableRow(
+              [
+                "Extremadamente Alta",
+                "11+",
+                "Riesgo extremo de daño por la exposición al sol sin protección"
+              ],
+              colorRow: Colors.deepPurpleAccent,
+            ),
           ],
         )
       ],
@@ -173,19 +154,40 @@ class _HomeState extends State<Home> {
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           columnWidths: {2: FixedColumnWidth(120.0)},
           children: [
-            _tableRow(["Mito", "Verdad"],
-                isHeader: true, colorRow: Colors.red,colorRowOptional: Colors.green, ),
             _tableRow(
-              ["No puedes quemarte con el sol en un día nublado", "Hasta el 80% de la radiación UV solar puede penetrar la capa de nubes ligeras. La neblina en la atmósfera puede incluso aumentar la exposición a la radiación UV."], colorRow: Colors.red.shade300,colorRowOptional: Colors.green.shade300, heighContainer: heigtCell),
+              ["Mito", "Verdad"],
+              isHeader: true,
+              colorRow: Colors.red,
+              colorRowOptional: Colors.green,
+            ),
+            _tableRow([
+              "No puedes quemarte con el sol en un día nublado",
+              "Hasta el 80% de la radiación UV solar puede penetrar la capa de nubes ligeras. La neblina en la atmósfera puede incluso aumentar la exposición a la radiación UV."
+            ],
+                colorRow: Colors.red.shade300,
+                colorRowOptional: Colors.green.shade300,
+                heighContainer: heigtCell),
             _tableRow([
               "No puedes quemarte con el sol mientras estás en el agua",
-              "El agua ofrece solo una protección mínima contra la radiación ultravioleta, y los reflejos del agua pueden aumentar la exposición a la radiación ultravioleta."], colorRow: Colors.red.shade300,colorRowOptional: Colors.green.shade300,heighContainer: heigtCell),
+              "El agua ofrece solo una protección mínima contra la radiación ultravioleta, y los reflejos del agua pueden aumentar la exposición a la radiación ultravioleta."
+            ],
+                colorRow: Colors.red.shade300,
+                colorRowOptional: Colors.green.shade300,
+                heighContainer: heigtCell),
             _tableRow([
               "La Radiación UV durante el invierno, no es peligrosa",
-              "La radiación ultravioleta es generalmente más baja durante los meses de invierno, pero el reflejo de la nieve puede duplicar su exposición general, especialmente a gran altura. Preste especial atención a principios de la primavera cuando las temperaturas son bajas pero los rayos del sol son inesperadamente fuertes."], colorRow: Colors.red.shade300, colorRowOptional: Colors.green.shade300, heighContainer: heigtCell),
+              "La radiación ultravioleta es generalmente más baja durante los meses de invierno, pero el reflejo de la nieve puede duplicar su exposición general, especialmente a gran altura. Preste especial atención a principios de la primavera cuando las temperaturas son bajas pero los rayos del sol son inesperadamente fuertes."
+            ],
+                colorRow: Colors.red.shade300,
+                colorRowOptional: Colors.green.shade300,
+                heighContainer: heigtCell),
             _tableRow([
               "Si no sientes los rayos calientes del sol, no te quemarás.",
-              "Las quemaduras solares son causadas por la radiación UV, la cual que no se puede sentir. El efecto de calor es causado por la radiación infrarroja del sol y no por la radiación UV."], colorRow:Colors.red.shade300, colorRowOptional: Colors.green.shade300,heighContainer: heigtCell),
+              "Las quemaduras solares son causadas por la radiación UV, la cual que no se puede sentir. El efecto de calor es causado por la radiación infrarroja del sol y no por la radiación UV."
+            ],
+                colorRow: Colors.red.shade300,
+                colorRowOptional: Colors.green.shade300,
+                heighContainer: heigtCell),
           ],
         )
       ],
@@ -270,10 +272,9 @@ class _HomeState extends State<Home> {
                         Text(
                           "Mitos de la radiación UV",
                           style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue
-                          ),
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue),
                         ),
                         SizedBox(
                           height: 5,
@@ -296,7 +297,7 @@ class _HomeState extends State<Home> {
       child: Row(
         children: [
           Text(
-            "Radiación",
+            "Radiación UV",
             style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -311,46 +312,103 @@ class _HomeState extends State<Home> {
     );
   }
 
-  TableRow _tableRow(List<dynamic> cells, {bool isHeader = false, Color colorRow = Colors.white,Color colorRowOptional =  Colors.white, Color colorText = Colors.black, double heighContainer = 80}) {
+  Widget Recomendacion(screenWidth, screenHeight) {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (ctx) {
+              var recomRandom =
+                  Random().nextInt(listRecomendaciones.recomendaciones.length);
+              return Dialog(
+                insetPadding: EdgeInsets.all(10),
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  width: screenWidth,
+                  //height: screenHeight * 0.6,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Text(
+                          "Recomendación de Protección Solar Generales",
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(listRecomendaciones.recomendaciones[recomRandom]),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            });
+      },
+      child: Text(
+        'Recomendación del día',
+        style: TextStyle(
+          color: Colors.blue,
+          decoration: TextDecoration.underline,
+        ),
+      ),
+    );
+  }
+
+  TableRow _tableRow(List<dynamic> cells,
+      {bool isHeader = false,
+      Color colorRow = Colors.white,
+      Color colorRowOptional = Colors.white,
+      Color colorText = Colors.black,
+      double heighContainer = 80}) {
     return TableRow(
         children: cells.map((cell) {
       final style = TextStyle(
           fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
           fontSize: isHeader ? 14 : 11,
           color: colorText);
-      if(cell == cells[1] && cell == cell.toString() && colorRowOptional != Colors.white){
-        return Container(
-        height: heighContainer,
-        color: colorRowOptional,
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Align(
-            alignment: isHeader ? Alignment.center: Alignment.centerLeft,
-            child: Text(
-              cell,
-              style: style,
-            ),
-          ),
-        ),
-      );
-      }
-      else if(cell == cell.toString()){
+      if (cell == cells[1] &&
+          cell == cell.toString() &&
+          colorRowOptional != Colors.white) {
         return Container(
           height: heighContainer,
-          color: colorRow,
+          color: colorRowOptional,
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Align(
-              alignment: isHeader ? Alignment.center: Alignment.centerLeft,
+              alignment: isHeader ? Alignment.center : Alignment.centerLeft,
               child: Text(
                 cell,
                 style: style,
               ),
             ),
           ),
-          );
-      }
-      else {
+        );
+      } else if (cell == cell.toString()) {
+        return Container(
+          height: heighContainer,
+          color: colorRow,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Align(
+              alignment: isHeader ? Alignment.center : Alignment.centerLeft,
+              child: Text(
+                cell,
+                style: style,
+              ),
+            ),
+          ),
+        );
+      } else {
         return Container(
           height: heighContainer,
           color: cell,
@@ -361,7 +419,6 @@ class _HomeState extends State<Home> {
       }
     }).toList());
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -400,6 +457,12 @@ class _HomeState extends State<Home> {
                   SizedBox(
                     height: 15,
                   ),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: Recomendacion(screenWidth, screenHeight)),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Flexible(
                     flex: 1,
                     child: GestureDetector(
@@ -419,10 +482,9 @@ class _HomeState extends State<Home> {
                                         Text(
                                           "¿Qué es el UVI?",
                                           style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.blue
-                                          ),
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.blue),
                                         ),
                                         SizedBox(
                                           height: 5,
@@ -440,40 +502,6 @@ class _HomeState extends State<Home> {
                                           height: 30,
                                         ),
                                         UviRangeBoard(),
-                                        SizedBox(
-                                          height: 50,
-                                        ),
-                                        Text(
-                                          "Fototipo de Piel",
-                                          style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text(
-                                            "El fototipo es la capacidad de adaptación al sol que tiene cada persona desde que nace, es decir, el conjunto de características que determinan si una piel se broncea o no, y cómo y en qué grado lo hace. Cuanto más baja sea esta capacidad, menos se contrarrestarán los efectos de las radiaciones solares en la piel (Marín & Del Pozo, 2005). La clasificación más famosa de los fototipos cutáneos es la del Dr. Thomas Fitzpatrick, mostrada en la siguiente tabla:"),
-                                        SizedBox(
-                                          height: 30,
-                                        ),
-                                        FototipoBoardPart1(),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        FototipoBoardPart2(),
-                                        SizedBox(
-                                          height: 12,
-                                        ),
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Text("Tonos de piel referenciales",
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.grey
-                                                ),),
-                                        )
                                       ],
                                     ),
                                   ),
