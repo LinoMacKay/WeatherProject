@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:my_project/model/ChildDto.dart';
 import 'package:my_project/model/CreateChildDto.dart';
+import 'package:my_project/model/UpdateChildDto.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChildProvider {
@@ -44,6 +45,22 @@ class ChildProvider {
       });
 
       return childs;
+    } else {
+      return Future.error("Internal Server Error");
+    }
+  }
+
+  Future<bool> updateChild(UpdateChildDto updateChildDto) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String url = 'https://uvbackend.azurewebsites.net/Profile/UpdateProfile';
+    Uri uri = Uri.parse(url);
+
+    var response = await http.patch(uri, body: json.encode(updateChildDto.toJson()), headers: {"Content-Type": "application/json"});
+
+    if (response.statusCode == 200) {
+      dynamic jsonresponse = json.decode(response.body);
+      return true;
     } else {
       return Future.error("Internal Server Error");
     }

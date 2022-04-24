@@ -15,7 +15,7 @@ class UserFototipoComponent extends StatelessWidget {
         Row(
           children: <Widget>[
             FototipoOptionComponent(model: model),
-            const SizedBox(width: 60),
+            const SizedBox(width: 40),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: const <Widget>[

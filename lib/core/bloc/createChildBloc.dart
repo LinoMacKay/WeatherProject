@@ -1,7 +1,11 @@
 import 'dart:async';
 
 import 'package:my_project/core/bloc/validators.dart';
+import 'package:my_project/model/ChildDto.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../../model/UpdateChildDto.dart';
+import '../provider/childProvider.dart';
 
 class CreateChildBloc with Validators {
   BehaviorSubject<String> _nameController = BehaviorSubject<String>();
@@ -39,8 +43,16 @@ class CreateChildBloc with Validators {
   Stream<bool> get formValidStream =>
       Rx.combineLatest2(nameStream, birthdayStream, (e, p) => true);
 
+  Future<bool> updateChild(UpdateChildDto updateChildDto) async {
+    print(updateChildDto);
+    var response = await ChildProvider().updateChild(updateChildDto);
+    return response;
+  }
+
   dispose() {
     _nameController.close();
     _birthdayController.close();
   }
+
+
 }

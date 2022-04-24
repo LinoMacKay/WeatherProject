@@ -9,6 +9,8 @@ import 'package:my_project/views/tabs/ProfilePage.dart';
 import 'package:my_project/views/tabs/SettingsPage.dart';
 import 'package:my_project/views/user/location/components/no_children_component.dart';
 
+import '../../children/update/children_update_view.dart';
+
 class UserLocationView extends StatefulWidget {
   const UserLocationView({Key? key}) : super(key: key);
 
@@ -53,6 +55,9 @@ class _UserLocationViewState extends State<UserLocationView> {
         break;
       case routeChildrenDetail:
         page = ChildrenSummaryView();
+        break;
+      case routeChildrenUpdateUpdate:
+        page = ChildrenUpdateView();
         break;
       default:
         print("NOMBRE SUBRUTA: " + settings.name!);

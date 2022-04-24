@@ -4,12 +4,12 @@ class ChildDto {
   String score = '';
   String scoreDescription = '';
   int id = 0;
-  ChildDto(
-      {required this.name,
-      required this.birthday,
-      required this.score,
-      required this.id,
-      required this.scoreDescription});
+  ChildDto({
+    required this.name,
+    required this.birthday,
+    required this.score,
+    required this.id,
+    required this.scoreDescription});
 
   factory ChildDto.fromJson(Map<String, dynamic> childJson) {
     return ChildDto(

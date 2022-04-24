@@ -7,6 +7,9 @@ import 'package:my_project/helper/ui/ui_library.dart';
 import 'package:my_project/model/ChildDto.dart';
 import 'package:my_project/utils/Utils.dart';
 
+import '../../../router/routes.dart';
+import '../update/children_update_view.dart';
+
 class ChildrenSummaryView extends StatefulWidget {
   const ChildrenSummaryView({Key? key}) : super(key: key);
 
@@ -130,9 +133,9 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Column(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
                                   'Datos del menor',
@@ -140,7 +143,18 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                                       fontSize: 25,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                SizedBox(height: 10),
+                                SizedBox(width: 60),
+                                IconButton(
+                                  icon: Icon(Icons.edit),
+                                  iconSize: 30,
+                                  onPressed: () {
+                                    //Navigator.push(context,MaterialPageRoute(builder: (context) => ChildrenUpdateView(arguments)));
+                                    Utils.homeNavigator.currentState!
+                                        .pushNamed(
+                                      routeChildrenUpdateUpdate,arguments: arguments
+                                    );
+                                  },
+                                ),
                               ],
                             ),
                             /*Icon(
@@ -156,8 +170,7 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                         Text('Edad: ${getEdad(arguments.birthday)} años'),
                         SizedBox(
                           height: 15,
-                        )
-                        /*
+                        ),
                         Align(
                           alignment: Alignment.centerRight,
                           child: Icon(
@@ -165,7 +178,7 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                             color: Colors.black,
                             size: 30,
                           ),
-                        ),*/
+                        ),
                       ],
                     ),
                   ],

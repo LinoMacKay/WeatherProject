@@ -11,6 +11,8 @@ import 'package:my_project/views/children/create/children_create_view.dart';
 import 'package:my_project/views/children/update/children_update_view.dart';
 import 'package:my_project/views/user/location/user_location_view.dart';
 
+import '../model/ChildDto.dart';
+
 class MainCommon extends StatelessWidget {
   final _appRouter = AppRouter();
   MainCommon({Key? key}) : super(key: key);
@@ -45,9 +47,9 @@ class MainCommon extends StatelessWidget {
             page = const CreateAccountView();
           } else if (settings.name!.startsWith(routeChildrenCreateView)) {
             page = const ChildrenCreateView();
-          } else if (settings.name!.startsWith(routeChildrenUpdateView)) {
-            page = const ChildrenUpdateView();
-          } else if (settings.name!.startsWith(routeHome)) {
+          }/*else if (settings.name!.startsWith(routeChildrenUpdateView)) {
+            page = ChildrenUpdateView();
+          } */else if (settings.name!.startsWith(routeHome)) {
             page = const UserLocationView();
           } else if (settings.name!.startsWith(routeRecoverPasswordView)) {
             page = const RecoverPasswordView();
