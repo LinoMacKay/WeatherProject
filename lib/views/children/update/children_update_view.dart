@@ -8,6 +8,7 @@ import '../../../core/bloc/createChildBloc.dart';
 import '../../../core/provider/childProvider.dart';
 import '../../../model/ChildDto.dart';
 import '../../../model/UpdateChildDto.dart';
+import '../../../router/routes.dart';
 import '../../../utils/Utils.dart';
 
 class ChildrenUpdateView extends StatelessWidget {
@@ -16,10 +17,12 @@ class ChildrenUpdateView extends StatelessWidget {
 
   UpdateChildDto updateChildDto = UpdateChildDto();
   ChildProvider childProvider = ChildProvider();
+  TextEditingController _dateController = TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {
-    ChildDto child = ModalRoute.of(context)!.settings.arguments as ChildDto;
+    ChildDto child = ModalRoute.of(context)!.settings.arguments as ChildDto;   
     return AppScaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -36,21 +39,6 @@ class ChildrenUpdateView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    /*AppTextForm(
-                      width: 300,
-                      label: 'Nombre',
-                      controller: nameController,
-                      focusNode: nameFocusNode,
-                      style: const TextStyle(),
-                      preffix: Icons.person,
-                    ),
-                    const SizedBox(height: 10),
-                    AppDateForm(
-                      preffix: Icons.calendar_today,
-                      label: 'Fecha de Nacimiento',
-                      style: const TextStyle(), 
-                      controller: birthdayController,
-                    ),*/
                     TextFormField(
                         initialValue: child.name,
                         decoration: InputDecoration(
@@ -70,22 +58,46 @@ class ChildrenUpdateView extends StatelessWidget {
                             return null;
                           }
                         }),
-                    /*TextFormField(
-                    initialValue: formatNacimiento(child.birthday),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                    key: Key(updateChildDto.birthday.toString()),
+                    controller: _dateController,
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText1!.color),
+                    textInputAction: TextInputAction.next,
+                    onChanged: (value) {
+                      updateChildDto.birthday = DateTime.parse(value).toString();
+                    },
+                    onTap: () {
+                      showDatePicker(
+                              context: context,
+                              initialDate: DateTime.parse(child.birthday),
+                              firstDate: DateTime(1950),
+                              lastDate: DateTime.now())
+                          .then((date) {
+                        String dateFormat =
+                            "${date!.year.toString()}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+                        updateChildDto.birthday = dateFormat;
+                        //widget.changeBirthday(dateFormat);
+                          });
+                    },
                     decoration: InputDecoration(
-                        icon: Icon(Icons.person),
+                        icon: Icon(Icons.calendar_today),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(width: 1, color: Colors.black),
                         ),
-                        labelText: 'Birthday'),
-                  ),*/
-                    const SizedBox(height: 20),
+                        labelText: 'Fecha de nacimiento',
+                        labelStyle: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyText1!.color)),
+                  ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         AppButton(
                             onPressed: () {
-                              Utils.mainNavigator.currentState!.pop();
+                              Utils.homeNavigator.currentState!
+                              .pop();
                             },
                             text: 'Cancelar',
                             width: 120,

@@ -6,7 +6,7 @@ class UpdateChildDto {
   UpdateChildDto({id, name,birthday});
 
   Map<String, dynamic> toJson() =>
-      {'Id': id, 'Name': name};
+      {'Id': id, 'Name': name, 'Birthday': birthday};
 
 
   factory UpdateChildDto.fromJson(Map<String, dynamic> childJson) {

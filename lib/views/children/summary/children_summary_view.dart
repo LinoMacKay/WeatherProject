@@ -329,18 +329,7 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                         Text('Fecha de Nacimiento: ' +
                             formatNacimiento(arguments.birthday)),
                         Text('Edad: ${getEdad(arguments.birthday)} años'),
-                        /*SizedBox(
-                          height: 15,
-                        )*/
-                        /*
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Icon(
-                            Icons.delete,
-                            color: Colors.black,
-                            size: 30,
-                          ),
-                        ),
+                        
                       ],
                     ),
                   ],
