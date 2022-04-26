@@ -1,8 +1,11 @@
 import 'package:my_project/core/bloc/validators.dart';
 import 'package:my_project/core/provider/userProvider.dart';
 import 'package:my_project/model/LoginDto.dart';
+import 'package:my_project/router/routes.dart';
+import 'package:my_project/utils/Utils.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginBloc with Validators {
@@ -69,6 +72,14 @@ class LoginBloc with Validators {
       return await userProvider.login(loginDto);
     } catch (e) {
       return Future.error(e);
+    }
+  }
+
+  Future<void> validateToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('userName') != null &&
+        prefs.getString('userId') != null) {
+      Utils.mainNavigator.currentState!.pushNamed(routeHome).then((value) {});
     }
   }
 

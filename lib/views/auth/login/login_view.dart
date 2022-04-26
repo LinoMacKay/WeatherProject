@@ -36,6 +36,12 @@ class _LoginViewState extends State<LoginView> {
   }
 
   @override
+  void initState() {
+    loginBloc.validateToken();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;

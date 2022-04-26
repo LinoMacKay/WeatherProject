@@ -82,7 +82,7 @@ class LocationBloc {
     var ahora = DateTime.now();
     horarios.forEach((key, value) {
       var fecha = DateTime.tryParse(key);
-      var diff = fecha!.difference(ahora).inMinutes;
+      var diff = fecha!.difference(ahora).inMinutes.abs();
       diffdeHoras.add(diff);
     });
     //hallar el menor y su indice
