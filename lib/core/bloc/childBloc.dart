@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:my_project/core/provider/childProvider.dart';
 import 'package:my_project/model/ChildDto.dart';
 import 'package:rxdart/rxdart.dart';
@@ -25,5 +26,35 @@ class ChildBloc {
   void getSingleChild(childId, uvi) async {
     var response = await childProvider.getSingleChild(childId, uvi);
     changechild(response);
+  }
+
+  int getEdad(birthday) {
+    var fecha = DateTime.tryParse(birthday);
+    final now = DateTime.now();
+
+    int years = now.year - fecha!.year;
+    int months = now.month - fecha.month;
+    int days = now.day - fecha.day;
+
+    if (months < 0 || (months == 0 && days < 0)) {
+      years--;
+      months += (days < 0 ? 11 : 12);
+    }
+
+    if (days < 0) {
+      final monthAgo = DateTime(now.year, now.month - 1, fecha.day);
+      days = now.difference(monthAgo).inDays + 1;
+    }
+
+    return years;
+  }
+
+  String formatNacimiento(birthday) {
+    var fecha = DateTime.tryParse(birthday);
+    return fecha!.day.toString() +
+        " de " +
+        DateFormat('MMMM', 'es_ES').format(DateTime.tryParse(birthday)!) +
+        " del " +
+        fecha.year.toString();
   }
 }

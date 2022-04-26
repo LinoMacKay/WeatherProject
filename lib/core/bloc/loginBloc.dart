@@ -3,6 +3,7 @@ import 'package:my_project/core/provider/userProvider.dart';
 import 'package:my_project/model/LoginDto.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginBloc with Validators {
   final userProvider = UserProvider();
@@ -68,6 +69,14 @@ class LoginBloc with Validators {
       return await userProvider.login(loginDto);
     } catch (e) {
       return Future.error(e);
+    }
+  }
+
+  launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
     }
   }
 }
