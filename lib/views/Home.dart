@@ -8,6 +8,7 @@ import 'package:my_project/core/provider/locationProvider.dart';
 import 'package:my_project/core/ui/labeled_text_component.dart';
 import 'package:my_project/model/UviDto.dart';
 import 'package:my_project/router/routes.dart';
+import 'package:my_project/utils/NotificationService.dart';
 import 'package:my_project/utils/Utils.dart';
 import 'package:my_project/views/user/location/components/no_children_component.dart';
 import 'package:my_project/views/user/uv/user_uv_summary.dart';
@@ -240,6 +241,7 @@ class _HomeState extends State<Home> {
         children: [
           Text(
             "FPS en cremas solares",
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -298,6 +300,7 @@ class _HomeState extends State<Home> {
         children: [
           Text(
             "Radiación UV",
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -537,13 +540,32 @@ class _HomeState extends State<Home> {
                   SizedBox(
                     height: 15,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Pregunta2(screenWidth, screenHeight),
-                      Pregunta3(screenWidth, screenHeight)
-                    ],
+                  Container(
+                    width: screenWidth * 0.9,
+                    child: Wrap(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Pregunta2(screenWidth, screenHeight),
+                        Pregunta3(screenWidth, screenHeight)
+                      ],
+                    ),
                   ),
+                  ElevatedButton(
+                      onPressed: () {
+                        NotificationService()
+                            .checkPendingNotificationRequests(context);
+                      },
+                      child: Text("CheckPending")),
+                  ElevatedButton(
+                      onPressed: () {
+                        NotificationService().scheduleDailyTenAMNotification();
+                      },
+                      child: Text("ProbarNotificaciones")),
+                  ElevatedButton(
+                      onPressed: () {
+                        NotificationService().cancelAllNotifications();
+                      },
+                      child: Text("Cancel"))
                 ],
               ),
               Positioned(
