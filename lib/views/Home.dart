@@ -41,6 +41,8 @@ class _HomeState extends State<Home> {
         userName = value[0];
       });
     });
+
+    NotificationService().scheduleNotificationsForUvi();
     super.initState();
   }
 
@@ -550,22 +552,22 @@ class _HomeState extends State<Home> {
                       ],
                     ),
                   ),
-                  ElevatedButton(
+                  /* ElevatedButton(
                       onPressed: () {
                         NotificationService()
                             .checkPendingNotificationRequests(context);
                       },
                       child: Text("CheckPending")),
-                  ElevatedButton(
+                   ElevatedButton(
                       onPressed: () {
-                        NotificationService().scheduleDailyTenAMNotification();
+                        NotificationService().scheduleNotificationsForUvi();
                       },
                       child: Text("ProbarNotificaciones")),
                   ElevatedButton(
                       onPressed: () {
                         NotificationService().cancelAllNotifications();
                       },
-                      child: Text("Cancel"))
+                      child: Text("Cancel"))*/
                 ],
               ),
               Positioned(
