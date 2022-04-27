@@ -30,6 +30,9 @@ class _HomeState extends State<Home> {
       horario: HourlyDto(0, 0, 0, 0), considerUv: "", highestUv: "");
 
   RecomendacionesDiarias listRecomendaciones = RecomendacionesDiarias();
+  var recomendacionDiaria = "";
+  var diaActual = 0;
+
 
   String userName = " ";
   @override
@@ -320,11 +323,35 @@ class _HomeState extends State<Home> {
   Widget Recomendacion(screenWidth, screenHeight) {
     return GestureDetector(
       onTap: () {
+        if(recomendacionDiaria == "" && diaActual == 0){ //agregando valores inciales a recomendacion diaria y fecha actual
+          var recomRandom =
+          Random().nextInt(listRecomendaciones.recomendaciones.length);
+          setState(() {
+            recomendacionDiaria = listRecomendaciones.recomendaciones[recomRandom];
+            diaActual = DateTime.now().day;
+          });
+        }
+
+        if(recomendacionDiaria != "" && diaActual != DateTime.now().day){   // actualizando recomendacion si es otro dia
+            var recomRandom =
+            Random().nextInt(listRecomendaciones.recomendaciones.length);
+            var nuevaRecomendacion = listRecomendaciones.recomendaciones[recomRandom];
+
+            while(recomendacionDiaria == nuevaRecomendacion){     // actualziando recomendacion si la nueva recomend. random es la misma
+              recomRandom = Random().nextInt(listRecomendaciones.recomendaciones.length);
+              nuevaRecomendacion = listRecomendaciones.recomendaciones[recomRandom];
+            }
+            setState(() {
+              recomendacionDiaria = nuevaRecomendacion;
+              diaActual = DateTime.now().day;
+            });
+        }
+        print(recomendacionDiaria);
+        print(diaActual.toString());
         showDialog(
             context: context,
             builder: (ctx) {
-              var recomRandom =
-                  Random().nextInt(listRecomendaciones.recomendaciones.length);
+
               return Dialog(
                 insetPadding: EdgeInsets.all(10),
                 child: Container(
@@ -342,7 +369,7 @@ class _HomeState extends State<Home> {
                         SizedBox(
                           height: 15,
                         ),
-                        Text(listRecomendaciones.recomendaciones[recomRandom]),
+                        Text(recomendacionDiaria),
                         SizedBox(
                           height: 30,
                         ),
