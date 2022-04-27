@@ -79,10 +79,11 @@ class LocationBloc {
     });
     //hallar la diferencia con la hora actual y pushear al arreglo de
     //diferencias de horas
-    var ahora = DateTime.now();
+    var ahoraSinMinutos = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, DateTime.now().hour);
     horarios.forEach((key, value) {
       var fecha = DateTime.tryParse(key);
-      var diff = fecha!.difference(ahora).inMinutes.abs();
+      var diff = fecha!.difference(ahoraSinMinutos).inMinutes.abs();
       diffdeHoras.add(diff);
     });
     //hallar el menor y su indice
@@ -130,6 +131,16 @@ class LocationBloc {
     List<dynamic> uvEnDia = [];
     horarios.forEach((key, value) {
       if (calculateDifference(DateTime.tryParse(key)!) == 0) {
+        uvEnDia.add([key, value.uvi]);
+      }
+    });
+    return uvEnDia;
+  }
+
+  List<dynamic> getUvEnDiaSiguiente(horarios) {
+    List<dynamic> uvEnDia = [];
+    horarios.forEach((key, value) {
+      if (calculateDifference(DateTime.tryParse(key)!) == 1) {
         uvEnDia.add([key, value.uvi]);
       }
     });

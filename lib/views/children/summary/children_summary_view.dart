@@ -74,16 +74,16 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
     }
 
     if (uvi <= 2) {
-      recommendation1 = "Puedes quedarte afuera con seguridad";
+      recommendation1 = "¡Puedes quedarte afuera con total seguridad!";
       recommendation2 = "¡No necesitas protector solar!";
     } else if (uvi <= 7) {
-      recommendation1 = "¡Busca la sombra durante las horas del mediodia!";
+      recommendation1 = "¡Busca la sombra!";
       recommendation2 =
-          "¡Ponte una camisa, protector solar de ${fps} fps y un sombrero!";
+          "¡Ponte una camisa o polo o blusa, junto a un protector solar de al menos ${fps} fps y un sombrero!";
     } else {
-      recommendation1 = "¡Evita estar afuera durante las horas del mediodia!";
+      recommendation1 = "¡Evita estar afuera!";
       recommendation2 = "¡Asegurate de buscar sombra!\n" +
-          "¡Camisa, protector solar de ${fps} fps y sombrero son imprescendibles!";
+          "¡Una camisa o polo o blusa, , junto a un protector solar de al menos ${fps} fps y sombrero no deben faltar!";
     }
 
     var exposureTime = childInfo.exposureTime;
@@ -96,7 +96,9 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
     if (horas == 0) {
       timeToShow = "${minutos} minutos";
     } else {
-      timeToShow = "${horas} horas y ${minutos} minutos";
+      timeToShow = horas == 1
+          ? "${horas} hora y ${minutos} minutos"
+          : "${horas} horas y ${minutos} minutos";
     }
     return [
       if (exposureTime > 0)

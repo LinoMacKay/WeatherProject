@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/intl.dart';
 import 'package:my_project/core/bloc/locationBloc.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -100,21 +103,16 @@ class NotificationService {
   }
 
   Future<void> scheduleNotificationsForUvi() async {
-    HomeInfoDto homeInfoDto = HomeInfoDto(
-        horario: HourlyDto(0, 0, 0, 0), considerUv: "", highestUv: "");
     Map<String, HourlyDto> horarios = {};
     List<num> diffdeHoras = [];
 
-    homeInfoDto.horario = LocationBloc().getFechaMasCercana(
+    var horario = LocationBloc().getFechaMasCercana(
         await LocationBloc().getUviInfoFromSP(), horarios, diffdeHoras);
-    homeInfoDto.highestUv = LocationBloc().uvMasAlto(homeInfoDto, horarios);
-    homeInfoDto.considerUv =
-        LocationBloc().uvAlto(LocationBloc().getUvEnDia(horarios));
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
         1231231245,
         'Ten Cuidado',
-        'El UVI más alto de hoy será de ${homeInfoDto.highestUv}',
+        'El UVI más alto de hoy será de ${infoToShow(horarios)}',
         _nextInstanceOf7AM(),
         const NotificationDetails(
           android: AndroidNotificationDetails('daily notification channel id',
@@ -125,7 +123,7 @@ class NotificationService {
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time);
-    if (homeInfoDto.considerUv.length > 0)
+    /*if (homeInfoDto.considerUv.length > 0)
       await flutterLocalNotificationsPlugin.zonedSchedule(
           12312312,
           'Notificacion de las 7:15 AM',
@@ -140,7 +138,29 @@ class NotificationService {
           androidAllowWhileIdle: true,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime,
-          matchDateTimeComponents: DateTimeComponents.time);
+          matchDateTimeComponents: DateTimeComponents.time);*/
+  }
+
+  String infoToShow(horarios) {
+    var hoy = DateTime.now();
+    var scheaduleForToday = DateTime(hoy.year, hoy.month, hoy.day, 7);
+    var diaABuscar = LocationBloc().getUvEnDia(horarios);
+    if (scheaduleForToday.isBefore(hoy)) {
+      scheaduleForToday = scheaduleForToday.add(const Duration(days: 1));
+      diaABuscar = LocationBloc().getUvEnDiaSiguiente(horarios);
+    }
+
+    var mayor = 0.0;
+    diaABuscar.forEach((element) {
+      if (element[1] > mayor) mayor = element[1];
+    });
+    var mayorUvEnDia = diaABuscar.firstWhere((element) => element[1] == mayor);
+    return DateFormat('hh:mm a', 'es_ES')
+            .format(DateTime.tryParse(mayorUvEnDia[0])!) +
+        " - " +
+        DateFormat('hh:mm a', 'es_ES').format(
+            DateTime.tryParse(mayorUvEnDia[0])!.add(Duration(hours: 1))) +
+        " (${mayorUvEnDia[1].toString()})";
   }
 
   factory NotificationService() {
