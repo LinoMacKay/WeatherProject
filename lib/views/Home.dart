@@ -69,18 +69,18 @@ class _HomeState extends State<Home> {
               return Column(
                 children: [
                   LabeledTextComponent(
-                      label: 'Highest uv of the day:', text: nowInfo.highestUv),
+                      label: 'UV más alto del día:', text: nowInfo.highestUv),
                   if (homeInfoDto.considerUv.length > 1)
                     LabeledTextComponent(
-                        label: 'Range of hours with UVI considered high:',
+                        label: 'Rango de horas con UVI considerado alto:',
                         text: nowInfo.considerUv),
                   LabeledTextComponent(
-                      label: 'Temperature:',
+                      label: 'Temperatura:',
                       text: nowInfo.horario.temp.toString() + "°"),
                   LabeledTextComponent(
                       label: 'UVI:', text: nowInfo.horario.uvi.toString()),
                   LabeledTextComponent(
-                      label: 'Hour:',
+                      label: 'Hora:',
                       text:
                           DateFormat('hh:mm a', 'es_ES').format(DateTime.now()))
                 ],
