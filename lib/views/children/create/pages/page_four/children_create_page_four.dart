@@ -201,7 +201,7 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
                             child: Column(
                               children: [
                                 Text(
-                                  "¿Qué es el Fototipo?",
+                                  "¿Qué es un Fototipo?",
                                   style: TextStyle(
                                       fontSize: 30, fontWeight: FontWeight.bold),
                                 ),
@@ -238,7 +238,7 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
                     });
               },
               child: Text(
-                '¿Qué es fototipo?',
+                '¿Qué es un fototipo?',
                 style: TextStyle(
                   color: Colors.blue,
                   decoration: TextDecoration.underline,

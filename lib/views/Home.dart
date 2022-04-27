@@ -190,7 +190,7 @@ class _HomeState extends State<Home> {
             ],
                 colorRow: Colors.red.shade300,
                 colorRowOptional: Colors.green.shade300,
-                heighContainer: heigtCell),
+                heighContainer: heigtCell+30.0),
           ],
         )
       ],
@@ -301,7 +301,7 @@ class _HomeState extends State<Home> {
       child: Row(
         children: [
           Text(
-            "Radiación UV",
+            "Mitos de la radiación UV",
             overflow: TextOverflow.ellipsis,
             style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
           ),
@@ -335,7 +335,7 @@ class _HomeState extends State<Home> {
                     child: Column(
                       children: [
                         Text(
-                          "Recomendación de Protección Solar Generales",
+                          "Recomendación del día",
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         ),
