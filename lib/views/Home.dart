@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_project/core/bloc/childBloc.dart';
 import 'package:my_project/core/bloc/locationBloc.dart';
+import 'package:my_project/core/bloc/recommendationBloc.dart';
 import 'package:my_project/core/provider/locationProvider.dart';
 import 'package:my_project/core/ui/labeled_text_component.dart';
 import 'package:my_project/model/UviDto.dart';
@@ -29,14 +30,24 @@ class _HomeState extends State<Home> {
   HomeInfoDto homeInfoDto = HomeInfoDto(
       horario: HourlyDto(0, 0, 0, 0), considerUv: "", highestUv: "");
 
+  //////////////////
   RecomendacionesDiarias listRecomendaciones = RecomendacionesDiarias();
   var recomendacionDiaria = "";
   var diaActual = 0;
-
+  /////////////////////
+  late RecommendationBloc recommendationBloc;
 
   String userName = " ";
   @override
   void initState() {
+    recommendationBloc = RecommendationBloc();
+    recommendationBloc.getRandomIntAndDayToRecommendation().then((value) {
+      setState(() {
+        recomendacionDiaria = listRecomendaciones.recomendaciones[value[0]];
+        diaActual = value[1]; // solo para imprimir en consola
+      });
+    });
+
     locationBloc = LocationBloc();
     futureLocation = locationBloc.getLocation();
     locationBloc.getHomeData().then((value) {
@@ -323,7 +334,7 @@ class _HomeState extends State<Home> {
   Widget Recomendacion(screenWidth, screenHeight) {
     return GestureDetector(
       onTap: () {
-        if(recomendacionDiaria == "" && diaActual == 0){ //agregando valores inciales a recomendacion diaria y fecha actual
+        /*if(recomendacionDiaria == "" && diaActual == 0){ //agregando valores inciales a recomendacion diaria y fecha actual
           var recomRandom =
           Random().nextInt(listRecomendaciones.recomendaciones.length);
           setState(() {
@@ -345,9 +356,11 @@ class _HomeState extends State<Home> {
               recomendacionDiaria = nuevaRecomendacion;
               diaActual = DateTime.now().day;
             });
-        }
+        }*/
         print(recomendacionDiaria);
         print(diaActual.toString());
+
+
         showDialog(
             context: context,
             builder: (ctx) {
