@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
 
   String userName = " ";
   @override
-  void initState() {
+  void initState() async {
     locationBloc = LocationBloc();
     futureLocation = locationBloc.getLocation();
     locationBloc.getHomeData().then((value) {
@@ -42,6 +42,7 @@ class _HomeState extends State<Home> {
       });
     });
 
+    await Future.delayed(Duration(seconds: 5));
     NotificationService().scheduleNotificationsForUvi();
     super.initState();
   }

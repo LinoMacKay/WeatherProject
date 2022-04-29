@@ -108,7 +108,7 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                Text("Posible quemadura solar en ${timeToShow}"),
+                if (uvi > 2) Text("Posible quemadura solar en ${timeToShow}"),
                 GestureDetector(
                   onTap: () {
                     showDialog(
@@ -343,7 +343,10 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                   color: Colors.black,
                 ),
                 SizedBox(height: 15),
-                Text('Recomendaciones e indicaciones para su hijo'),
+                Text(
+                  'Recomendaciones e indicaciones para su hijo de acuerdo al UVI actual y su fototipo de piel:',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
                 SizedBox(height: 15),
                 recomendaciones(arguments.id, screenWidth, screenHeight),
               ],
