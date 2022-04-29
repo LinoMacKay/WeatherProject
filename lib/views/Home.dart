@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_project/core/bloc/childBloc.dart';
 import 'package:my_project/core/bloc/locationBloc.dart';
+import 'package:my_project/core/bloc/recommendationBloc.dart';
 import 'package:my_project/core/provider/locationProvider.dart';
 import 'package:my_project/core/ui/labeled_text_component.dart';
 import 'package:my_project/model/UviDto.dart';
@@ -29,11 +30,24 @@ class _HomeState extends State<Home> {
   HomeInfoDto homeInfoDto = HomeInfoDto(
       horario: HourlyDto(0, 0, 0, 0), considerUv: "", highestUv: "");
 
+  //////////////////
   RecomendacionesDiarias listRecomendaciones = RecomendacionesDiarias();
+  var recomendacionDiaria = "";
+  var diaActual = 0;
+  /////////////////////
+  late RecommendationBloc recommendationBloc;
 
   String userName = " ";
   @override
   void initState() async {
+    recommendationBloc = RecommendationBloc();
+    recommendationBloc.getRandomIntAndDayToRecommendation().then((value) {
+      setState(() {
+        recomendacionDiaria = listRecomendaciones.recomendaciones[value[0]];
+        diaActual = value[1]; // solo para imprimir en consola
+      });
+    });
+
     locationBloc = LocationBloc();
     futureLocation = locationBloc.getLocation();
     locationBloc.getHomeData().then((value) {
@@ -70,18 +84,18 @@ class _HomeState extends State<Home> {
               return Column(
                 children: [
                   LabeledTextComponent(
-                      label: 'Highest uv of the day:', text: nowInfo.highestUv),
+                      label: 'UV más alto del día:', text: nowInfo.highestUv),
                   if (homeInfoDto.considerUv.length > 1)
                     LabeledTextComponent(
-                        label: 'Range of hours with UVI considered high:',
+                        label: 'Rango de horas con UVI considerado alto:',
                         text: nowInfo.considerUv),
                   LabeledTextComponent(
-                      label: 'Temperature:',
+                      label: 'Temperatura:',
                       text: nowInfo.horario.temp.toString() + "°"),
                   LabeledTextComponent(
                       label: 'UVI:', text: nowInfo.horario.uvi.toString()),
                   LabeledTextComponent(
-                      label: 'Hour:',
+                      label: 'Hora:',
                       text:
                           DateFormat('hh:mm a', 'es_ES').format(DateTime.now()))
                 ],
@@ -191,7 +205,7 @@ class _HomeState extends State<Home> {
             ],
                 colorRow: Colors.red.shade300,
                 colorRowOptional: Colors.green.shade300,
-                heighContainer: heigtCell),
+                heighContainer: heigtCell + 30.0),
           ],
         )
       ],
@@ -302,7 +316,7 @@ class _HomeState extends State<Home> {
       child: Row(
         children: [
           Text(
-            "Radiación UV",
+            "Mitos de la radiación UV",
             overflow: TextOverflow.ellipsis,
             style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
           ),
@@ -321,11 +335,35 @@ class _HomeState extends State<Home> {
   Widget Recomendacion(screenWidth, screenHeight) {
     return GestureDetector(
       onTap: () {
+        /*if(recomendacionDiaria == "" && diaActual == 0){ //agregando valores inciales a recomendacion diaria y fecha actual
+          var recomRandom =
+          Random().nextInt(listRecomendaciones.recomendaciones.length);
+          setState(() {
+            recomendacionDiaria = listRecomendaciones.recomendaciones[recomRandom];
+            diaActual = DateTime.now().day;
+          });
+        }
+
+        if(recomendacionDiaria != "" && diaActual != DateTime.now().day){   // actualizando recomendacion si es otro dia
+            var recomRandom =
+            Random().nextInt(listRecomendaciones.recomendaciones.length);
+            var nuevaRecomendacion = listRecomendaciones.recomendaciones[recomRandom];
+
+            while(recomendacionDiaria == nuevaRecomendacion){     // actualziando recomendacion si la nueva recomend. random es la misma
+              recomRandom = Random().nextInt(listRecomendaciones.recomendaciones.length);
+              nuevaRecomendacion = listRecomendaciones.recomendaciones[recomRandom];
+            }
+            setState(() {
+              recomendacionDiaria = nuevaRecomendacion;
+              diaActual = DateTime.now().day;
+            });
+        }*/
+        print(recomendacionDiaria);
+        print(diaActual.toString());
+
         showDialog(
             context: context,
             builder: (ctx) {
-              var recomRandom =
-                  Random().nextInt(listRecomendaciones.recomendaciones.length);
               return Dialog(
                 insetPadding: EdgeInsets.all(10),
                 child: Container(
@@ -336,14 +374,14 @@ class _HomeState extends State<Home> {
                     child: Column(
                       children: [
                         Text(
-                          "Recomendación de Protección Solar Generales",
+                          "Recomendación del día",
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
                           height: 15,
                         ),
-                        Text(listRecomendaciones.recomendaciones[recomRandom]),
+                        Text(recomendacionDiaria),
                         SizedBox(
                           height: 30,
                         ),

@@ -67,7 +67,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                         const Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Create Account',
+                            'Crear Cuenta',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 25),
                           ),
@@ -243,7 +243,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                                     child: isLoading
                                         ? CircularProgressIndicator()
                                         : Text(
-                                            "Register",
+                                            "Registrar",
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.w300),

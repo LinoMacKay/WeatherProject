@@ -211,7 +211,7 @@ class _LoginViewState extends State<LoginView> {
                                       child: isLoading
                                           ? CircularProgressIndicator()
                                           : Text(
-                                              "Log In",
+                                              "Ingresar",
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.w300),
@@ -225,7 +225,7 @@ class _LoginViewState extends State<LoginView> {
                                   .pushNamed(routeRecoverPasswordView);
                             },
                             child: const Text(
-                              'Forget Password',
+                              '¿Olvidaste tu contraseña?',
                               style: TextStyle(
                                 color: Colors.blue,
                                 decoration: TextDecoration.underline,
@@ -237,7 +237,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Text("Or"),
+                  Text("O"),
                   const SizedBox(height: 10),
                   SizedBox(
                     width: double.infinity,
@@ -250,7 +250,7 @@ class _LoginViewState extends State<LoginView> {
                               .pushNamed(routeCreateAccountView);
                         },
                         child: Text(
-                          "Register Now",
+                          "Registrar ahora",
                           style: TextStyle(fontSize: 20),
                         )),
                   ),

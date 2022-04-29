@@ -135,11 +135,11 @@ class _RecoverPasswordView extends State<RecoverPasswordView> {
                             alignment: Alignment.centerLeft,
                             child: Column(
                               children: [
-                                Text('Recover password',
+                                Text('Recuperar contraseña',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold, fontSize: 30),),
                                 const SizedBox(height: 20),
-                                Text("Enter the registered email to the account")
+                                Text("Ingresa el email registrado de la cuenta")
                               ],
                             ),
                           ),
@@ -209,7 +209,7 @@ class _RecoverPasswordView extends State<RecoverPasswordView> {
                                       }
                                           : null,
                                       child: Text(
-                                        "Send",
+                                        "Enviar",
                                         style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w300),
@@ -221,14 +221,14 @@ class _RecoverPasswordView extends State<RecoverPasswordView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text('Not a member?'),
+                              Text('No eres miembro?'),
                               GestureDetector(
                                 onTap: () {
                                   Utils.mainNavigator.currentState!
                                       .pushReplacementNamed(routeCreateAccountView);
                                 },
                                 child: Text(
-                                  'Register now',
+                                  'Regístrate ahora',
                                   style: TextStyle(
                                     color: Colors.blue,
                                     decoration: TextDecoration.underline,
