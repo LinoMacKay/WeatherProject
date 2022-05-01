@@ -193,6 +193,97 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
     return FototipoOptionViewmodel(name: childDto.scoreDescription);
   }
 
+  Widget FototipoBoardPart1() {
+    return Column(
+      children: [
+        Table(
+          border: TableBorder.all(),
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+          //columnWidths: {2: FixedColumnWidth(120.0)},
+          children: [
+            _tableRow(
+                [Color(0xffbca48c),Color(0xffac8c73), Color(0xff9c7e62),], colorRow: Colors.green, heighContainer: 50),
+            _tableRow([
+              "Skin Type |",
+              "Skin Type ||",
+              "Skin Type |||"], colorRow: Colors.black, colorText: Colors.white, heighContainer: 40),
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget FototipoBoardPart2() {
+    return Column(
+      children: [
+        Table(
+          border: TableBorder.all(),
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+          //columnWidths: {2: FixedColumnWidth(120.0)},
+          children: [
+            _tableRow(
+                [Color(0xff846444),Color(0xff744c24), Color(0xff341c1c),], colorRow: Colors.green, heighContainer: 50),
+            _tableRow([
+              "Skin Type |V",
+              "Skin Type V",
+              "Skin Type V|"], colorRow: Colors.black, colorText: Colors.white, heighContainer: 40),
+          ],
+        )
+      ],
+    );
+  }
+
+  TableRow _tableRow(List<dynamic> cells, {bool isHeader = false, Color colorRow = Colors.white,Color colorRowOptional =  Colors.white, Color colorText = Colors.black, double heighContainer = 80}) {
+    return TableRow(
+        children: cells.map((cell) {
+          final style = TextStyle(
+              fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
+              fontSize: isHeader ? 14 : 11,
+              color: colorText);
+          if(cell == cells[1] && cell == cell.toString() && colorRowOptional != Colors.white){
+            return Container(
+              height: heighContainer,
+              color: colorRowOptional,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Align(
+                  alignment: isHeader ? Alignment.center: Alignment.centerLeft,
+                  child: Text(
+                    cell,
+                    style: style,
+                  ),
+                ),
+              ),
+            );
+          }
+          else if(cell == cell.toString()){
+            return Container(
+              height: heighContainer,
+              color: colorRow,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Align(
+                  alignment: isHeader ? Alignment.center: Alignment.centerLeft,
+                  child: Text(
+                    cell,
+                    style: style,
+                  ),
+                ),
+              ),
+            );
+          }
+          else {
+            return Container(
+              height: heighContainer,
+              color: cell,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+              ),
+            );
+          }
+        }).toList());
+  }
+
   deleteChildDialog(childId) {
     return showDialog(
         context: context,
@@ -300,15 +391,79 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                     ),
                   ],
                 ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: IconButton(
-                    color: Colors.red,
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      deleteChildDialog(arguments.id);
-                    },
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (ctx) {
+                              return Dialog(
+                                insetPadding: EdgeInsets.all(10),
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  width: screenWidth,
+                                  height: screenHeight * 0.6,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "¿Qué es un Fototipo?",
+                                          style: TextStyle(
+                                              fontSize: 30, fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Text(
+                                            "El fototipo es la capacidad de adaptación al sol que tiene cada persona desde que nace, es decir, el conjunto de características que determinan si una piel se broncea o no, y cómo y en qué grado lo hace. Cuanto más baja sea esta capacidad, menos se contrarrestarán los efectos de las radiaciones solares en la piel (Marín & Del Pozo, 2005). La clasificación más famosa de los fototipos cutáneos es la del Dr. Thomas Fitzpatrick, mostrada en la siguiente tabla:"
+                                        ),
+                                        SizedBox(
+                                          height: 30,
+                                        ),
+                                        FototipoBoardPart1(),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        FototipoBoardPart2(),
+                                        SizedBox(
+                                          height: 12,
+                                        ),
+                                        Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Text("Tonos de piel referenciales",
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.grey
+                                            ),),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            });
+                      },
+                      child: Text(
+                        '¿Qué es un fototipo?',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                    Align(
+                      //alignment: Alignment.topRight,
+                      child: IconButton(
+                        color: Colors.red,
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          deleteChildDialog(arguments.id);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
@@ -323,7 +478,7 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
                 SizedBox(height: 30),
                 Wrap(
                   children: [
-                    Text("Más información: "),
+                    Text("Más información (pág 18): "),
                     GestureDetector(
                       onTap: () {
                         LoginBloc().launchURL(
