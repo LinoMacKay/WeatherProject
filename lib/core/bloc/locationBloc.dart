@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocationBloc {
   LocationProvider locationProvider = LocationProvider();
 
-  Future<UviDto> getLocation() async {
+  Future<UviDto> getLocation(isRequested) async {
     final prefs = await SharedPreferences.getInstance();
     var uviInfo = UviDto(0.0, 0.0, []);
 
@@ -38,6 +38,9 @@ class LocationBloc {
       var ahora = DateTime.now();
       var diff = ahora.difference(date1).inMinutes;
       if (diff >= 0) {
+        uviInfo = await writeSharedPreference(location, prefs);
+      }
+      if (isRequested) {
         uviInfo = await writeSharedPreference(location, prefs);
       }
     }

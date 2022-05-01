@@ -105,7 +105,10 @@ class NotificationService {
   Future<void> scheduleNotificationsForUvi() async {
     Map<String, HourlyDto> horarios = {};
     List<num> diffdeHoras = [];
-
+    if (LocationBloc().getUvEnDia(horarios).length == 0 ||
+        LocationBloc().getUvEnDiaSiguiente(horarios).length == 0) {
+      await LocationBloc().getLocation(true);
+    }
     var horario = LocationBloc().getFechaMasCercana(
         await LocationBloc().getUviInfoFromSP(), horarios, diffdeHoras);
 
@@ -141,10 +144,11 @@ class NotificationService {
           matchDateTimeComponents: DateTimeComponents.time);*/
   }
 
-  String infoToShow(horarios) {
+  Future<String> infoToShow(horarios) async {
     var hoy = DateTime.now();
     var scheaduleForToday = DateTime(hoy.year, hoy.month, hoy.day, 7);
     var diaABuscar = LocationBloc().getUvEnDia(horarios);
+
     if (scheaduleForToday.isBefore(hoy)) {
       scheaduleForToday = scheaduleForToday.add(const Duration(days: 1));
       diaABuscar = LocationBloc().getUvEnDiaSiguiente(horarios);
@@ -154,6 +158,7 @@ class NotificationService {
     diaABuscar.forEach((element) {
       if (element[1] > mayor) mayor = element[1];
     });
+
     var mayorUvEnDia = diaABuscar.firstWhere((element) => element[1] == mayor);
     return DateFormat('hh:mm a', 'es_ES')
             .format(DateTime.tryParse(mayorUvEnDia[0])!) +

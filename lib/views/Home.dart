@@ -38,8 +38,9 @@ class _HomeState extends State<Home> {
   late RecommendationBloc recommendationBloc;
 
   String userName = " ";
+
   @override
-  void initState() async {
+  void initState() {
     recommendationBloc = RecommendationBloc();
     recommendationBloc.getRandomIntAndDayToRecommendation().then((value) {
       setState(() {
@@ -49,15 +50,15 @@ class _HomeState extends State<Home> {
     });
 
     locationBloc = LocationBloc();
-    futureLocation = locationBloc.getLocation();
-    locationBloc.getHomeData().then((value) {
+    futureLocation = locationBloc.getLocation(false);
+    locationBloc.getHomeData().then((value) async {
       setState(() {
         userName = value[0];
       });
+      await Future.delayed(Duration(seconds: 1));
+      NotificationService().scheduleNotificationsForUvi();
     });
 
-    await Future.delayed(Duration(seconds: 5));
-    NotificationService().scheduleNotificationsForUvi();
     super.initState();
   }
 
