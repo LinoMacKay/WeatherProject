@@ -496,7 +496,7 @@ class _HomeState extends State<Home> {
                   Flexible(
                     flex: 2,
                     child: NoChildrenComponent(
-                      appName: "Appname",
+                      appName: "Solis Ad",
                     ),
                   ),
                   SizedBox(

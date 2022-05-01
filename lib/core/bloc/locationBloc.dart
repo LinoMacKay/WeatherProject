@@ -36,8 +36,8 @@ class LocationBloc {
       final DateTime date1 =
           DateTime.fromMillisecondsSinceEpoch(timestamp1 * 1000);
       var ahora = DateTime.now();
-      var diff = ahora.difference(date1).inMinutes;
-      if (diff >= 0) {
+      var diff = date1.difference(ahora).inDays;
+      if (diff <= 0) {
         uviInfo = await writeSharedPreference(location, prefs);
       }
       if (isRequested) {

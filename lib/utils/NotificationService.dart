@@ -105,12 +105,12 @@ class NotificationService {
   Future<void> scheduleNotificationsForUvi() async {
     Map<String, HourlyDto> horarios = {};
     List<num> diffdeHoras = [];
-    if (LocationBloc().getUvEnDia(horarios).length == 0 ||
-        LocationBloc().getUvEnDiaSiguiente(horarios).length == 0) {
-      await LocationBloc().getLocation(true);
-    }
     var horario = LocationBloc().getFechaMasCercana(
         await LocationBloc().getUviInfoFromSP(), horarios, diffdeHoras);
+    if (LocationBloc().getUvEnDia(horarios).isEmpty ||
+        LocationBloc().getUvEnDiaSiguiente(horarios).isEmpty) {
+      await LocationBloc().getLocation(true);
+    }
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
         1231231245,
@@ -126,11 +126,12 @@ class NotificationService {
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time);
-    /*if (homeInfoDto.considerUv.length > 0)
+    var newInfo = await infoToShowUvConsider(horarios);
+    if (newInfo.length > 0)
       await flutterLocalNotificationsPlugin.zonedSchedule(
           12312312,
-          'Notificacion de las 7:15 AM',
-          homeInfoDto.considerUv,
+          'Ten cuidado en este horario',
+          newInfo,
           _nextInstanceOf715AM(),
           const NotificationDetails(
             android: AndroidNotificationDetails(
@@ -141,7 +142,20 @@ class NotificationService {
           androidAllowWhileIdle: true,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime,
-          matchDateTimeComponents: DateTimeComponents.time);*/
+          matchDateTimeComponents: DateTimeComponents.time);
+  }
+
+  Future<String> infoToShowUvConsider(horarios) async {
+    var hoy = DateTime.now();
+    var scheaduleForToday = DateTime(hoy.year, hoy.month, hoy.day, 7);
+    var diaABuscar = LocationBloc().getUvEnDia(horarios);
+
+    if (scheaduleForToday.isBefore(hoy)) {
+      scheaduleForToday = scheaduleForToday.add(const Duration(days: 1));
+      diaABuscar = LocationBloc().getUvEnDiaSiguiente(horarios);
+    }
+
+    return LocationBloc().uvAlto(diaABuscar);
   }
 
   Future<String> infoToShow(horarios) async {
