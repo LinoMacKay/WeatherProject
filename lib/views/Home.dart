@@ -88,7 +88,7 @@ class _HomeState extends State<Home> {
                       label: 'UV más alto del día:', text: nowInfo.highestUv),
                   if (homeInfoDto.considerUv.length > 1)
                     LabeledTextComponent(
-                        label: 'Rango de horas con UVI considerado alto:',
+                        label: 'Rango de horas con UVI muy alto:',
                         text: nowInfo.considerUv),
                   LabeledTextComponent(
                       label: 'Temperatura:',
@@ -247,7 +247,7 @@ class _HomeState extends State<Home> {
                           height: 15,
                         ),
                         Text(
-                            "Abreviado de Factor de Protección Solar, es un factor que multiplica el tiempo que puede permanecer una persona, con un tipo de piel determinado, expuesta al sol. Por ejemplo, una persona con piel de Tipo I, de acuerdo con la escala de Fitzpatrick, puede exponerse 10 minutos sin quemarse. Al aplicar una crema de protección solar con un FPS de 30, multiplica ese valor por 30, es decir podrá permanecer 300 minutos sin presentar consecuencias por el sol (National Geographic, 2019)."),
+                            "Abreviado de Factor de Protección Solar, es un factor que multiplica el tiempo que puede permanecer una persona, con un fototipo de piel determinado, expuesta al sol. Por ejemplo, una persona con un fototipo de piel de tipo I, en la escala de Fitzpatrick, a un determinado valor de UVI, podría exponerse 10 minutos sin quemarse. Al aplicar una crema de protección solar con un FPS de 30, multiplica ese valor por 30, es decir, podría permanecer 300 minutos sin presentar posibles quemaduras por el sol (National Geographic, 2019)."),
                       ],
                     ),
                   ),
