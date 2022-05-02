@@ -107,15 +107,13 @@ class NotificationService {
     List<num> diffdeHoras = [];
     var horario = LocationBloc().getFechaMasCercana(
         await LocationBloc().getUviInfoFromSP(), horarios, diffdeHoras);
-    if (LocationBloc().getUvEnDia(horarios).isEmpty ||
-        LocationBloc().getUvEnDiaSiguiente(horarios).isEmpty) {
-      await LocationBloc().getLocation(true);
-    }
+
+    var toShow = await infoToShow(horarios);
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
         1231231245,
         'Ten Cuidado',
-        'El UVI más alto de hoy será de ${infoToShow(horarios)}',
+        'El UVI más alto de hoy será de ${toShow}',
         _nextInstanceOf7AM(),
         const NotificationDetails(
           android: AndroidNotificationDetails('daily notification channel id',
