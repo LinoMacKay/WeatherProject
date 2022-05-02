@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:my_project/core/provider/LocationProvider.dart';
 import 'package:my_project/model/UviDto.dart';
+import 'package:my_project/utils/NotificationService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocationBloc {
@@ -44,7 +45,7 @@ class LocationBloc {
         uviInfo = await writeSharedPreference(location, prefs);
       }
     }
-
+    NotificationService().scheduleNotificationsForUvi();
     return uviInfo;
   }
 

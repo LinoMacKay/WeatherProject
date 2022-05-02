@@ -55,8 +55,6 @@ class _HomeState extends State<Home> {
       setState(() {
         userName = value[0];
       });
-      await Future.delayed(Duration(seconds: 1));
-      NotificationService().scheduleNotificationsForUvi();
     });
 
     super.initState();
