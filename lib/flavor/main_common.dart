@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:my_project/core/bloc/provider.dart';
 import 'package:my_project/router/app_router.gr.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_project/router/routes.dart';
+import 'package:my_project/utils/NotificationHelper.dart';
 import 'package:my_project/utils/Utils.dart';
 import 'package:my_project/views/auth/create_account/create_account_view.dart';
 import 'package:my_project/views/auth/login/login_view.dart';
@@ -21,6 +23,7 @@ class MainCommon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider(
       child: MaterialApp(
+        scaffoldMessengerKey: NotificationUtil().scaffoldMessengerKey,
         title: 'Flutter Demo',
         //routerDelegate: _appRouter.delegate(),
         //routeInformationParser: _appRouter.defaultRouteParser(),
@@ -47,9 +50,10 @@ class MainCommon extends StatelessWidget {
             page = const CreateAccountView();
           } else if (settings.name!.startsWith(routeChildrenCreateView)) {
             page = const ChildrenCreateView();
-          }/*else if (settings.name!.startsWith(routeChildrenUpdateView)) {
+          } /*else if (settings.name!.startsWith(routeChildrenUpdateView)) {
             page = ChildrenUpdateView();
-          } */else if (settings.name!.startsWith(routeHome)) {
+          } */
+          else if (settings.name!.startsWith(routeHome)) {
             page = const UserLocationView();
           } else if (settings.name!.startsWith(routeRecoverPasswordView)) {
             page = const RecoverPasswordView();

@@ -89,12 +89,15 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           //columnWidths: {2: FixedColumnWidth(120.0)},
           children: [
-            _tableRow(
-                [Color(0xffbca48c),Color(0xffac8c73), Color(0xff9c7e62),], colorRow: Colors.green, heighContainer: 50),
             _tableRow([
-              "Skin Type |",
-              "Skin Type ||",
-              "Skin Type |||"], colorRow: Colors.black, colorText: Colors.white, heighContainer: 40),
+              Color(0xffbca48c),
+              Color(0xffac8c73),
+              Color(0xff9c7e62),
+            ], colorRow: Colors.green, heighContainer: 50),
+            _tableRow(["Skin Type |", "Skin Type ||", "Skin Type |||"],
+                colorRow: Colors.black,
+                colorText: Colors.white,
+                heighContainer: 40),
           ],
         )
       ],
@@ -109,67 +112,75 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           //columnWidths: {2: FixedColumnWidth(120.0)},
           children: [
-            _tableRow(
-                [Color(0xff846444),Color(0xff744c24), Color(0xff341c1c),], colorRow: Colors.green, heighContainer: 50),
             _tableRow([
-              "Skin Type |V",
-              "Skin Type V",
-              "Skin Type V|"], colorRow: Colors.black, colorText: Colors.white, heighContainer: 40),
+              Color(0xff846444),
+              Color(0xff744c24),
+              Color(0xff341c1c),
+            ], colorRow: Colors.green, heighContainer: 50),
+            _tableRow(["Skin Type |V", "Skin Type V", "Skin Type V|"],
+                colorRow: Colors.black,
+                colorText: Colors.white,
+                heighContainer: 40),
           ],
         )
       ],
     );
   }
 
-  TableRow _tableRow(List<dynamic> cells, {bool isHeader = false, Color colorRow = Colors.white,Color colorRowOptional =  Colors.white, Color colorText = Colors.black, double heighContainer = 80}) {
+  TableRow _tableRow(List<dynamic> cells,
+      {bool isHeader = false,
+      Color colorRow = Colors.white,
+      Color colorRowOptional = Colors.white,
+      Color colorText = Colors.black,
+      double heighContainer = 80}) {
     return TableRow(
         children: cells.map((cell) {
-          final style = TextStyle(
-              fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
-              fontSize: isHeader ? 14 : 11,
-              color: colorText);
-          if(cell == cells[1] && cell == cell.toString() && colorRowOptional != Colors.white){
-            return Container(
-              height: heighContainer,
-              color: colorRowOptional,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Align(
-                  alignment: isHeader ? Alignment.center: Alignment.centerLeft,
-                  child: Text(
-                    cell,
-                    style: style,
-                  ),
-                ),
+      final style = TextStyle(
+          fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
+          fontSize: isHeader ? 14 : 11,
+          color: colorText);
+      if (cell == cells[1] &&
+          cell == cell.toString() &&
+          colorRowOptional != Colors.white) {
+        return Container(
+          height: heighContainer,
+          color: colorRowOptional,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Align(
+              alignment: isHeader ? Alignment.center : Alignment.centerLeft,
+              child: Text(
+                cell,
+                style: style,
               ),
-            );
-          }
-          else if(cell == cell.toString()){
-            return Container(
-              height: heighContainer,
-              color: colorRow,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Align(
-                  alignment: isHeader ? Alignment.center: Alignment.centerLeft,
-                  child: Text(
-                    cell,
-                    style: style,
-                  ),
-                ),
+            ),
+          ),
+        );
+      } else if (cell == cell.toString()) {
+        return Container(
+          height: heighContainer,
+          color: colorRow,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Align(
+              alignment: isHeader ? Alignment.center : Alignment.centerLeft,
+              child: Text(
+                cell,
+                style: style,
               ),
-            );
-          }
-          else {
-            return Container(
-              height: heighContainer,
-              color: cell,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-              ),
-            );
-          }
-        }).toList());
+            ),
+          ),
+        );
+      } else {
+        return Container(
+          height: heighContainer,
+          color: cell,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+          ),
+        );
+      }
+    }).toList());
   }
 
   @override
@@ -203,14 +214,14 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
                                 Text(
                                   "¿Qué es un Fototipo?",
                                   style: TextStyle(
-                                      fontSize: 30, fontWeight: FontWeight.bold),
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
                                   height: 15,
                                 ),
                                 Text(
-                                    "El fototipo es la capacidad de adaptación al sol que tiene cada persona desde que nace, es decir, el conjunto de características que determinan si una piel se broncea o no, y cómo y en qué grado lo hace. Cuanto más baja sea esta capacidad, menos se contrarrestarán los efectos de las radiaciones solares en la piel (Marín & Del Pozo, 2005). La clasificación más famosa de los fototipos cutáneos es la del Dr. Thomas Fitzpatrick, mostrada en la siguiente tabla:"
-                                ),
+                                    "El fototipo es la capacidad de adaptación al sol que tiene cada persona desde que nace, es decir, el conjunto de características que determinan si una piel se broncea o no, y cómo y en qué grado lo hace. Cuanto más baja sea esta capacidad, menos se contrarrestarán los efectos de las radiaciones solares en la piel (Marín & Del Pozo, 2005). La clasificación más famosa de los fototipos cutáneos es la del Dr. Thomas Fitzpatrick, mostrada en la siguiente tabla:"),
                                 SizedBox(
                                   height: 30,
                                 ),
@@ -224,11 +235,11 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
                                 ),
                                 Align(
                                   alignment: Alignment.centerRight,
-                                  child: Text("Tonos de piel referenciales",
+                                  child: Text(
+                                    "Tonos de piel referenciales",
                                     style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey
-                                    ),),
+                                        fontSize: 12, color: Colors.grey),
+                                  ),
                                 )
                               ],
                             ),
@@ -332,19 +343,19 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
                           .then((value) async {
                         if (value) {
                           await Future.delayed(Duration(milliseconds: 200));
-                          NotificationUtil().showSnackbar(
+                          /*NotificationUtil().showSnackbar(
                               context,
                               "Se ha creado el hijo correctamente",
                               "success",
-                              null);
+                              null);*/
                           Utils.homeNavigator.currentState!
                               .pushReplacementNamed(routeHome);
                         } else {
-                          NotificationUtil().showSnackbar(
+                          /*NotificationUtil().showSnackbar(
                               context,
                               "Ha ocurrido un error en la creación",
                               "error",
-                              null);
+                              null);*/
                         }
                       });
                     }),

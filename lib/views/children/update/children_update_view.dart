@@ -131,13 +131,11 @@ class _ChildrenUpdateViewState extends State<ChildrenUpdateView> {
                                   await Future.delayed(
                                       Duration(milliseconds: 200));
                                   NotificationUtil().showSnackbar(
-                                      context,
                                       "Se ha editado el hijo correctamente",
                                       "success",
                                       null);
                                 } else {
                                   NotificationUtil().showSnackbar(
-                                      context,
                                       "Ha ocurrido un error en la edición",
                                       "error",
                                       null);

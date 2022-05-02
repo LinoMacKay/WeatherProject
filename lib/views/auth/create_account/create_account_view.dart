@@ -213,7 +213,6 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                                         var result = await _saveForm();
                                         if (result) {
                                           NotificationUtil().showSnackbar(
-                                              context,
                                               "Su cuenta se ha registrado correctamente",
                                               "success",
                                               null);
@@ -224,7 +223,6 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                                               .then((value) {});
                                         } else {
                                           NotificationUtil().showSnackbar(
-                                              context,
                                               "Ha ocurrido un error en el registro, reintente nuevamente",
                                               "error",
                                               null);
@@ -234,7 +232,6 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                                         });
                                       } else {
                                         NotificationUtil().showSnackbar(
-                                            context,
                                             "Por favor rellene los campos de registro",
                                             "error",
                                             null);

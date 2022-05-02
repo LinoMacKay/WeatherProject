@@ -181,7 +181,6 @@ class _LoginViewState extends State<LoginView> {
                                           var result = await _saveForm();
                                           if (result) {
                                             NotificationUtil().showSnackbar(
-                                                context,
                                                 "Ha ingresado correctamente. Bienvenido",
                                                 "success",
                                                 null);
@@ -192,7 +191,6 @@ class _LoginViewState extends State<LoginView> {
                                                 .then((value) {});
                                           } else {
                                             NotificationUtil().showSnackbar(
-                                                context,
                                                 "Ha ocurrido un error, reintente nuevamente",
                                                 "error",
                                                 null);
@@ -202,7 +200,6 @@ class _LoginViewState extends State<LoginView> {
                                           });
                                         } else {
                                           NotificationUtil().showSnackbar(
-                                              context,
                                               "Por favor rellene los campos de incio de sesión",
                                               "error",
                                               null);

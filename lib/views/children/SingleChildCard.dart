@@ -18,7 +18,6 @@ class SingleChildCard extends StatefulWidget {
 class _SingleChildCardState extends State<SingleChildCard> {
   @override
   void dispose() {
-    ScaffoldMessenger.of(context).removeCurrentSnackBar();
     super.dispose();
   }
 
@@ -105,24 +104,19 @@ class _SingleChildCardState extends State<SingleChildCard> {
                                         .deleteChild(widget.childDto.id)
                                         .then((response) async {
                                       if (response) {
-                                        Utils.homeNavigator.currentState!
-                                            .pushReplacementNamed(routeProfile);
-                                        await Future.delayed(
-                                            Duration(milliseconds: 200));
                                         NotificationUtil().showSnackbar(
-                                            context,
                                             "Se ha eliminado el hijo correctamente",
                                             "success",
                                             null);
                                       } else {
-                                        NotificationUtil().showSnackbar(
+                                        /* NotificationUtil().showSnackbar(
                                             context,
                                             "Ha ocurrido un error en la eliminación",
                                             "error",
-                                            null);
+                                            null);*/
                                       }
                                     });
-                                    Navigator.of(context).pop();
+                                    //  Navigator.of(context).pop();
                                   },
                                   child: Text("Si")),
                               TextButton(

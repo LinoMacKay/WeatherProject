@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationUtil {
-  void showSnackbar(BuildContext context, String message, String type,
-      SnackBarAction? action) {
+  GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
+
+  void showSnackbar(String message, String type, SnackBarAction? action) {
     Color background = Colors.white;
     if (type == "error") {
       background = Colors.red;
@@ -15,9 +17,7 @@ class NotificationUtil {
     if (type == "warning") {
       background = Colors.amber[700]!;
     }
-    ScaffoldMessenger.of(context).removeCurrentSnackBar();
-
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    scaffoldMessengerKey.currentState!.showSnackBar(SnackBar(
       backgroundColor: background,
       content: Text(
         message,
@@ -26,5 +26,6 @@ class NotificationUtil {
       action: action,
       duration: Duration(milliseconds: 700),
     ));
+    // ScaffoldMessenger.of(context).showSnackBar();
   }
 }
