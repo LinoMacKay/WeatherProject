@@ -19,11 +19,14 @@ class MainCommon extends StatelessWidget {
   final _appRouter = AppRouter();
   MainCommon({Key? key}) : super(key: key);
 
+  final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
+
   @override
   Widget build(BuildContext context) {
     return Provider(
       child: MaterialApp(
-        scaffoldMessengerKey: NotificationUtil().scaffoldMessengerKey,
+        scaffoldMessengerKey: rootScaffoldMessengerKey,
         title: 'Flutter Demo',
         //routerDelegate: _appRouter.delegate(),
         //routeInformationParser: _appRouter.defaultRouteParser(),

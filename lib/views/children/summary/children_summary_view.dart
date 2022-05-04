@@ -298,35 +298,34 @@ class _ChildrenSummaryViewState extends State<ChildrenSummaryView> {
   deleteChildDialog(childId) {
     return showDialog(
         context: context,
-        builder: (context) {
+        builder: (dialogContext) {
           return AlertDialog(
             title: Text("Eliminar Perfil del Hijo"),
             content: Text("¿Estas seguro de eliminar el perfil de este hijo?"),
             actions: [
               TextButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    Navigator.pop(dialogContext);
+
+                    //Utils.homeNavigator.currentState!.pushNamedAndRemoveUntil(routeProfile, (route) =>false);
                     CreateChildBloc()
                         .deleteChild(childId)
                         .then((response) async {
                       if (response) {
-                        await Future.delayed(Duration(milliseconds: 200));
-                        /* NotificationUtil().showSnackbar(
-                            context,
+                        NotificationUtil().showSnackbar(
+                            Utils.homeNavigator.currentContext!,
                             "Se ha eliminado el hijo correctamente",
-                            "success",
-                            null);*/
+                            "success");
                       } else {
-                        /*NotificationUtil().showSnackbar(
-                            context,
+                        NotificationUtil().showSnackbar(
+                            Utils.homeNavigator.currentContext!,
                             "Ha ocurrido un error en la eliminación",
-                            "error",
-                            null);*/
+                            "error");
                       }
-                      Utils.homeNavigator.currentState!.pop();
-                      Utils.homeNavigator.currentState!.pushReplacementNamed(
-                        routeProfile,
-                      );
                     });
+                    await Future.delayed(Duration(milliseconds: 200));
+                    Utils.homeNavigator.currentState!
+                        .pushReplacementNamed(routeProfile);
                   },
                   child: Text("Si")),
               TextButton(

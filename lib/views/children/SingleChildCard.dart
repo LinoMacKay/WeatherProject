@@ -91,32 +91,36 @@ class _SingleChildCardState extends State<SingleChildCard> {
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (context) {
+                        builder: (dialogContext) {
                           return AlertDialog(
                             title: Text("Eliminar Perfil del Hijo"),
                             content: Text(
                                 "¿Estas seguro de eliminar el perfil de este hijo?"),
                             actions: [
                               TextButton(
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    Navigator.pop(dialogContext);
+
                                     //Utils.homeNavigator.currentState!.pushNamedAndRemoveUntil(routeProfile, (route) =>false);
                                     CreateChildBloc()
                                         .deleteChild(widget.childDto.id)
                                         .then((response) async {
                                       if (response) {
                                         NotificationUtil().showSnackbar(
+                                            Utils.homeNavigator.currentContext!,
                                             "Se ha eliminado el hijo correctamente",
-                                            "success",
-                                            null);
+                                            "success");
                                       } else {
-                                        /* NotificationUtil().showSnackbar(
-                                            context,
+                                        NotificationUtil().showSnackbar(
+                                            Utils.homeNavigator.currentContext!,
                                             "Ha ocurrido un error en la eliminación",
-                                            "error",
-                                            null);*/
+                                            "error");
                                       }
                                     });
-                                    //  Navigator.of(context).pop();
+                                    await Future.delayed(
+                                        Duration(milliseconds: 200));
+                                    Utils.homeNavigator.currentState!
+                                        .pushReplacementNamed(routeProfile);
                                   },
                                   child: Text("Si")),
                               TextButton(

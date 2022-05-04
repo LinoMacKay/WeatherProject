@@ -180,29 +180,44 @@ class _LoginViewState extends State<LoginView> {
                                           });
                                           var result = await _saveForm();
                                           if (result) {
-                                            NotificationUtil().showSnackbar(
+                                            /*NotificationUtil().showSnackbar(
                                                 "Ha ingresado correctamente. Bienvenido",
                                                 "success",
-                                                null);
+                                                null);*/
+                                            NotificationUtil().showSnackbar(
+                                                Utils.mainNavigator
+                                                    .currentContext!,
+                                                "Ha ingresado correctamente. Bienvenido",
+                                                "success");
                                             await Future.delayed(
                                                 Duration(milliseconds: 200));
+
                                             Utils.mainNavigator.currentState!
-                                                .pushNamed(routeHome)
-                                                .then((value) {});
+                                                .pushNamed(routeHome);
                                           } else {
                                             NotificationUtil().showSnackbar(
+                                                Utils.mainNavigator
+                                                    .currentContext!,
+                                                "Ha ocurrido un error, reintente nuevamente",
+                                                "error");
+                                            /* NotificationUtil().showSnackbar(
                                                 "Ha ocurrido un error, reintente nuevamente",
                                                 "error",
-                                                null);
+                                                null);*/
                                           }
                                           setState(() {
                                             isLoading = false;
                                           });
                                         } else {
                                           NotificationUtil().showSnackbar(
+                                              Utils.mainNavigator
+                                                  .currentContext!,
+                                              "Por favor rellene los campos de incio de sesión",
+                                              "error");
+                                          /*  NotificationUtil().showSnackbar(
                                               "Por favor rellene los campos de incio de sesión",
                                               "error",
-                                              null);
+                                              null);*/
                                         }
                                       },
                                       child: isLoading

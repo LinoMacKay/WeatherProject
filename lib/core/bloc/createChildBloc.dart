@@ -47,7 +47,6 @@ class CreateChildBloc with Validators {
       Rx.combineLatest2(nameStream, birthdayStream, (e, p) => true);
 
   Future<bool> updateChild(UpdateChildDto updateChildDto) async {
-    print(updateChildDto);
     var response = await ChildProvider().updateChild(updateChildDto);
     return response;
   }

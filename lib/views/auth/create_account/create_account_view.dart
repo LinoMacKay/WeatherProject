@@ -212,29 +212,30 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                                       if (validator) {
                                         var result = await _saveForm();
                                         if (result) {
-                                          NotificationUtil().showSnackbar(
-                                              "Su cuenta se ha registrado correctamente",
-                                              "success",
-                                              null);
-                                          await Future.delayed(
-                                              Duration(milliseconds: 400));
                                           Utils.mainNavigator.currentState!
-                                              .pushNamed(routeLoginView)
-                                              .then((value) {});
+                                              .pushNamed(routeLoginView);
+                                          await Future.delayed(
+                                              Duration(milliseconds: 200));
+                                          NotificationUtil().showSnackbar(
+                                              Utils.homeNavigator
+                                                  .currentContext!,
+                                              "Su cuenta se ha registrado correctamente",
+                                              "success");
                                         } else {
                                           NotificationUtil().showSnackbar(
+                                              Utils.homeNavigator
+                                                  .currentContext!,
                                               "Ha ocurrido un error en el registro, reintente nuevamente",
-                                              "error",
-                                              null);
+                                              "error");
                                         }
                                         setState(() {
                                           isLoading = false;
                                         });
                                       } else {
-                                        NotificationUtil().showSnackbar(
+                                        /* NotificationUtil().showSnackbar(
                                             "Por favor rellene los campos de registro",
                                             "error",
-                                            null);
+                                            null);*/
                                       }
                                     },
                                     child: isLoading
