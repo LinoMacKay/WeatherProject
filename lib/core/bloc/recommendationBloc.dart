@@ -19,13 +19,16 @@ class RecommendationBloc {
         var randomInt = Random().nextInt(listRecomendaciones.recomendaciones.length);
         var diaActual = DateTime.now().day;
         final prefs = await SharedPreferences.getInstance();
+        await prefs.setInt('diaActual',diaActual);
+        await prefs.setInt('randomInt',randomInt);
+        List<int> valuesIntAndDia =  [prefs.getInt("randomInt")!, prefs.getInt("diaActual")!];
 
-        if(!prefs.containsKey('diaActual') && !prefs.containsKey('randomInt')){  //agregando valores inciales a recomendacion diaria y fecha actual
+        if(prefs.containsKey('diaActual') ==false && prefs.containsKey('randomInt') == false){  //agregando valores inciales a recomendacion diaria y fecha actual
             await prefs.setInt('diaActual',diaActual);
             await prefs.setInt('randomInt',randomInt);
-        }
 
-        if(prefs.containsKey('randomInt')  && prefs.getInt('diaActual') != DateTime.now().day) { // actualizando recomendacion si es otro dia
+            return  valuesIntAndDia;
+        } else if(prefs.containsKey('randomInt')  && prefs.getInt('diaActual') != DateTime.now().day) { // actualizando recomendacion si es otro dia
 
             while(prefs.getInt('randomInt') == randomInt) {                              // actualzando recomendacion si la nueva recomend. random es la misma
                 randomInt = Random().nextInt(listRecomendaciones.recomendaciones.length);
@@ -33,9 +36,13 @@ class RecommendationBloc {
             }
             await prefs.setInt('diaActual',diaActual);
 
+            return  valuesIntAndDia;
+
+        } else {
+            return  valuesIntAndDia;
         }
 
-        return  [prefs.getInt("randomInt")!, prefs.getInt("diaActual")!];
+        //return  [prefs.getInt("randomInt")!, prefs.getInt("diaActual")!];
     }
 
 
