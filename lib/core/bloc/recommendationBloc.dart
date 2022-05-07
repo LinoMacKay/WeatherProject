@@ -27,6 +27,7 @@ class RecommendationBloc {
             await prefs.setInt('diaActual',diaActual);
             await prefs.setInt('randomInt',randomInt);
 
+            valuesIntAndDia =  [prefs.getInt("randomInt")!, prefs.getInt("diaActual")!];
             return  valuesIntAndDia;
         } else if(prefs.containsKey('randomInt')  && prefs.getInt('diaActual') != DateTime.now().day) { // actualizando recomendacion si es otro dia
 
@@ -36,9 +37,11 @@ class RecommendationBloc {
             }
             await prefs.setInt('diaActual',diaActual);
 
+            valuesIntAndDia =  [prefs.getInt("randomInt")!, prefs.getInt("diaActual")!];
             return  valuesIntAndDia;
 
         } else {
+            valuesIntAndDia =  [prefs.getInt("randomInt")!, prefs.getInt("diaActual")!];
             return  valuesIntAndDia;
         }
 
