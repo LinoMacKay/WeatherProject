@@ -135,7 +135,7 @@ class _ChildrenUpdateViewState extends State<ChildrenUpdateView> {
                                   isLoading = true;
                                 });
                                 updateChildDto.id = child.id;
-                                updateChildDto.birthday = child.birthday;
+                                //updateChildDto.birthday = child.birthday;
                                 CreateChildBloc()
                                     .updateChild(updateChildDto)
                                     .then((value) async {
