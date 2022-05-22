@@ -15,3 +15,4 @@ const routeUserLocation = '/user-location';
 /// CHILDREN
 const routeChildrenDetail = '/children-detail';
 const routeChildrenUpdateUpdate = '/children-update';
+const routeChildrenPhoto = '/children-photo';

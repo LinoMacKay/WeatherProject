@@ -57,7 +57,7 @@ class _ChildrenCreatePageOneState extends State<ChildrenCreatePageOne> {
               child: Text('Registro de hijo (paso 1 de 4) - Datos Generales'),
             ),
             const Icon(Icons.person_outline, size: 120),
-            Row(
+            /* Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: const <Widget>[
                 AppIconButton(
@@ -73,7 +73,7 @@ class _ChildrenCreatePageOneState extends State<ChildrenCreatePageOne> {
                   text: 'Seleccionar ícono',
                 ),
               ],
-            ),
+            ),*/
             const SizedBox(height: 10),
             StreamBuilder(
                 stream: widget.bloc?.nameStream,

@@ -4,6 +4,7 @@ import 'package:my_project/core/bloc/questionBloc.dart';
 import 'package:my_project/data/viewmodels/create_children_quote.dart';
 import 'package:my_project/helper/constants/objects.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
+import 'package:my_project/router/routes.dart';
 import 'package:my_project/utils/Utils.dart';
 import 'package:my_project/views/children/create/pages/page_one/children_create_page_one_form.dart';
 import 'package:my_project/views/children/create/pages/page_two/children_create_page_two_quote.dart';
@@ -107,6 +108,13 @@ class _ChildrenCreatePageTwoState extends State<ChildrenCreatePageTwo> {
                   return CircularProgressIndicator();
                 }
               }),
+          const SizedBox(height: 50),
+          ElevatedButton(
+              onPressed: () {
+                Utils.homeNavigator.currentState!.pushNamed(routeChildrenPhoto);
+              },
+              child: Text("Registrar con foto"),
+              style: ElevatedButton.styleFrom(primary: Colors.red))
         ],
       ),
     );

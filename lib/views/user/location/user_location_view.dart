@@ -4,6 +4,7 @@ import 'package:my_project/router/routes.dart';
 import 'package:my_project/utils/Utils.dart';
 import 'package:my_project/views/Home.dart';
 import 'package:my_project/views/children/create/children_create_view.dart';
+import 'package:my_project/views/children/create/pages/page_two/childrenPhoto.dart';
 import 'package:my_project/views/children/summary/children_summary_view.dart';
 import 'package:my_project/views/tabs/ProfilePage.dart';
 import 'package:my_project/views/tabs/SettingsPage.dart';
@@ -58,6 +59,9 @@ class _UserLocationViewState extends State<UserLocationView> {
         break;
       case routeChildrenUpdateUpdate:
         page = ChildrenUpdateView();
+        break;
+      case routeChildrenPhoto:
+        page = ChildrenPhoto();
         break;
       default:
         print("NOMBRE SUBRUTA: " + settings.name!);
