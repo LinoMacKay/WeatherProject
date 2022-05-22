@@ -47,6 +47,7 @@ class _ChildrenCreateViewState extends State<ChildrenCreateView> {
       case 1:
         return ChildrenCreatePageTwo(
           quotesSelected: quotesSelected,
+          form: pageOneForm,
           onContinue: () {
             setState(() {
               _currentPageIndex++;

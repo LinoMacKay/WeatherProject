@@ -52,12 +52,15 @@
 </array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+  <key>NSCameraUsageDescription</key>
+    <string>camera</string>
+<key>NSAppleMusicUsageDescription</key>
+    <string>Music!</string>
+    <key>kTCCServiceMediaLibrary</key>
+    <string>media</string>
+	   <key>NSPhotoLibraryUsageDescription</key>
+    <string>photos</string>
 </dict>
-<key>NSLocationTemporaryUsageDescriptionDictionary</key>
-<dict>
-  <key>YourPurposeKey</key>
-  <string>The example App requires temporary access to the device&apos;s precise location.</string>
-</dict>
-
 
 </plist>

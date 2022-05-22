@@ -4,6 +4,7 @@ import 'package:my_project/core/bloc/questionBloc.dart';
 import 'package:my_project/data/viewmodels/create_children_quote.dart';
 import 'package:my_project/helper/constants/objects.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
+import 'package:my_project/model/PhotoDto.dart';
 import 'package:my_project/router/routes.dart';
 import 'package:my_project/utils/Utils.dart';
 import 'package:my_project/views/children/create/pages/page_one/children_create_page_one_form.dart';
@@ -12,11 +13,14 @@ import 'package:my_project/views/children/create/pages/page_two/children_create_
 class ChildrenCreatePageTwo extends StatefulWidget {
   final VoidCallback? onBack, onContinue;
   final List<QuoteOption?> quotesSelected;
+  final ChildrenCreatePageOneForm form;
+
   const ChildrenCreatePageTwo({
     Key? key,
     this.onBack,
     this.onContinue,
     required this.quotesSelected,
+    required this.form,
   }) : super(key: key);
 
   @override
@@ -49,7 +53,8 @@ class _ChildrenCreatePageTwoState extends State<ChildrenCreatePageTwo> {
       quoteOptionFour;
   var currentIndex = 0;
   int totalPoints = 0;
-
+  var registerWithPhoto = false;
+  var childInfo = PhotoDto(skinType: "", estimatedMed: 0);
   Function onContinue(List<CreateChildrenQuoteViewmodel> responseQuotes) {
     return () {
       if (currentIndex < responseQuotes.length - 1) {
@@ -85,36 +90,57 @@ class _ChildrenCreatePageTwoState extends State<ChildrenCreatePageTwo> {
             alignment: Alignment.centerLeft,
             child: Text('Registro de hijo (paso 2 de 4) - Cuestionario'),
           ),
-          const SizedBox(height: 50),
-          FutureBuilder<Object>(
-              future: questionBloc.getQuestions(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  var responseQuotes =
-                      snapshot.data as List<CreateChildrenQuoteViewmodel>;
-                  return ChildrenCreatePageTwoQuote(
-                    totalQuotes: responseQuotes.length,
-                    model: responseQuotes[currentIndex],
-                    currentOption: widget.quotesSelected[currentIndex],
-                    onChange: (QuoteOption? option) {
-                      setState(() {
-                        widget.quotesSelected[currentIndex] = option;
-                      });
-                    },
-                    onBack: onBack(),
-                    onContinue: onContinue(responseQuotes),
-                  );
-                } else {
-                  return CircularProgressIndicator();
-                }
-              }),
-          const SizedBox(height: 50),
-          ElevatedButton(
-              onPressed: () {
-                Utils.homeNavigator.currentState!.pushNamed(routeChildrenPhoto);
-              },
-              child: Text("Registrar con foto"),
-              style: ElevatedButton.styleFrom(primary: Colors.red))
+          if (registerWithPhoto)
+            Column(
+              children: [
+                const SizedBox(height: 30),
+                FutureBuilder<Object>(
+                    future: questionBloc.getQuestions(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        var responseQuotes =
+                            snapshot.data as List<CreateChildrenQuoteViewmodel>;
+                        return ChildrenCreatePageTwoQuote(
+                          totalQuotes: responseQuotes.length,
+                          model: responseQuotes[currentIndex],
+                          currentOption: widget.quotesSelected[currentIndex],
+                          onChange: (QuoteOption? option) {
+                            setState(() {
+                              widget.quotesSelected[currentIndex] = option;
+                            });
+                          },
+                          onBack: onBack(),
+                          onContinue: onContinue(responseQuotes),
+                        );
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }),
+              ],
+            ),
+          const SizedBox(height: 30),
+          if (!registerWithPhoto)
+            ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    registerWithPhoto = true;
+                  });
+                },
+                child: Text("Registrar con preguntas"),
+                style: ElevatedButton.styleFrom(primary: Colors.red)),
+          if (!registerWithPhoto)
+            ElevatedButton(
+                onPressed: () {
+                  Utils.homeNavigator.currentState!
+                      .pushNamed(routeChildrenPhoto)
+                      .then((value) {
+                    childInfo = value as PhotoDto;
+                    widget.form.skinType = childInfo.skinType;
+                    widget.onContinue!();
+                  });
+                },
+                child: Text("Registrar con foto"),
+                style: ElevatedButton.styleFrom(primary: Colors.red))
         ],
       ),
     );

@@ -10,6 +10,9 @@ class ChildrenCreatePageOneForm {
   String get dateFormatted =>
       DateFormat('dd/MM/yyyy', 'es_ES').format(dateTimeController);
 
+  var skinType = "";
+  var score = "";
+
   String get dateFormattedForBackend =>
       DateFormat('yyyy-MM-dd', 'es_ES').format(dateTimeController);
   int get age {

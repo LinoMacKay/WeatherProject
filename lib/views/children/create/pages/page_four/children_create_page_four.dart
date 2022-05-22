@@ -52,24 +52,47 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
 
   String getTotalPoints() {
     var puntosTotales = 0;
-    widget.selectedOptions.forEach((element) {
-      puntosTotales = element!.point + puntosTotales;
-    });
-    var fototipo = "";
-    if (puntosTotales <= 6) {
-      fototipo = "I";
-    } else if (puntosTotales <= 13) {
-      fototipo = "II";
-    } else if (puntosTotales <= 20) {
-      fototipo = "III";
-    } else if (puntosTotales <= 27) {
-      fototipo = "IV";
-    } else if (puntosTotales <= 34) {
-      fototipo = "V";
+    if (widget.form.skinType.length == 0) {
+      if (widget.selectedOptions[0] != null) {
+        widget.selectedOptions.forEach((element) {
+          puntosTotales = (element!.point + puntosTotales);
+        });
+      }
+      var fototipo = "";
+      if (puntosTotales <= 6) {
+        fototipo = "I";
+      } else if (puntosTotales <= 13) {
+        fototipo = "II";
+      } else if (puntosTotales <= 20) {
+        fototipo = "III";
+      } else if (puntosTotales <= 27) {
+        fototipo = "IV";
+      } else if (puntosTotales <= 34) {
+        fototipo = "V";
+      } else {
+        fototipo = "VI";
+      }
+      widget.fototipoOptionViewmodel.name = fototipo;
     } else {
-      fototipo = "VI";
+      widget.fototipoOptionViewmodel.name = widget.form.skinType;
+      var toreturn = "";
+      if (widget.form.skinType == "I") {
+        toreturn = "6";
+      } else if (widget.form.skinType == "II") {
+        toreturn = "13";
+      } else if (widget.form.skinType == "III") {
+        toreturn = "20";
+      } else if (widget.form.skinType == "IV") {
+        toreturn = "27";
+      } else if (widget.form.skinType == "V") {
+        toreturn = "34";
+      } else {
+        toreturn = "36";
+      }
+
+      return toreturn;
     }
-    widget.fototipoOptionViewmodel.name = fototipo;
+
     return puntosTotales.toString();
   }
 
@@ -287,27 +310,28 @@ class _ChildrenCreatePageFourState extends State<ChildrenCreatePageFour> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Text('Cuestionario'),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 8),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 2),
+                if (widget.form.skinType.length == 0)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      const Text('Cuestionario'),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 8),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black, width: 2),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: widget.selectedOptions
+                              .map<Widget>((e) => Text(
+                                  'Pregunta ${index++}: ${e?.description ?? ""}'))
+                              .toList(),
+                        ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: widget.selectedOptions
-                            .map<Widget>((e) => Text(
-                                'Pregunta ${index++}: ${e?.description ?? ""}'))
-                            .toList(),
-                      ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
                 const SizedBox(height: 10),
                 const Align(
                   alignment: Alignment.center,
