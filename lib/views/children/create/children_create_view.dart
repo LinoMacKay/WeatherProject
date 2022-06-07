@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_project/core/bloc/createChildBloc.dart';
 import 'package:my_project/data/viewmodels/create_children_quote.dart';
 import 'package:my_project/data/viewmodels/fototipo_option.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
@@ -17,8 +18,20 @@ class ChildrenCreateView extends StatefulWidget {
 
 class _ChildrenCreateViewState extends State<ChildrenCreateView> {
   final pageOneForm = ChildrenCreatePageOneForm();
+  CreateChildBloc createChildBloc = CreateChildBloc();
   var _currentPageIndex = 0;
-  final quotesSelected = <QuoteOption?>[null, null, null, null];
+  final quotesSelected = <QuoteOption?>[
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ]; // añadi mas nulls porque aumenté la lista de preguntas
   final fototipoOptionViewmodel = FototipoOptionViewmodel();
 
   Widget _currentPage(int index) {
@@ -26,6 +39,7 @@ class _ChildrenCreateViewState extends State<ChildrenCreateView> {
       case 0:
         return ChildrenCreatePageOne(
           form: pageOneForm,
+          bloc: createChildBloc,
           onContinue: () => setState(() {
             _currentPageIndex++;
           }),
@@ -33,32 +47,26 @@ class _ChildrenCreateViewState extends State<ChildrenCreateView> {
       case 1:
         return ChildrenCreatePageTwo(
           quotesSelected: quotesSelected,
-          onContinue: () => setState(
-            () {
+          form: pageOneForm,
+          onContinue: () {
+            setState(() {
               _currentPageIndex++;
-            },
-          ),
+            });
+          },
           onBack: () => setState(() {
             _currentPageIndex--;
           }),
         );
       case 2:
-        return ChildrenCreatePageThree(
-          onContinue: () => setState(() {
-            _currentPageIndex++;
-          }),
-          onBack: () => setState(() {
-            _currentPageIndex--;
-          }),
-        );
-      case 3:
         return ChildrenCreatePageFour(
           fototipoOptionViewmodel: fototipoOptionViewmodel,
           selectedOptions: quotesSelected,
           form: pageOneForm,
-          onContinue: () => setState(() {
-            _currentPageIndex++;
-          }),
+          onContinue: () {
+            setState(() {
+              _currentPageIndex++;
+            });
+          },
           onBack: () => setState(() {
             _currentPageIndex--;
           }),
@@ -69,10 +77,15 @@ class _ChildrenCreateViewState extends State<ChildrenCreateView> {
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: SingleChildScrollView(
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        width: screenWidth,
+        height: screenHeight,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.all(10),
           child: _currentPage(_currentPageIndex),
         ),
       ),

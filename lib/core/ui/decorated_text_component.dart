@@ -17,7 +17,8 @@ class DecoratedTextComponent extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black, width: 1.5),
       ),
-      child: Text(text),
+      child: Text(text,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
     );
   }
 }

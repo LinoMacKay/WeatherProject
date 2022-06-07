@@ -13,6 +13,7 @@
 import 'package:auto_route/auto_route.dart' as _i7;
 import 'package:flutter/material.dart' as _i8;
 
+import '../model/ChildDto.dart';
 import '../views/auth/create_account/create_account_view.dart' as _i2;
 import '../views/auth/login/login_view.dart' as _i1;
 import '../views/auth/recover_password/recover_password_view.dart' as _i6;
@@ -38,10 +39,10 @@ class AppRouter extends _i7.RootStackRouter {
       return _i7.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i3.ChildrenCreateView());
     },
-    ChildrenUpdateRoute.name: (routeData) {
+    /*ChildrenUpdateRoute.name: (routeData) {
       return _i7.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i4.ChildrenUpdateView());
-    },
+          routeData: routeData, child: _i4.ChildrenUpdateView());
+    },*/
     UserLocationRoute.name: (routeData) {
       return _i7.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i5.UserLocationView());
@@ -58,8 +59,8 @@ class AppRouter extends _i7.RootStackRouter {
         _i7.RouteConfig(CreateAccountRoute.name, path: '/create-account-view'),
         _i7.RouteConfig(ChildrenCreateRoute.name,
             path: '/children-create-view'),
-        _i7.RouteConfig(ChildrenUpdateRoute.name,
-            path: '/children-update-view'),
+        /*_i7.RouteConfig(ChildrenUpdateRoute.name,
+            path: '/children-update-view'),*/
         _i7.RouteConfig(UserLocationRoute.name, path: '/user-location-view'),
         _i7.RouteConfig(RecoverPasswordRoute.name, path: '/recover-password')
       ];

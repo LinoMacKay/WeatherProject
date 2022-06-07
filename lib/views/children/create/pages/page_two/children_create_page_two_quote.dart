@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:my_project/data/viewmodels/create_children_quote.dart';
 import 'package:my_project/helper/ui/ui_library.dart';
 
-class ChildrenCreatePageTwoQuote extends StatelessWidget {
+class ChildrenCreatePageTwoQuote extends StatefulWidget {
   final int totalQuotes;
   final CreateChildrenQuoteViewmodel model;
   final Function(QuoteOption?)? onChange;
   final QuoteOption? currentOption;
-  final VoidCallback? onBack, onContinue;
+  final Function? onBack, onContinue;
   const ChildrenCreatePageTwoQuote({
     Key? key,
     this.totalQuotes = 0,
@@ -18,6 +18,13 @@ class ChildrenCreatePageTwoQuote extends StatelessWidget {
     required this.model,
   }) : super(key: key);
 
+  @override
+  State<ChildrenCreatePageTwoQuote> createState() =>
+      _ChildrenCreatePageTwoQuoteState();
+}
+
+class _ChildrenCreatePageTwoQuoteState
+    extends State<ChildrenCreatePageTwoQuote> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,28 +38,28 @@ class ChildrenCreatePageTwoQuote extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Pregunta ${model.quoteNumber + 1} de $totalQuotes'),
+          Text('Pregunta ${widget.model.quoteNumber} de ${widget.totalQuotes}'),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('${model.quoteNumber + 1}. ${model.quote}'),
+                Text('${widget.model.quoteNumber}. ${widget.model.quote}'),
                 Container(
                   height: 60,
                   alignment: Alignment.topCenter,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<QuoteOption>(
-                      items: model.quoteOptions
+                      items: widget.model.quoteOptions
                           .map((QuoteOption option) =>
-                          DropdownMenuItem<QuoteOption>(
-                            child: Center(
-                              child: Text(
-                                option.description,
-                              ),
-                            ),
-                            value: option,
-                          ))
+                              DropdownMenuItem<QuoteOption>(
+                                child: Center(
+                                  child: Text(
+                                    option.description,
+                                  ),
+                                ),
+                                value: option,
+                              ))
                           .toList(),
                       isExpanded: true,
                       iconSize: 20,
@@ -63,24 +70,28 @@ class ChildrenCreatePageTwoQuote extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      value: currentOption,
-                      onChanged: onChange,
+                      value: widget.currentOption,
+                      onChanged: widget.onChange,
                     ),
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    AppButton(
-                      onPressed: onBack,
-                      text: 'Regresar',
-                      width: 100,
-                    ),
-                    AppButton(
-                      onPressed: onContinue,
-                      text: 'Continuar',
-                      width: 100,
-                    ),
+                    FloatingActionButton(
+                        backgroundColor: Colors.red,
+                        child: Icon(Icons.arrow_back),
+                        onPressed: () {
+                          widget.onBack!();
+                        }),
+                    if (widget.currentOption != null &&
+                        widget.currentOption!.description.length > 0)
+                      FloatingActionButton(
+                          backgroundColor: Colors.red,
+                          child: Icon(Icons.arrow_forward),
+                          onPressed: () {
+                            widget.onContinue!();
+                          }),
                   ],
                 ),
               ],

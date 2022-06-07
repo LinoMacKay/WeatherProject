@@ -11,12 +11,18 @@ class LabeledTextComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 4),
-      child: Row(
-        children: <Widget>[
-          DecoratedTextComponent(text: label),
-          SizedBox(width: 5),
-          Text(text),
-        ],
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          alignment: WrapAlignment.start,
+          children: <Widget>[
+            DecoratedTextComponent(text: label),
+            SizedBox(width: 5),
+            Text(text,
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 13)),
+          ],
+        ),
       ),
     );
   }
